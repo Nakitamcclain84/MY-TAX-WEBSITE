@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pay to Confirm Your Seat | {{SHORT_NAME}} Tax Academy</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png?v=3">
+<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Inter,sans-serif;background:linear-gradient(160deg,#072b19,#0f4d2d);color:#fff;padding:20px;box-sizing:border-box}
+  .box{max-width:520px;width:100%;text-align:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:40px 26px}
+  img{height:64px;margin:0 auto 18px;display:block}
+  .step{display:inline-block;background:#c9a13b;color:#072b19;font-weight:800;font-size:.75rem;letter-spacing:.1em;padding:6px 14px;border-radius:999px}
+  h1{font-size:1.7rem;font-weight:800;margin:14px 0 8px}
+  p{color:#cfd7e6;line-height:1.6;margin:0 0 10px}
+  .warn{background:#fdf7e6;color:#7a5a12;border-radius:12px;padding:12px;font-weight:700;margin:14px 0}
+  .cls{background:rgba(255,255,255,.07);border:1px solid rgba(230,196,106,.35);border-radius:14px;padding:16px;margin:14px 0;text-align:left}
+  .cls b{display:block;font-size:1.05rem;margin-bottom:4px}
+  .cls span{color:#e6c46a;font-weight:600}
+  a.pay{display:block;background:linear-gradient(90deg,#b88a2c,#e6c46a);color:#072b19;text-decoration:none;font-weight:800;font-size:1.1rem;padding:18px;border-radius:14px}
+  .small{font-size:.82rem;color:#aab7ad;margin-top:14px}
+  .home{color:#e6c46a;font-weight:600}
+</style>
+</head>
+<body>
+  <div class="box">
+    <img src="img/logo-services-dark-v2.webp" alt="{{BUSINESS_NAME}}" style="height:90px;margin:0 auto 20px;display:block">
+    <span class="step">STEP 2 OF 2</span>
+    <h1>Registration received!</h1>
+    <div class="warn">Your seat is NOT reserved until you pay.</div>
+    <div class="cls">
+      <b>{{SHORT_NAME}} Tax Academy Live Class</b>
+      Tuesday, Sept 29, 2026 · 6:00 to 8:00 PM Central · Live online<br>
+      <span>$99 per seat</span>
+    </div>
+    <a class="pay" href="{{STRIPE_ACADEMY}}">Pay $99 &amp; Confirm My Seat</a>
+    <p class="small">Secure checkout by Stripe. Registering more than one seat? Pay once per seat, or call/text {{PHONE}}. You'll get a receipt by email, and we'll send your class link before the class.</p>
+    <p class="small"><a class="home" href="/">Back to Home</a></p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ERO Software Agreement | {{SOFTWARE_BRAND}}</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png?v=3">
+<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#072b19;--g7:#0f4d2d;--g5:#1a7a48;--g50:#e8f2ec;--gold:#c9a13b;--ink:#13201a;--muted:#5b6b62;--line:#dde5df;--bg:#f6f4ee}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(120deg,var(--g9),var(--g7));color:#fff;padding:22px 16px 26px;text-align:center}
+header img{height:64px}
+header h1{font-family:Fraunces,serif;margin:10px 0 4px;font-size:clamp(1.4rem,4vw,2rem)}
+header p{margin:0;color:#e6c46a;font-weight:700;font-size:.95rem}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+.steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0 0}
+.steps span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:600;color:var(--g7)}
+.doc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px clamp(18px,4vw,40px);margin:20px 0;max-height:62vh;overflow:auto}
+.doc h2{font-family:Fraunces,serif;text-align:center;margin:0 0 4px;font-size:1.3rem}
+.doc .sub{text-align:center;color:var(--muted);font-style:italic;margin:0 0 18px}
+.doc h3{font-size:.95rem;letter-spacing:.03em;color:var(--g7);margin:22px 0 6px}
+.doc p{margin:0 0 12px;font-size:.95rem}
+.doc p.ind{margin-left:18px}
+.fs{width:100%;border-collapse:collapse;font-size:.88rem;margin:6px 0 12px}.fs th,.fs td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}.fs th{background:var(--g50)}
+.fee{background:#fff4d6;padding:0 4px;border-radius:4px}
+.hint{font-size:.85rem;color:var(--muted);text-align:center;margin:-8px 0 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px clamp(18px,4vw,32px);margin:0 0 20px}
+.card h2{font-family:Fraunces,serif;margin:0 0 14px;font-size:1.25rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+label.f{display:block;font-weight:600;font-size:.88rem;margin-bottom:5px}
+input[type=text],input[type=email],input[type=tel]{width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit}
+.full{grid-column:1/-1}
+.sigbox{border:2px dashed #b7c7bd;border-radius:12px;background:#fbfcfb;position:relative;touch-action:none}
+canvas{display:block;width:100%;height:170px;cursor:crosshair}
+.sigbox .ph{position:absolute;inset:0;display:grid;place-items:center;color:#9aa9a0;pointer-events:none;font-size:.95rem}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:.85rem;color:var(--muted)}
+.row button{background:none;border:0;color:var(--g7);font-weight:700;cursor:pointer;font:inherit}
+.agree{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;font-size:.92rem}
+.agree input{margin-top:4px;width:18px;height:18px;flex:none}
+.btn{display:block;width:100%;margin-top:20px;padding:16px;border:0;border-radius:999px;background:var(--gold);color:var(--g9);font-weight:800;font-size:1.05rem;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.company{background:var(--g50);border-radius:12px;padding:14px 16px;font-size:.9rem;margin-top:16px}
+.err{color:#b3261e;font-size:.88rem;margin-top:8px;display:none}
+.hp{position:absolute;left:-9999px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 16px 40px}
+@media print{header,.steps,.hint,form .btn,footer{display:none}.doc{max-height:none;overflow:visible;border:0}}
+</style>
+</head>
+<body>
+<header>
+  <img src="img/logo-services-dark-v2.webp" alt="{{BUSINESS_NAME}}">
+  <h1>ERO Software Agreement</h1>
+  <p>2026-2027 Season · OLT Pro Web Package</p>
+</header>
+<div class="wrap">
+  <div id="fromApply" style="display:none;background:#fff;border:2px solid var(--gold);border-radius:14px;padding:14px 18px;margin:18px 0 0;font-size:.95rem"><b>Application received!</b> Next: read and sign your agreement below. After you sign, you'll check out to pay for your software.</div>
+  <div class="steps"><span>1 · Read the agreement</span><span>2 · Fill in your info</span><span>3 · Sign</span></div>
+
+  <div class="doc" id="doc">
+    <h2>ERO Software Agreement</h2>
+    <p class="sub">OLT Pro Web Package</p>
+    <p>This Agreement is entered into between {{BUSINESS_NAME}}, a Texas business located in {{CITY_STATE}}, doing business as {{SOFTWARE_BRAND}} (“{{SHORT_NAME}}”), and <b class="pname">[Your name / business]</b> (“ERO”). {{SHORT_NAME}} and ERO are each a “Party.” By paying for the package described below and signing, ERO agrees to the following terms.</p>
+    <h3>1. PURPOSE</h3>
+    <p>This Agreement sets the terms under which {{SHORT_NAME}} provides ERO with OLT Pro Web tax software as a service bureau, and the rules ERO agrees to follow while using it.</p>
+    <h3>2. TERM</h3>
+    <p>This Agreement covers the 2026-2027 tax filing season. It begins on the date ERO signs and ends on October 31, 2027, unless ended earlier under the Termination section. It does not renew automatically. Any future season requires a new purchase and a new agreement.</p>
+    <h3>3. PACKAGE FEE AND NO REFUNDS</h3>
+    <p><b>Package.</b> ERO is purchasing the OLT Pro Web package for the 2026-2027 season. The Package Fee is the package price shown at checkout. ERO may pay it in full at checkout or use {{SHORT_NAME}}&#x27;s payment plan.</p>
+    <p><b>Payment Plan.</b> If ERO chooses the payment plan, ERO pays a $99.00 down payment at checkout. {{SHORT_NAME}} collects the rest of the Package Fee from ERO&#x27;s funded bank-product returns, by holding back ERO&#x27;s add-on fees until the balance is paid. ERO may pay the balance early at any time. If the balance is not fully collected by the last add-on payout of the season, the rest is due within thirty (30) days of {{SHORT_NAME}}&#x27;s invoice. The down payment and all amounts paid are non-refundable.</p>
+    <p><b>Discounts and Waivers.</b> If {{SHORT_NAME}} discounts or waives the Package Fee (for example, with a promotion code), every other term of this Agreement still applies, including the Fee Schedule in Schedule A.</p>
+    <p><b>All Sales Final.</b> THE PACKAGE FEE IS NON-REFUNDABLE once paid, including if ERO does not use the software, does not file any returns, is not approved for an EFIN or bank products, or if this Agreement ends early for any reason.</p>
+    <p><b>Chargebacks.</b> ERO agrees not to dispute or reverse a completed payment with a bank or card company. A payment dispute is a breach of this Agreement, and {{SHORT_NAME}} may suspend access until it is resolved.</p>
+    <p><b>Balances Due.</b> Except for a payment plan balance (which follows the Payment Plan terms above, when they apply), any amount ERO still owes {{SHORT_NAME}} must be paid by March 15, 2027. {{SHORT_NAME}} may collect an unpaid balance from ERO&#x27;s add-on fees or other amounts {{SHORT_NAME}} owes ERO. If the balance is not paid by March 15, 2027, {{SHORT_NAME}} may turn off software access and related services until it is paid.</p>
+    <h3>4. WHAT {{SHORT_NAME_UPPER}} PROVIDES</h3>
+    <p>For the Term, {{SHORT_NAME}} will provide ERO with the following:</p>
+    <p class="ind">(a) OLT Pro Web with unlimited individual and business returns and all 50 states, for the 2026-2027 season, supplied through {{SHORT_NAME}} as service bureau.</p>
+    <p class="ind">(b) Help enrolling in bank products.</p>
+    <p class="ind">(c) A 1-on-1 setup session and live training.</p>
+    <p class="ind">(d) {{SHORT_NAME}} support throughout the season.</p>
+    <p>Software is made and hosted by a third-party company. {{SHORT_NAME}} is an independent service bureau and is not owned by or affiliated with TaxSlayer or OnLine Taxes (OLT). {{SHORT_NAME}} is not responsible for outages, errors, feature changes or price changes made by the software company, and does not guarantee the software will be available at all times.</p>
+    <h3>5. BANK PRODUCTS, FEES AND PAYOUTS</h3>
+    <p><b>Bank Products.</b> {{SHORT_NAME}} will help ERO apply for bank products (such as refund transfers) through {{SHORT_NAME}}&#x27;s bank partner(s). Approval is decided by the bank, not {{SHORT_NAME}}, and is not guaranteed. ERO must pass the bank&#x27;s compliance exam and any other bank requirements before offering bank products.</p>
+    <p><b>Fee Schedule.</b> The per-return fees for returns filed with a bank product are listed in {{SHORT_NAME}}&#x27;s current Fee Schedule, attached as Schedule A. They are deducted from the client&#x27;s refund through the bank product. They are not billed up front and do not apply to returns filed without a bank product.</p>
+    <p><b>Required and Optional Fees.</b> The {{SHORT_NAME}} service bureau fee and the transmitter fee are REQUIRED on every return filed with a bank product. Audit protection and identity theft protection are OPTIONAL products. They are charged only on returns where the client chooses to buy them, and ERO must not add them to a return unless the client has agreed.</p>
+    <p><b>Fee Changes.</b> If a bank, software company or other third party changes its fees, the new fees apply automatically when they take effect, without an amendment to this Agreement. {{SHORT_NAME}} will update the Fee Schedule and notify ERO of any change to {{SHORT_NAME}}&#x27;s own fees before it applies.</p>
+    <p><b>Add-On Fees.</b> ERO may add its own add-on fees to bank-product returns, up to the limits set by the bank and software company.</p>
+    <p><b>Add-On Payout Timing.</b> Add-on fees are not paid when a return funds. The bank or software company releases them to {{SHORT_NAME}} in batches, and {{SHORT_NAME}} pays ERO within ten (10) business days after {{SHORT_NAME}} receives them. Expected timing: add-on fees on returns funded January 1 through April 15 are paid after June 15, and add-on fees on returns funded April 16 through October 15 are paid after December 15, unless the bank or software company releases them sooner. ERO SHOULD NOT RELY ON ADD-ON FEES FOR CASH FLOW DURING THE FILING SEASON. ERO&#x27;s own prep fees are paid by the bank under the bank&#x27;s terms and are not held by {{SHORT_NAME}}.</p>
+    <p><b>Fee Disclosure.</b> ERO must disclose all fees charged to the client, including prep fees, add-on fees and bank product fees, as required by the bank and applicable law. ERO will not charge any fee the bank or law does not allow.</p>
+    <p><b>Funding Ratio.</b> ERO must keep a funding ratio of at least 80% on bank-product returns. The funding ratio is the number of ERO&#x27;s bank-product returns that fund, divided by the number of ERO&#x27;s bank-product returns the IRS accepts, measured for the current season to date. For example, if the IRS accepts 100 of ERO&#x27;s bank-product returns and 85 of them fund, ERO&#x27;s funding ratio is 85%. The bank calculates the ratio using its own reports, and the bank&#x27;s calculation controls.</p>
+    <p>If the Funding Ratio Drops. A ratio below 80% at one point in the season does not automatically end ERO&#x27;s bank products. If {{SHORT_NAME}} learns ERO&#x27;s ratio has dropped below 80%, {{SHORT_NAME}} will notify ERO and help review the cause (for example, returns rejected, offset or filed with errors). The bank alone decides whether to warn, limit or remove ERO&#x27;s bank products. If the bank removes them, {{SHORT_NAME}} is not liable and cannot override the bank, and ERO may not submit bank products through a different bank during the Term.</p>
+    <p><b>Reconciliation.</b> {{SHORT_NAME}}&#x27;s records and the bank&#x27;s funding reports control. If a fee is reversed, charged back or not funded, {{SHORT_NAME}} may adjust amounts owed to ERO accordingly.</p>
+    <h3>6. ERO RESPONSIBILITIES</h3>
+    <p><b>Credentials.</b> ERO (and every preparer ERO allows to use the software) must hold a valid, current PTIN before preparing any return.</p>
+    <p><b>EFIN Required.</b> ERO must have its own active EFIN before e-filing any return. ERO may NOT file under {{SHORT_NAME}}&#x27;s EFIN at any time. If ERO does not have an EFIN yet, {{SHORT_NAME}} will guide ERO through the IRS application, but approval and timing are decided by the IRS. A delayed or denied EFIN does not entitle ERO to a refund.</p>
+    <p><b>Compliance.</b> ERO will follow all IRS rules that apply to paid preparers and EROs, including IRS Publication 1345, Circular 230 where it applies, and due diligence requirements (Form 8867) for EITC, CTC/ACTC/ODC, AOTC and head of household claims.</p>
+    <p><b>Client Data.</b> ERO will protect client information as required by law, including the FTC Safeguards Rule and IRS Publication 4557, keep a written information security plan (WISP), and get client consent under IRC Section 7216 before using or sharing client information for any purpose other than preparing the return.</p>
+    <p><b>No Fraud.</b> ERO will not file false or unsupported returns, inflate credits or deductions, use a client&#x27;s refund for anything the client did not authorize, or charge fees based on the size of the refund.</p>
+    <p><b>Records.</b> ERO will keep copies of returns, client documents, due diligence records and signed consents for at least three (3) years, and share them with {{SHORT_NAME}} on request if needed to answer a bank, IRS or software company inquiry.</p>
+    <p><b>Account Security.</b> ERO will not share logins, and is responsible for everything done under its accounts.</p>
+    <p><b>Registration.</b> ERO will send {{SHORT_NAME}} the documents needed to register its software and bank products, including its EFIN summary and ERO ID, and the same documents for each sub-office or location it adds.</p>
+    <p><b>No Reselling.</b> ERO will not resell, sublicense, copy or share the software, {{SHORT_NAME}}&#x27;s training or {{SHORT_NAME}}&#x27;s materials, except with its own preparers as this Agreement allows. Each office that transmits returns needs its own license.</p>
+    <h3>7. ERO BACKEND BONUS</h3>
+    <p><b>Bonus.</b> ERO can earn a backend bonus on each of its team&#x27;s funded bank-product returns during the season, at the following levels. Each rate applies only to the returns within that level:</p>
+    <p class="ind">(a) Returns 1 to 50: $2 per return</p>
+    <p class="ind">(b) Returns 51 to 150: $5 per return</p>
+    <p class="ind">(c) Returns 151 to 300: $7 per return</p>
+    <p class="ind">(d) Returns 301 and up: $10 per return</p>
+    <p><b>Example.</b> With 200 funded returns, the bonus is (50 x $2) + (100 x $5) + (50 x $7) = $100 + $500 + $350 = $950. It is NOT 200 x $7. Reaching a higher level raises the rate only for the returns within that level, not for returns already counted at lower levels.</p>
+    <p><b>Counting Returns.</b> A return counts only when it was filed with a bank product, the bank product funded, and {{SHORT_NAME}} has verified the funding on the bank&#x27;s report. Returns must be logged in {{SHORT_NAME}}&#x27;s return tracker.</p>
+    <p><b>Payment.</b> The bonus is paid after the tax filing season closes, once {{SHORT_NAME}} completes its reconciliation with the bank. {{SHORT_NAME}} may reduce the bonus for returns that are reversed, charged back, rejected or found to violate this Agreement. No bonus is earned on {{SHORT_NAME}}&#x27;s own team or on returns filed in breach of this Agreement.</p>
+    <h3>8. ERO&#x27;S PREPARERS</h3>
+    <p>ERO may add preparers to its team. ERO decides each preparer&#x27;s pay split and any retainer ERO charges its own preparers, and ERO is solely responsible for paying them.</p>
+    <p>ERO&#x27;s preparers are not employees or contractors of {{SHORT_NAME}}. ERO is responsible for making sure each of its preparers follows this Agreement, holds a valid PTIN and completes any training {{SHORT_NAME}} or the software company requires.</p>
+    <p>ERO will make sure its team logs each return in {{SHORT_NAME}}&#x27;s return tracker within two (2) business days of filing, using client initials or an ID only.</p>
+    <h3>9. SMARTWIZ ADD-ON (OPTIONAL)</h3>
+    <p>This section applies only if ERO adds SmartWiz AI data entry, either by checking the SmartWiz box when signing or by adding SmartWiz at checkout.</p>
+    <p><b>SmartWiz Fees.</b> ERO pays the SmartWiz fees listed in Schedule A: a signup fee at checkout, a setup fee collected from ERO&#x27;s first bank-product funding(s) of the season before other amounts are paid to ERO, and a per-return fee for each return processed with SmartWiz. The add-on includes the season return minimum in Schedule A. If ERO processes fewer returns than the minimum, the per-return fee for the unused minimum is due at the end of the season.</p>
+    <p><b>SmartWiz Balance.</b> If ERO&#x27;s fundings do not cover the setup fee or other SmartWiz fees by the last add-on payout of the season, the rest is due within thirty (30) days of {{SHORT_NAME}}&#x27;s invoice. SmartWiz fees are non-refundable, including if ERO stops using SmartWiz.</p>
+    <p><b>SmartWiz Use.</b> SmartWiz is made and operated by a third-party company and is a trademark of its owner. It is a data entry tool only. ERO remains fully responsible for reviewing every return before filing, and must get client consent under IRC Section 7216 where required before uploading client documents. SmartWiz access ends if ERO&#x27;s software package ends.</p>
+    <h3>10. INDEPENDENT BUSINESS</h3>
+    <p>ERO is an independent business, not an employee, partner or agent of {{SHORT_NAME}}. ERO controls how and when it prepares returns and is responsible for its own taxes, licenses, insurance and business expenses. ERO will not state or suggest that it is {{SHORT_NAME}}.</p>
+    <p><b>No Affiliation Claims.</b> Buying software or services through {{SHORT_NAME}} does not make ERO an employee, branch, office, affiliate, franchise, partner, agent or authorized representative of {{BUSINESS_NAME}} or {{SOFTWARE_BRAND}}. ERO will not describe itself that way (including titles like &quot;{{SHORT_NAME}} Partner&quot; or &quot;{{SHORT_NAME}} Office&quot;), and will not use {{SHORT_NAME}}&#x27;s name, logo or branding in its own marketing, social media, signage or client materials without {{SHORT_NAME}}&#x27;s written permission. ERO may truthfully say it uses tax software supplied through {{SHORT_NAME}}&#x27;s service bureau.</p>
+    <h3>11. NO INCOME GUARANTEE</h3>
+    <p>{{SHORT_NAME}} sells software, service bureau access, training and support. {{SHORT_NAME}} does not promise or guarantee ERO&#x27;s income, profits, number of clients or returns, refund amounts, bank-product approval, add-on fee amounts or backend bonus amounts. Any examples, projections or success stories {{SHORT_NAME}} shares are illustrations only, not promises. ERO&#x27;s results depend on its own work, pricing, compliance and clients. ERO confirms it is not relying on any earnings claim in deciding to buy.</p>
+    <h3>12. CONFIDENTIALITY</h3>
+    <p>Each Party will keep the other&#x27;s non-public business information (pricing, fee structures, bank arrangements, training materials and client information) confidential, and use it only to carry out this Agreement. This continues after the Agreement ends.</p>
+    <h3>13. NON-SOLICITATION</h3>
+    <p>During the Term and for twelve (12) months after it ends, ERO will not recruit or solicit {{SHORT_NAME}}&#x27;s preparers, EROs, service bureau partners or employees to leave {{SHORT_NAME}}, and will not use {{SHORT_NAME}}&#x27;s confidential information to take {{SHORT_NAME}}&#x27;s clients.</p>
+    <p>{{SHORT_NAME}} will not use information it receives under this Agreement to solicit ERO&#x27;s own preparers or clients that ERO has reported to {{SHORT_NAME}}. If one of them contacts {{SHORT_NAME}} directly, {{SHORT_NAME}} will let ERO know.</p>
+    <h3>14. TERMINATION</h3>
+    <p><b>Notice and Cure.</b> If ERO breaks this Agreement in a way not listed under Immediate Termination below, {{SHORT_NAME}} will give ERO written notice by email. ERO then has ten (10) business days to fix the problem. If it is not fixed in that time, {{SHORT_NAME}} may end this Agreement. {{SHORT_NAME}} may pause access during the cure period only if needed to protect clients, {{SHORT_NAME}}&#x27;s bank relationships or {{SHORT_NAME}}&#x27;s systems.</p>
+    <p><b>Immediate Termination.</b> {{SHORT_NAME}} may suspend or end ERO&#x27;s access immediately, without a cure period, if ERO or anyone on its team: (a) files fraudulent or knowingly false returns; (b) has a data security incident or misuses client information; (c) violates IRS, bank or software company rules, or is sanctioned or suspended by any of them; (d) disputes or reverses a payment to {{SHORT_NAME}}; or (e) puts {{SHORT_NAME}}&#x27;s EFIN or bank relationships at serious risk.</p>
+    <p><b>Termination by ERO.</b> ERO may end this Agreement at any time by written notice. The Package Fee and any balances owed are not refunded or forgiven.</p>
+    <p><b>Effect of Termination.</b> If this Agreement ends, the Package Fee is not refunded. {{SHORT_NAME}} may withhold any unpaid bonus or other amounts to cover chargebacks, reversals, penalties or losses caused by ERO. ERO must stop using {{SHORT_NAME}}&#x27;s software access and materials.</p>
+    <h3>15. LIMITS OF LIABILITY</h3>
+    <p>{{SHORT_NAME}}&#x27;s total liability under this Agreement is limited to the Package Fee ERO paid for the current season. {{SHORT_NAME}} is not liable for lost profits, lost clients, IRS penalties caused by ERO&#x27;s returns, or outages or errors of third-party software or banks.</p>
+    <p>ERO will defend and hold {{SHORT_NAME}} harmless from any claims, penalties, chargebacks or losses caused by the returns, fees or conduct of ERO or its preparers.</p>
+    <p>{{SHORT_NAME}} will defend and hold ERO harmless from any claims or losses caused by {{SHORT_NAME}}&#x27;s own gross negligence or willful misconduct. The liability limit above does not apply to a Party&#x27;s gross negligence, willful misconduct or fraud.</p>
+    <h3>16. GENERAL TERMS</h3>
+    <p><b>Governing Law.</b> This Agreement is governed by the laws of the State of Texas. Any dispute will be handled in the courts of Tarrant County, Texas.</p>
+    <p><b>Entire Agreement.</b> This Agreement is the entire agreement between the Parties about this package and replaces any earlier discussions. Changes must be in writing and agreed by both Parties.</p>
+    <p><b>Electronic Signature.</b> The Parties agree that electronic signatures on this Agreement have the same effect as handwritten signatures.</p>
+    <p><b>Severability.</b> If any part of this Agreement is found unenforceable, the rest stays in effect.</p>
+    <p><b>Assignment.</b> Neither Party may transfer this Agreement to someone else without the other&#x27;s written consent, except that {{SHORT_NAME}} may transfer it to a successor of its business.</p>
+    <p><b>Attorney Fees.</b> In any dispute over this Agreement, the winning Party may recover its reasonable attorney fees and costs.</p>
+    <p><b>Notices.</b> Notices to {{SHORT_NAME}} must be sent by email to {{EMAIL}}. Notices to the other Party go to the email address it gives when signing.</p>
+    <h3>SCHEDULE A: {{SHORT_NAME_UPPER}} FEE SCHEDULE</h3><table class="fs"><tr><th>Fee</th><th>Amount</th><th>When it applies</th></tr><tr><td>Package Fee</td><td>Package price shown at checkout</td><td>Pay in full at checkout, or $99 down with the balance collected from funded bank-product returns. Non-refundable.</td></tr><tr><td>{{SHORT_NAME}} Service Bureau Fee</td><td>$60.00 per return</td><td>REQUIRED on every return filed with a bank product. Deducted from the client&#x27;s refund.</td></tr><tr><td>Transmitter Fee</td><td>$60.00 per return</td><td>REQUIRED on every return filed with a bank product. Deducted from the client&#x27;s refund.</td></tr><tr><td>Audit Protection</td><td>$49.99 per return</td><td>OPTIONAL. Only when the client chooses it. Deducted from the client&#x27;s refund.</td></tr><tr><td>Identity Theft Protection</td><td>$49.99 per return</td><td>OPTIONAL. Only when the client chooses it. Deducted from the client&#x27;s refund.</td></tr><tr><td>Bank Product Fees</td><td>Set by the bank</td><td>Charged by the bank to the client. Disclosed in the bank&#x27;s application.</td></tr><tr><td>ERO Add-On Fees</td><td>Set by ERO, within limits</td><td>Maximums set by the bank and software company. Paid to ERO after {{SHORT_NAME}} receives them, on the timing in Section 5 (often months after funding).</td></tr><tr><td>SmartWiz Signup Fee (if added)</td><td>$99</td><td>Due at checkout. Non-refundable.</td></tr><tr><td>SmartWiz Setup Fee (if added)</td><td>$800</td><td>Collected from ERO&#x27;s first bank-product funding(s) of the season.</td></tr><tr><td>SmartWiz Per-Return Fee (if added)</td><td>$30 per return</td><td>Each return processed with SmartWiz.</td></tr><tr><td>SmartWiz Season Minimum (if added)</td><td>30 returns</td><td>Unused minimum is billed at the end of the season.</td></tr></table><p>Fees charged by banks, software companies and other third parties can change during the season. When they do, the new amounts apply automatically, as explained in the Agreement. {{SHORT_NAME}} will send an updated Schedule A when its own fees change.</p>
+  </div>
+  <p class="hint">Scroll inside the box to read the full agreement.</p>
+
+  <form class="card" name="ero-agreement" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" action="/ero-signed-olt.html" id="agForm" style="margin-top:20px">
+    <input type="hidden" name="form-name" value="ero-agreement">
+    <input type="hidden" name="agreement-version" value="2026-2027 OLT Pro Web">
+    <input type="hidden" name="signed-at" id="signedAt">
+    <input type="hidden" id="sigData">
+    <input type="file" name="signed-copy" accept="application/pdf" hidden>
+    <input type="file" name="countersigned-copy" accept="application/pdf" hidden>
+    <p class="hp"><label>Leave blank <input name="bot-field"></label></p>
+    <h2>EFIN</h2>
+    <div class="grid">
+      <div><label class="f" for="ef">EFIN</label><input type="text" id="ef" name="efin" required inputmode="numeric" pattern="[0-9]{6}" title="6 digits" placeholder="123456">
+        <label class="agree" style="margin-top:8px;font-size:.85rem"><input type="checkbox" id="noefin" name="no-efin-yet" value="yes"> <span>I don't have an EFIN yet.</span></label></div>
+      <div><label class="f" for="bp">Bank products you did last season</label><input type="text" id="bp" name="bank-products-last-year" inputmode="numeric" pattern="[0-9]{1,5}" title="Enter a number. Use 0 if none." placeholder="Enter 0 if none" required style="width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit"></div>
+    </div>
+    <div id="efinMsg" class="company" style="display:none;margin-top:12px"><b>No EFIN yet? No problem.</b> After you sign, we'll walk you through the IRS EFIN application step by step. Fill in the business details you have below and leave the rest blank.</div>
+
+    <h2 style="margin-top:24px">Business information</h2>
+    <div class="grid">
+      <div class="full"><label class="f" for="bz">Legal business name</label><input type="text" id="bz" name="business-name" class="biz" required autocomplete="organization"></div>
+      <div><label class="f" for="ein">Federal Tax ID (EIN)</label><input type="text" id="ein" name="ein" class="biz" required pattern="[0-9]{2}-?[0-9]{7}" title="9 digits, like 12-3456789" placeholder="12-3456789"></div>
+      <div><label class="f" for="bt">Business type</label><select id="bt" name="business-type" class="biz" required style="width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit;background:#fff"><option value="">Select...</option><option>Sole proprietor</option><option>LLC (single member)</option><option>LLC (multi-member)</option><option>S corporation</option><option>C corporation</option><option>Partnership</option></select></div>
+      <div><label class="f" for="doi">Date of incorporation / formation</label><input type="date" id="doi" name="date-of-incorporation" class="biz" required style="width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit"></div>
+      <div><label class="f" for="oph">Office phone</label><input type="tel" id="oph" name="office-phone" class="biz" required></div>
+      <div class="full"><label class="f" for="oad">Office address</label><input type="text" id="oad" name="office-address" class="biz" required></div>
+      <div class="full"><label class="f" for="sad">Shipping address <span style="font-weight:400;color:var(--muted)">(if different)</span></label><input type="text" id="sad" name="shipping-address"></div>
+      <div class="full"><label class="f" for="web">Company website <span style="font-weight:400;color:var(--muted)">(if any)</span></label><input type="text" id="web" name="website" placeholder="www.example.com" style="width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit"></div>
+      <div class="full"><label class="f" for="llc">LLC certificate / formation document <span style="font-weight:400;color:var(--muted)">(PDF or photo, under 8 MB)</span></label><input type="file" id="llc" name="formation-document" accept=".pdf,.jpg,.jpeg,.png"></div>
+    </div>
+
+    <h2 style="margin-top:24px">Owner information</h2>
+    <div class="grid">
+      <div><label class="f" for="nm">Full legal name</label><input type="text" id="nm" name="signer-name" required autocomplete="name"></div>
+      <div><label class="f" for="pt">PTIN</label><input type="text" id="pt" name="ptin" required placeholder="P01234567" pattern="[Pp][0-9]{8}" title="P followed by 8 digits">
+        <label class="agree" style="margin-top:8px;font-size:.85rem"><input type="checkbox" id="noptin" name="no-ptin-yet" value="yes"> <span>I don't have a PTIN yet.</span></label></div>
+      <div><label class="f" for="em">Email</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+      <div><label class="f" for="ph">Mobile phone</label><input type="tel" id="ph" name="phone" required autocomplete="tel"></div>
+      <div><label class="f" for="s4">Last 4 of SSN</label><input type="text" id="s4" name="ssn-last-4" required inputmode="numeric" pattern="[0-9]{4}" maxlength="4" title="4 digits" placeholder="1234" autocomplete="off"></div>
+      <div></div>
+      <div class="full"><label class="f" for="ad">Home address</label><input type="text" id="ad" name="home-address" required autocomplete="street-address"></div>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted);margin:12px 0 0">For your security, we only ask for the last 4 of your SSN here. We'll complete your full identity verification with you during enrollment. Never email your SSN or ID.</p>
+
+    <h2 style="margin-top:24px">Sign</h2>
+    <div class="sigbox"><canvas id="sig"></canvas><div class="ph" id="sigph">Draw your signature here</div></div>
+    <div class="row"><span>Use your finger or mouse</span><button type="button" id="clr">Clear</button></div>
+
+    <label class="agree"><input type="checkbox" name="read-and-agree" value="yes" required> <span>I have read this entire Agreement and agree to its terms.</span></label>
+    <label class="agree"><input type="checkbox" name="no-refunds-acknowledged" value="yes" required> <span>I understand <b>all sales are final</b> and my package fee is non-refundable.</span></label>
+    <div style="border:2px solid var(--gold);border-radius:12px;padding:14px 16px;margin-top:16px;background:#fffbf0"><h3 style="margin:0 0 4px;font-size:1rem;color:var(--g7)">ERO Acknowledgments</h3><p style="margin:0;font-size:.85rem;color:var(--muted)">Check each item, then enter your initials.</p><label class="agree"><input type="checkbox" name="ack-1" value="yes" required> <span>The Package Fee is non-refundable, including if my EFIN or bank products are delayed or denied.</span></label><label class="agree"><input type="checkbox" name="ack-2" value="yes" required> <span>The $60 service bureau fee and $60 transmitter fee are REQUIRED on every bank-product return. Audit protection ($49.99) and identity theft protection ($49.99) are OPTIONAL and only charged when the client chooses them.</span></label><label class="agree"><input type="checkbox" name="ack-3" value="yes" required> <span>I may NOT file under {{SHORT_NAME}}&#x27;s EFIN. I cannot e-file until I have my own active EFIN.</span></label><label class="agree"><input type="checkbox" name="ack-4" value="yes" required> <span>Add-on fees are paid after {{SHORT_NAME}} receives them from the bank, often months after funding. I will not rely on them for cash flow during the season.</span></label><label class="agree"><input type="checkbox" name="ack-5" value="yes" required> <span>I must keep an 80% funding ratio. The bank decides whether to limit or remove my bank products.</span></label><label class="agree"><input type="checkbox" name="ack-6" value="yes" required> <span>Fees set by banks, software companies and other third parties can change during the season.</span></label><label class="agree"><input type="checkbox" name="ack-7" value="yes" required> <span>Bank-product approval is decided by the bank and is not guaranteed.</span></label><label class="agree"><input type="checkbox" name="ack-8" value="yes" required> <span>{{SHORT_NAME}} does not guarantee my income, return volume, refund amounts, bank-product approval or profitability.</span></label><div style="margin-top:12px"><label class="f" for="ini">Your initials</label><input type="text" id="ini" name="ack-initials" required maxlength="4" pattern="[A-Za-z]{2,4}" title="2 to 4 letters" style="max-width:120px;text-transform:uppercase"></div></div><label class="agree"><input type="checkbox" name="fee-schedule-acknowledged" value="yes" required> <span>I received and reviewed {{SHORT_NAME}}'s <b>Fee Schedule (Schedule A)</b>, and I understand fees set by banks and software companies can change.</span></label>
+    <label class="agree" style="background:#fff8e6;border:1px solid #ecd9a0;border-radius:10px;padding:10px 12px"><input type="checkbox" name="add-smartwiz" value="yes"> <span><b>Add SmartWiz AI data entry (optional).</b> I agree to the SmartWiz Add-On terms in Section 9 and the SmartWiz fees in Schedule A ($99 signup, $800 from first funding, $30 per return, 30-return minimum). You can also add it at checkout.</span></label>
+    <label class="agree"><input type="checkbox" name="esign-consent" value="yes" required> <span>I agree to sign electronically. My drawn signature and typed name have the same effect as a handwritten signature.</span></label>
+
+    <div class="company"><b>Company:</b> {{BUSINESS_NAME}}, by {{OWNER_NAME}}, Owner. After you submit, {{SHORT_NAME}} reviews your agreement and countersigns it when approved. You'll be notified when it's approved, and your fully signed copy will be added to your portal. You can download your signed copy (pending approval) on the next page.</div>
+    <div class="err" id="err">Please draw your signature above.</div>
+    <button class="btn" type="submit">Sign &amp; Submit Agreement</button>
+    <button class="btn" type="button" onclick="window.print()" style="background:#fff;border:1px solid var(--line);margin-top:10px">Print / Save a Copy</button>
+  </form>
+</div>
+<footer>{{SOFTWARE_BRAND}}, a {{BUSINESS_NAME}} brand · {{CITY_STATE}} · {{PHONE}}</footer>
+<script>
+(function(){
+  if(/from=(pay|apply)/.test(location.search)) document.getElementById('fromApply').style.display='block';
+  var c=document.getElementById('sig'), x=c.getContext('2d'), drawing=false, has=false, last=null;
+  function size(){var r=c.getBoundingClientRect(), d=window.devicePixelRatio||1; var img=has?c.toDataURL():null; c.width=r.width*d; c.height=r.height*d; x.scale(d,d); x.lineWidth=2.4; x.lineCap='round'; x.lineJoin='round'; x.strokeStyle='#0a1f14'; if(img){var i=new Image(); i.onload=function(){x.drawImage(i,0,0,r.width,r.height)}; i.src=img;}}
+  size(); window.addEventListener('resize',size);
+  function pos(e){var r=c.getBoundingClientRect(); return {x:e.clientX-r.left,y:e.clientY-r.top};}
+  c.addEventListener('pointerdown',function(e){drawing=true; last=pos(e); c.setPointerCapture(e.pointerId); e.preventDefault();});
+  c.addEventListener('pointermove',function(e){if(!drawing)return; var p=pos(e); x.beginPath(); x.moveTo(last.x,last.y); x.lineTo(p.x,p.y); x.stroke(); last=p; if(!has){has=true; document.getElementById("sigph").style.display='none';}});
+  ['pointerup','pointercancel','pointerleave'].forEach(function(t){c.addEventListener(t,function(){drawing=false;});});
+  document.getElementById('clr').onclick=function(){x.clearRect(0,0,c.width,c.height); has=false; document.getElementById("sigph").style.display='';};
+  var np=document.getElementById('noefin'), ef=document.getElementById('ef');
+  np.addEventListener('change',function(){ ef.required=!np.checked; ef.disabled=np.checked; if(np.checked) ef.value='';
+    document.getElementById('efinMsg').style.display=np.checked?'block':'none';
+    document.querySelectorAll('.biz').forEach(function(el){ el.required=!np.checked; }); });
+  var nq=document.getElementById('noptin'), pt=document.getElementById('pt');
+  nq.addEventListener('change',function(){ pt.required=!nq.checked; pt.disabled=nq.checked; if(nq.checked) pt.value=''; });
+  var nm=document.getElementById('nm');
+  function upd(){var bz=document.getElementById('bz'); var v=(bz.value.trim()||nm.value.trim())||'[Your name / business]'; document.querySelectorAll('.pname').forEach(function(el){el.textContent=v;});}
+  nm.addEventListener('input',upd); document.getElementById('bz').addEventListener('input',upd);
+  document.getElementById('agForm').addEventListener('submit',function(e){
+    if(!has){e.preventDefault(); document.getElementById('err').style.display='block'; return;}
+    var small=document.createElement('canvas'); small.width=420; small.height=120;
+    var s=small.getContext('2d'); s.fillStyle='#fff'; s.fillRect(0,0,420,120); s.drawImage(c,0,0,420,120);
+    document.getElementById('sigData').value=small.toDataURL('image/jpeg',0.7);
+    document.getElementById('signedAt').value=new Date().toString();
+  });
+})();
+</script>
+<script src="/js/jspdf.umd.min.js"></script>
+<script src="/js/signed-copy.js"></script>
+</body>
+</html>

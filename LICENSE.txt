@@ -1,0 +1,45 @@
+TAX OFFICE PORTAL KIT: LICENSE AND TERMS OF USE
+
+By downloading or using this kit, you agree to these terms.
+
+1. WHAT YOU CAN DO
+   - Use the kit for ONE tax business (one brand, one website domain).
+   - Change anything: colors, fonts, wording, pages, code.
+   - Hire someone to set it up or edit it for you.
+
+2. WHAT YOU CAN'T DO
+   - Resell, share, give away or post the kit (or a lightly changed copy of it)
+     as a template, kit or product, free or paid.
+   - Use it for more than one business without buying another license.
+   - Share the Airtable template link with anyone else.
+
+3. YOUR RESPONSIBILITIES
+   - Agreements, privacy policy and other legal pages are TEMPLATES ONLY.
+     Have your own attorney review them before you use them.
+   - Only sell tax software, service bureau or bank products you are
+     authorized to sell. Product names in the kit (like TaxSlayer Pro and
+     OLT Pro) are examples and belong to their owners. This kit is not
+     connected to or endorsed by those companies.
+   - Follow IRS rules and privacy laws, including client consent rules
+     (IRS Section 7216). Don't store SSNs, birthdates, ID images or bank
+     account numbers in the website or portal.
+   - You pay for your own accounts and plans (domain, Netlify, Airtable,
+     Stripe, email, and anything else you connect).
+   - Keep your passwords, Airtable token and SESSION_SECRET private.
+
+4. NO WARRANTY
+   The kit is provided "as is." It was built with the help of AI tools
+   and tested, but we can't promise it is error-free or fits every
+   business. Test it before you use it with real clients. We are not
+   responsible for lost data, lost income, IRS penalties or other
+   damages from using it. Nothing in this kit is legal, tax or
+   financial advice.
+
+5. SUPPORT
+   Setup help is not included unless you bought a setup package.
+   Questions about the files: email admin@bprepsvcs.com or contact the
+   seller through the shop you bought from.
+
+6. REFUNDS
+   Because this is a digital download, all sales are final, except where
+   the marketplace you bought from requires otherwise.

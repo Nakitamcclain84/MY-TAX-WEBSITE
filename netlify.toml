@@ -1,0 +1,60 @@
+[build]
+  publish = "."
+  # Fills in your business details, colors and fonts from brand.config.json on every deploy.
+  command = "node kit/apply-brand.mjs"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Keep the portal's server code from being served as web pages.
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[headers]]
+  for = "/portal/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "same-origin"
+
+# Setup files are not part of the public website.
+[[redirects]]
+  from = "/kit/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/brand.config.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# Setup guides are for you, not your website visitors.
+[[redirects]]
+  from = "/README.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/SETUP-GUIDE.pdf"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/LICENSE.txt"
+  to = "/404.html"
+  status = 404
+  force = true

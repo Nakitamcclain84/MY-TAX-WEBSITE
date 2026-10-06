@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Agreement Signed | {biz}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/team.css">
+<script src="/js/eros.js"></script>
+<script src="/js/team.js"></script>
+<style>.box a[download]{border:2px solid var(--acc)!important;color:var(--acc)!important}</style>
+</head>
+<body>
+<header>
+  <p class="biz" data-biz></p>
+  <h1>Agreement signed</h1>
+</header>
+<main>
+<div class="wrap">
+  <div class="steps"><span>1. Apply</span><span>2. Sign agreement</span><span class="on">3. Training</span></div>
+  <div class="card box center">
+    <h2>Thank you! Your agreement was submitted.</h2>
+    <p>Your agreement is being reviewed. You'll get your approved copy by email.</p>
+    <div style="text-align:left;background:var(--acc2);border-radius:12px;padding:16px 18px;margin-top:16px">
+      <b>Last step: sign up for your required training.</b>
+      <p style="margin:6px 0 0">The Tax Academy is $<span id="tp">99</span> for all 8 courses, with IRS continuing education credit. Sign up now so you're ready for the season.</p>
+    </div>
+    <a class="btn" data-link="/team-training.html" href="#">Sign Up for Training</a>
+  </div>
+</div>
+</main>
+<footer><span data-biz></span> · <span data-phone></span> · <a href="/privacy.html">Privacy</a></footer>
+<script>window.SIGNED_NOTE='On iPhone, the PDF opens in a new tab. Tap the Share button to save it. You will also get your approved copy by email.'; if (window.TEAM) document.getElementById('tp').textContent = window.TEAM.trainingPrice || 99;</script>
+<script>document.addEventListener('team-ready', function(){ var s=document.createElement('script'); s.src='/js/signed-download.js'; document.body.appendChild(s); });</script>
+</body>
+</html>

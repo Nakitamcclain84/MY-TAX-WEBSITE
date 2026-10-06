@@ -1,0 +1,46 @@
+{
+  "layout": "bold",
+  "features": {
+    "website": true,
+    "preparers": true,
+    "eros": true,
+    "software": true,
+    "academy": true,
+    "referrals": true
+  },
+  "businessName": "TNT Taxes Pro",
+  "shortName": "TNT",
+  "softwareBrandName": "TNT Taxes Pro Software",
+  "ownerName": "Nakita McClain-Mansfield",
+  "email": "2019tnttaxes1@gmail.com",
+  "phone": "(229) 395-1195",
+  "domain": "tnttaxespro.com",
+  "address": "Leesburg, Georgia",
+  "city": "Leesburg",
+  "state": "Georgia",
+  "colors": {
+    "primary": "#0f1f3d",
+    "accent": "#c9a13b"
+  },
+  "fonts": {
+    "heading": "Playfair Display",
+    "body": "Inter"
+  },
+  "airtableBaseId": "app6CB2yL1sGLzsnq",
+  "links": {
+    "clientIntake": "https://tnttaxes.cloudtaxoffice.com",
+    "booking": "https://calendar.app.google/w6FM6zUd9UroKxjk6",
+    "googleReview": ""
+  },
+  "stripeLinks": {
+    "ACADEMY": "#",
+    "NEW_PREPARER_RETAINER": "#",
+    "TAXSLAYER_FULL": "#",
+    "TAXSLAYER_PLAN": "#",
+    "OLT_FULL": "#",
+    "OLT_PLAN": "#",
+    "SMARTWIZ": "#",
+    "SB_BRANDED": "#",
+    "SB_CUSTOM": "#"
+  }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Past Clients | {{SHORT_NAME}} Portal</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head>
+<body>
+<div class="mtop"><img src="/img/logo-services-dark-v2.webp" alt="{{SHORT_NAME}}"><button type="button" id="menuBtn">Menu</button></div>
+<div class="app">
+  <aside id="side"></aside>
+  <main>
+    <div class="loading" id="loading"><div><div class="spin"></div>Loading...</div></div>
+    <div id="page" class="hide">
+      <div class="ph"><div><h1 class="title">Past Clients</h1><p>Clients you filed for in past seasons. Reach out and track who's coming back.</p></div></div>
+      <div class="mini" id="mini"></div>
+      <div class="card">
+        <div class="toolbar"><input type="search" id="q" placeholder="Search by name"><select id="fF"><option value="">All follow-up</option></select></div>
+        <div class="tbl-wrap"><table class="tbl" id="list"></table></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/portal/portal.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = Portal.esc, M = Portal.money;
+  var C = [], OPTS = [];
+  Portal.shell('clients.html', 'preparer').then(function(){ return Portal.api('/api/portal/past-clients'); }).then(function(d){
+    if (!d || !d.ok) { Portal.failPage(d && d.message); return; }
+    C = d.clients; OPTS = d.followOptions;
+    $('fF').innerHTML += OPTS.map(function(o){ return '<option>' + E(o) + '</option>'; }).join('');
+    draw(); Portal.ready();
+  }).catch(function(){ Portal.failPage('Check your connection and refresh.'); });
+
+  function draw(){
+    var q = $('q').value.trim().toLowerCase(), f = $('fF').value;
+    var n = function(s){ return C.filter(function(c){ return c.follow === s; }).length; };
+    $('mini').innerHTML = '<div><span>Past clients</span><b>' + C.length + '</b></div><div><span>Booked</span><b>' + n('Booked') + '</b></div><div><span>Filed this season</span><b>' + n('Filed this season') + '</b></div>';
+    var rows = C.filter(function(c){ return (!q || c.name.toLowerCase().indexOf(q) > -1) && (!f || c.follow === f); });
+    $('list').innerHTML = rows.length ? '<tr><th>Client</th><th class="hide-m">Contact</th><th class="hide-m">Last filed</th><th>Follow-up</th></tr>' + rows.map(function(c){
+      return '<tr><td><b>' + E(c.name) + '</b><div class="lock">' + E(c.filing || '') + '</div></td><td class="hide-m">' + (c.phone ? '<a href="tel:' + E(c.phone) + '">' + E(c.phone) + '</a>' : '') + (c.email ? '<div class="lock">' + E(c.email) + '</div>' : '') +
+        '</td><td class="hide-m">' + E(c.year) + (c.fee ? '<div class="lock">' + M(c.fee) + '</div>' : '') + '</td><td><select class="in" style="padding:7px 10px" data-id="' + E(c.id) + '">' +
+        OPTS.map(function(o){ return '<option' + (o === c.follow ? ' selected' : '') + '>' + E(o) + '</option>'; }).join('') + '</select></td></tr>';
+    }).join('') : '<tr><td class="empty">' + (C.length ? 'No clients match your search.' : 'No past clients on file for you yet.') + '</td></tr>';
+    document.querySelectorAll('#list select').forEach(function(s){
+      s.onchange = function(){
+        var c = C.filter(function(x){ return x.id === s.dataset.id; })[0], old = c.follow; c.follow = s.value;
+        Portal.api('/api/portal/past-clients', { id: c.id, follow: s.value }).then(function(r){
+          if (r.ok) { Portal.toast('Saved'); draw(); } else { c.follow = old; s.value = old; Portal.toast(r.message || 'Not saved', 1); }
+        });
+      };
+    });
+  }
+  ['q', 'fF'].forEach(function(id){ $(id).addEventListener('input', draw); });
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refer a Friend, Earn $150 | {{BUSINESS_NAME}}</title>
+<meta name="description" content="Refer friends and family to {{BUSINESS_NAME}} and earn $150 for each referral whose tax return is funded.">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#072b19;--g7:#0f4d2d;--g50:#e8f2ec;--gold:#c9a13b;--ink:#13201a;--muted:#5b6b62;--line:#dde5df;--bg:#f6f4ee}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(120deg,var(--g9),var(--g7));color:#fff;padding:26px 16px 34px;text-align:center}
+header img{height:70px}
+header h1{font-family:Fraunces,serif;margin:12px 0 6px;font-size:clamp(1.8rem,6vw,2.6rem)}
+header p{margin:0 auto;max-width:560px;color:#dce8e1}
+header .amt{color:#e6c46a}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px clamp(18px,4vw,32px);margin:20px 0}
+.card h2{font-family:Fraunces,serif;margin:0 0 12px;font-size:1.35rem}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:620px){.steps{grid-template-columns:1fr}}
+.step{background:var(--g50);border-radius:12px;padding:14px}
+.step b{display:block;color:var(--g7)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+label.f{display:block;font-weight:600;font-size:.88rem;margin-bottom:5px}
+input[type=text],input[type=email],input[type=tel],select{width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit;background:#fff}
+.agree{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;font-size:.9rem}
+.agree input{margin-top:4px;width:18px;height:18px;flex:none}
+.btn{display:block;width:100%;margin-top:18px;padding:15px;border:0;border-radius:999px;background:var(--gold);color:var(--g9);font-weight:800;font-size:1.02rem;cursor:pointer;text-align:center;text-decoration:none}
+.btn.alt{background:#fff;border:1px solid var(--line);color:var(--g7)}
+.btn:disabled{opacity:.55}
+.small{font-size:.85rem;color:var(--muted)}
+.err{color:#b3261e;font-size:.9rem;margin-top:8px;display:none}
+.hp{position:absolute;left:-9999px}
+.link{display:flex;gap:8px;margin-top:8px}
+.link input{flex:1;font-weight:600}
+.link button{border:0;border-radius:10px;background:var(--g7);color:#fff;font-weight:700;padding:0 16px;cursor:pointer}
+canvas{width:100%;max-width:420px;display:block;margin:14px auto 0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+textarea{width:100%;min-height:110px;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit}
+.terms li{margin-bottom:6px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 16px 40px}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <a href="/"><img src="/img/logo-services-dark-v2.webp" alt="{{BUSINESS_NAME}}"></a>
+  <h1>Refer a Friend, Earn <span class="amt">$150</span></h1>
+  <p>Get your own link, share it with friends and family, and earn $150 for every person you refer whose tax return is funded.</p>
+</header>
+<div class="wrap">
+  <div class="card">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><b>1. Sign up</b>Get your personal referral link and flyer right away.</div>
+      <div class="step"><b>2. Share</b>Text or post your flyer and link to people who need their taxes done.</div>
+      <div class="step"><b>3. Get paid</b>$150 by Cash App, Zelle or PayPal once their return is funded.</div>
+    </div>
+  </div>
+
+  <form class="card" name="referrer-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/refer.html" id="rfForm">
+    <input type="hidden" name="form-name" value="referrer-signup">
+    <input type="hidden" name="referral-code" id="rfCode">
+    <input type="hidden" name="referral-link" id="rfLink">
+    <p class="hp"><label>Leave blank <input name="bot-field"></label></p>
+    <h2>Get your referral link</h2>
+    <div class="grid">
+      <div><label class="f" for="fn">First name</label><input type="text" id="fn" name="first-name" required autocomplete="given-name"></div>
+      <div><label class="f" for="ln">Last name</label><input type="text" id="ln" name="last-name" required autocomplete="family-name"></div>
+      <div><label class="f" for="em">Email</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+      <div><label class="f" for="ph">Mobile phone</label><input type="tel" id="ph" name="phone" required autocomplete="tel"></div>
+      <div><label class="f" for="pm">How should we pay you?</label><select id="pm" name="payout-method" required><option value="">Choose...</option><option>Cash App</option><option>Zelle</option><option>PayPal</option></select></div>
+      <div><label class="f" for="ph2" id="phLbl">Your $Cashtag, Zelle or PayPal</label><input type="text" id="ph2" name="payout-handle" required placeholder="$YourCashtag"></div>
+    </div>
+    <div class="card" style="margin:18px 0 0;background:var(--g50);border:0">
+      <b>Program terms</b>
+      <ul class="terms small" style="margin:8px 0 0;padding-left:18px">
+        <li>You earn <b>$150</b> for each person you refer who becomes a <b>new {{SHORT_NAME}} client</b> and whose tax return is <b>funded</b> (their refund is received and our fees are collected).</li>
+        <li>The person must start through <b>your link</b>. Referrals can't be added after they've already started with us.</li>
+        <li>No self-referrals, and people already in our system as clients don't count.</li>
+        <li>Rewards are paid by Cash App, Zelle or PayPal, usually within 7 business days after funding is confirmed.</li>
+        <li>If you earn $600 or more in a year, we'll ask you for a W-9 before paying, and you may receive a 1099. We never collect your SSN on this website.</li>
+        <li>We never share your referral's tax information with you. We only let you know a referral qualified if they allow it.</li>
+        <li>{{SHORT_NAME}} may change or end the program at any time. Rewards already earned will still be paid.</li>
+      </ul>
+    </div>
+    <label class="agree"><input type="checkbox" name="agree-terms" value="yes" required> <span>I agree to the referral program terms above.</span></label>
+    <label class="agree"><input type="checkbox" name="sms-consent" value="yes"> <span>Optional: {{BUSINESS_NAME}} may text me about my referrals and rewards. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of joining. <a href="/privacy.html#sms" target="_blank" rel="noopener">SMS Terms &amp; Privacy</a></span></label>
+    <div class="err" id="err"></div>
+    <button class="btn" type="submit" id="rfBtn">Get My Link</button>
+  </form>
+
+  <div class="card" id="done" style="display:none">
+    <h2>You're in! Here's your link</h2>
+    <p class="small" style="margin:0">We also emailed it to you. Save it so you can share it anytime.</p>
+    <div class="link"><input type="text" id="myLink" readonly><button type="button" id="copyLink">Copy</button></div>
+    <button class="btn" type="button" id="shareBtn">Share My Link</button>
+
+    <h2 style="margin-top:26px">Your flyer</h2>
+    <p class="small" style="margin:0">Your flyer has your own QR code. Download it, then send it with your link.</p>
+    <canvas id="flyer"></canvas>
+    <a class="btn" id="dlFlyer" download="{{SHORT_NAME}}-Tax-Flyer.png" href="#">Download My Flyer</a>
+
+    <h2 style="margin-top:26px">Copy and paste this text</h2>
+    <textarea id="msg" readonly></textarea>
+    <button class="btn alt" type="button" id="copyMsg">Copy Message</button>
+    <p class="small" style="text-align:center;margin:18px 0 0">Not you? <a href="/refer.html?new=1" id="notMe" style="color:var(--g7);font-weight:700">Sign up a different person</a></p>
+  </div>
+</div>
+<footer>{{BUSINESS_NAME}} · {{CITY_STATE}} · {{PHONE}} · <a href="/privacy.html">Privacy &amp; Terms</a></footer>
+<script src="/js/qrcode.js"></script>
+<script src="/js/flyer.js"></script>
+<script>
+(function(){
+  var f = document.getElementById('rfForm'), b = document.getElementById('rfBtn'), er = document.getElementById('err');
+  var pm = document.getElementById('pm'), handle = document.getElementById('ph2');
+  pm.addEventListener('change', function(){ handle.placeholder = pm.value === 'Cash App' ? '$YourCashtag' : pm.value === 'Zelle' ? 'Zelle phone or email' : pm.value === 'PayPal' ? 'PayPal email' : ''; });
+  function makeCode(first){
+    var base = (first || '').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 6) || 'REF';
+    var chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789', s = '';
+    for (var i = 0; i < 4; i++) s += chars[Math.floor(Math.random() * chars.length)];
+    return base + s;
+  }
+  function show(first, link){
+    f.style.display = 'none';
+    var d = document.getElementById('done'); d.style.display = 'block';
+    document.getElementById('myLink').value = link;
+    var msg = 'Hey! I use {{BUSINESS_NAME}} for my taxes and I think you\'ll like them. You can get started right from your phone here: ' + link;
+    document.getElementById('msg').value = msg;
+    document.getElementById('copyLink').onclick = function(){ copy(link, this); };
+    document.getElementById('copyMsg').onclick = function(){ copy(msg, this); };
+    document.getElementById('shareBtn').onclick = function(){ if (navigator.share) navigator.share({ title: '{{BUSINESS_NAME}}', text: msg }).catch(function(){}); else copy(msg, this); };
+    var cv = document.getElementById('flyer');
+    drawFlyer(cv, { link: link, first: first }).then(function(){
+      try { document.getElementById('dlFlyer').href = cv.toDataURL('image/png'); } catch(x){}
+    });
+    window.scrollTo(0, 0);
+  }
+  function copy(t, btn){ (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function(){ var o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = o; }, 1500); }).catch(function(){ prompt('Copy this:', t); }); }
+  try { if (new URLSearchParams(location.search).has('new')) localStorage.removeItem('bprepRef'); } catch(x){}
+  try { var saved = JSON.parse(localStorage.getItem('bprepRef') || 'null'); if (saved && saved.link) show(saved.first, saved.link); } catch(x){}
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    var first = document.getElementById('fn').value.trim();
+    var code = makeCode(first);
+    var link = location.origin + '/r.html?c=' + code + '&n=' + encodeURIComponent(first);
+    document.getElementById('rfCode').value = code; document.getElementById('rfLink').value = link;
+    b.disabled = true; b.textContent = 'Creating your link...'; er.style.display = 'none';
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(f)).toString() })
+      .then(function(r){ if (!r.ok) throw 0; try { localStorage.setItem('bprepRef', JSON.stringify({ first: first, link: link })); } catch(x){} show(first, link); })
+      .catch(function(){ b.disabled = false; b.textContent = 'Try Again'; er.textContent = 'Something went wrong. Check your connection and try again, or call/text {{PHONE}}.'; er.style.display = 'block'; });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+/* Generated from brand.config.json on every deploy. Edit brand.config.json, not this file. */
+:root{
+  --p:#1e3a8a;--p-d:#14275e;--p-50:#eef2fb;--p-ring:rgba(30,58,138,.18);
+  --a:#f59e0b;--a-d:#b97508;--a-ink:#1a1204;--a-glow:rgba(245,158,11,.35);
+  --ink:#16201b;--muted:#5f6b66;--line:#e3e6e4;--bg:#ffffff;--bg-soft:#f7f8fa;--bg-cream:#faf8f3;
+  --hf:'Fraunces',Georgia,serif;--bf:'Inter',system-ui,sans-serif;
+}

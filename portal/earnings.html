@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>My Earnings | {{SHORT_NAME}} Portal</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head>
+<body>
+<div class="mtop"><img src="/img/logo-services-dark-v2.webp" alt="{{SHORT_NAME}}"><button type="button" id="menuBtn">Menu</button></div>
+<div class="app">
+  <aside id="side"></aside>
+  <main>
+    <div class="loading" id="loading"><div><div class="spin"></div>Loading...</div></div>
+    <div id="page" class="hide">
+      <div class="ph"><div><h1 class="title">My Earnings</h1><p id="sub">What you've earned from your funded returns.</p></div></div>
+      <div class="stats" id="stats"></div>
+      <div class="grid2">
+        <div class="card">
+          <div class="ch"><h3>By month</h3><span>Based on date filed</span></div>
+          <div class="tbl-wrap"><table class="tbl" id="months"></table></div>
+        </div>
+        <div class="card">
+          <div class="ch"><h3>How you get paid</h3></div>
+          <div id="how" style="font-size:.9rem;line-height:1.6"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/portal/portal.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = Portal.esc, M = Portal.money;
+  Portal.shell('earnings.html', 'preparer').then(function(){ return Portal.api('/api/portal/me'); }).then(function(d){
+    if (!d || !d.ok) { Portal.failPage(d && d.message); return; }
+    var p = d.preparer, R = d.returns || [];
+    var bprep = p.paidBy === 'BPrep';
+    var verified = R.filter(function(r){ return r.verified; });
+    var fundedBank = R.filter(function(r){ return r.verified && r.bank; }).length;
+    var cards = [
+      ['Total Earned', M(p.earned, 1), bprep ? 'Verified by {{SHORT_NAME}}' : 'Paid by ' + (p.ero || 'your ERO'), 'gold'],
+      ['Pending', M(p.pending, 1), bprep ? 'Waiting on verification' : 'Not used for your team', 'gold'],
+      ['Your Split', (p.owner ? 100 : p.split) + '%', p.tier || '', ''],
+      ['Verified Returns', verified.length, fundedBank + ' with bank products', '']
+    ];
+    $('stats').innerHTML = cards.map(function(c){ return '<div class="stat"><div class="ic' + (c[3] ? ' gold' : '') + '">' + Portal.icon('money') + '</div><div class="lbl">' + E(c[0]) + '</div><div class="num">' + E(c[1]) + '</div><div class="chg">' + E(c[2]) + '</div></div>'; }).join('');
+
+    var by = {};
+    R.forEach(function(r){
+      var k = (r.date || '').slice(0, 7) || 'No date';
+      var b = by[k] = by[k] || { n: 0, funded: 0, fees: 0, earned: 0, pending: 0 };
+      b.n++; b.fees += r.fee;
+      if (r.verified) { b.funded++; b.earned += r.share; } else b.pending += r.pendingShare;
+    });
+    var keys = Object.keys(by).sort().reverse();
+    $('months').innerHTML = keys.length ? '<tr><th>Month</th><th class="r">Returns</th><th class="r hide-m">Verified</th><th class="r hide-m">Prep Fees</th><th class="r">Earned</th></tr>' + keys.map(function(k){
+      var b = by[k], lbl = k === 'No date' ? k : new Date(k + '-15T12:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      return '<tr><td><b>' + E(lbl) + '</b></td><td class="r">' + b.n + '</td><td class="r hide-m">' + b.funded + '</td><td class="r hide-m">' + M(b.fees) + '</td><td class="r"><b>' + M(b.earned, 1) + '</b>' + (b.pending ? '<div class="lock">+' + M(b.pending, 1) + ' pending</div>' : '') + '</td></tr>';
+    }).join('') : '<tr><td class="empty">No returns yet. Earnings show up here once your returns are logged and verified.</td></tr>';
+
+    $('how').innerHTML = p.owner ? '<p>This is the owner account. You keep 100% of your prep fees, so there\'s no preparer payout.</p>' : bprep ?
+      '<p><b>1.</b> Log each return and keep its status up to date.</p><p><b>2.</b> When the bank product report shows the return funded, {{SHORT_NAME}} verifies it.</p><p><b>3.</b> Verified returns move from <b>Pending</b> to <b>Total Earned</b> at your split: 70%, or 80% after you pass 100 funded clients.</p><p class="muted">Questions about a payout? Call or text {{PHONE}}.</p>' :
+      '<p>You\'re on <b>' + E(p.ero || 'your ERO') + '</b>\'s team, so your ERO pays you directly at the split they set (' + p.split + '%).</p><p>Earnings count once a return is funded and verified.</p><p class="muted">Questions about your pay? Contact ' + E(p.ero || 'your ERO') + '.</p>';
+    Portal.ready();
+  }).catch(function(){ Portal.failPage('Check your connection and refresh.'); });
+
+})();
+</script>
+</body>
+</html>

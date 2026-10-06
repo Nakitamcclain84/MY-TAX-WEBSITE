@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ERO Setup | {{SOFTWARE_BRAND}}</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png?v=3">
+<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#072b19;--g7:#0f4d2d;--g5:#1a7a48;--g50:#e8f2ec;--gold:#c9a13b;--ink:#13201a;--muted:#5b6b62;--line:#dde5df;--bg:#f6f4ee}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(120deg,var(--g9),var(--g7));color:#fff;padding:22px 16px 26px;text-align:center}
+header img{height:64px}
+header h1{font-family:Fraunces,serif;margin:10px 0 4px;font-size:clamp(1.4rem,4vw,2rem)}
+header p{margin:0;color:#e6c46a;font-weight:700;font-size:.95rem}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+.steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0 0}
+.steps span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:600;color:var(--g7)}
+.doc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px clamp(18px,4vw,40px);margin:20px 0;max-height:62vh;overflow:auto}
+.doc h2{font-family:Fraunces,serif;text-align:center;margin:0 0 4px;font-size:1.3rem}
+.doc .sub{text-align:center;color:var(--muted);font-style:italic;margin:0 0 18px}
+.doc h3{font-size:.95rem;letter-spacing:.03em;color:var(--g7);margin:22px 0 6px}
+.doc p{margin:0 0 12px;font-size:.95rem}
+.hint{font-size:.85rem;color:var(--muted);text-align:center;margin:-8px 0 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px clamp(18px,4vw,32px);margin:0 0 20px}
+.card h2{font-family:Fraunces,serif;margin:0 0 14px;font-size:1.25rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+label.f{display:block;font-weight:600;font-size:.88rem;margin-bottom:5px}
+input[type=text],input[type=email],input[type=tel]{width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit}
+.full{grid-column:1/-1}
+.sigbox{border:2px dashed #b7c7bd;border-radius:12px;background:#fbfcfb;position:relative;touch-action:none}
+canvas{display:block;width:100%;height:170px;cursor:crosshair}
+.sigbox .ph{position:absolute;inset:0;display:grid;place-items:center;color:#9aa9a0;pointer-events:none;font-size:.95rem}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:.85rem;color:var(--muted)}
+.row button{background:none;border:0;color:var(--g7);font-weight:700;cursor:pointer;font:inherit}
+.agree{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;font-size:.92rem}
+.agree input{margin-top:4px;width:18px;height:18px;flex:none}
+.btn{display:block;width:100%;margin-top:20px;padding:16px;border:0;border-radius:999px;background:var(--gold);color:var(--g9);font-weight:800;font-size:1.05rem;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.company{background:var(--g50);border-radius:12px;padding:14px 16px;font-size:.9rem;margin-top:16px}
+.err{color:#b3261e;font-size:.88rem;margin-top:8px;display:none}
+.hp{position:absolute;left:-9999px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 16px 40px}
+@media print{header,.steps,.hint,form .btn,footer{display:none}.doc{max-height:none;overflow:visible;border:0}}
+
+.pk{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+@media(max-width:640px){.pk{grid-template-columns:1fr}}
+.pk .card{margin:0;display:flex;flex-direction:column}
+.pk h2{margin:0 0 4px}
+.price{font-size:2rem;font-weight:800;color:var(--g7);margin:6px 0 2px}
+.pk ul{padding-left:18px;margin:10px 0 0;font-size:.92rem;flex:1}
+.pk .btn{text-decoration:none;text-align:center}
+.tag{display:inline-block;background:var(--gold);color:var(--g9);font-weight:800;font-size:.72rem;border-radius:999px;padding:3px 10px;letter-spacing:.03em}
+ol.st{padding-left:20px;margin:0;font-size:.95rem}ol.st li{margin:0 0 8px}
+.fs{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px}.fs th,.fs td{border:1px solid var(--line);padding:8px;text-align:left}.fs th{background:var(--g50)}
+</style>
+</head>
+<body>
+<header>
+  <img src="img/logo-services-dark-v2.webp" alt="{{SOFTWARE_BRAND}}">
+  <h1>Start as an ERO</h1>
+  <p>2026-2027 Season · {{SOFTWARE_BRAND}}</p>
+</header>
+<div class="wrap">
+  <div id="fromApply" style="display:none;background:#fff;border:2px solid var(--gold);border-radius:14px;padding:14px 18px;margin:18px 0 0;font-size:.95rem"><b>Application received!</b> Next, choose your software below, sign your ERO agreement, then check out.</div>
+
+  <div class="card" style="margin-top:20px">
+    <h2>How it works</h2>
+    <ol class="st">
+      <li><b>Choose your software</b> below.</li>
+      <li><b>Sign your ERO agreement.</b> It asks for your business details and EFIN.</li>
+      <li><b>Check out.</b> Right after you sign, you'll pay for your package. Have a promo code? Enter it at checkout.</li>
+      <li><b>No EFIN yet?</b> You can still sign up. We'll walk you through the IRS EFIN application step by step. You'll need your own active EFIN before you can e-file.</li>
+      <li><b>Setup and training.</b> We contact you within 2 business days to schedule your setup session and bank product enrollment.</li>
+    </ol>
+  </div>
+
+  <div class="pk">
+    <div class="card">
+      <span class="tag">MOST POPULAR</span>
+      <h2 style="margin-top:8px">TaxSlayer Pro Web</h2>
+      <div class="price" data-sale-price>$795</div><div class="small" style="color:var(--muted);font-size:.85rem" data-sale-note>per season</div>
+      <ul><li>Unlimited 1040 returns, all states</li><li>TaxesToGo&reg; client app and portal</li><li>Bank product enrollment help</li><li>1-on-1 setup and training</li><li>Marketing starter kit</li><li>{{SHORT_NAME}} support all season</li></ul>
+      <a class="btn" href="/agreement-taxslayer.html">Choose TaxSlayer Pro</a>
+    </div>
+    <div class="card">
+      <span class="tag" style="background:var(--g50);color:var(--g7)">BUDGET FRIENDLY</span>
+      <h2 style="margin-top:8px">OLT Pro Web</h2>
+      <div class="price" data-sale-price>$549</div><div class="small" style="color:var(--muted);font-size:.85rem" data-sale-note>per season</div>
+      <ul><li>Unlimited individual and business returns</li><li>All 50 states</li><li>Taxpayer portal</li><li>Bank product enrollment help</li><li>1-on-1 setup and training</li><li>{{SHORT_NAME}} support all season</li></ul>
+      <a class="btn" href="/agreement-olt.html">Choose OLT Pro</a>
+    </div>
+  </div>
+
+  <div class="card" style="border:2px solid var(--gold)">
+    <h2>Payment plans available</h2>
+    <p style="margin:0;font-size:.95rem">Pay in full, or pay <b>$99 down</b> and we collect the rest from your funded bank-product returns during the season. You'll choose after you sign your agreement. Payment plan terms are in your agreement.</p>
+  </div>
+
+  <div class="card">
+    <h2>Per-return fees (bank product returns only)</h2>
+    <p style="margin:0;font-size:.92rem">These come out of the client's refund, never up front, and only when the client uses a bank product. They're the same for both software options and are listed in your agreement.</p>
+    <table class="fs"><tr><th>Fee</th><th>Amount</th></tr>
+      <tr><td>{{SHORT_NAME}} Service Bureau Fee</td><td>$60.00</td></tr>
+      <tr><td>Transmitter Fee</td><td>$60.00</td></tr>
+      <tr><td>Audit Protection</td><td>$49.99</td></tr>
+      <tr><td>Identity Theft Protection</td><td>$49.99</td></tr></table>
+    <p class="small" style="font-size:.85rem;color:var(--muted);margin:10px 0 0"><b>All sales are final.</b> Software packages are non-refundable once purchased. Questions first? Call or text {{PHONE}}.</p>
+  </div>
+</div>
+<footer>{{SOFTWARE_BRAND}}, a {{BUSINESS_NAME}} brand · {{CITY_STATE}} · {{PHONE}}<br>TaxSlayer Pro&reg;, TaxesToGo&reg; and OLT Pro are trademarks of their respective owners. {{SOFTWARE_BRAND}} is an independent service bureau.</footer>
+<script>if(/from=apply/.test(location.search)) document.getElementById('fromApply').style.display='block';</script>
+</body>
+</html>

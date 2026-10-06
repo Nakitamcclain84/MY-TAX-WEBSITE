@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ERO Support | {{SOFTWARE_BRAND}}</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/team.css">
+<style>textarea{width:100%;padding:12px;border:1px solid #c8d0da;border-radius:10px;font:inherit;min-height:140px}input[type=file]{font:inherit}</style>
+</head>
+<body>
+<header>
+  <p class="biz">{{SOFTWARE_BRAND}}</p>
+  <h1>ERO &amp; Service Bureau Support</h1>
+  <p>Submit a ticket and track it in your ERO Portal (My Tickets).</p>
+</header>
+<main>
+<div class="wrap">
+  <div class="note"><b>For EROs and service bureaus only.</b> Preparers: please contact your ERO first. Your ERO will reach out to us if needed.</div>
+  <form class="card" name="ero-support" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" action="/support.html" id="tkForm">
+    <input type="hidden" name="form-name" value="ero-support">
+    <input type="hidden" name="ero-code" id="eroCode" value="">
+    <p class="hp"><label>Leave blank <input name="bot-field"></label></p>
+    <h2>New ticket</h2>
+    <div class="grid">
+      <div><label class="f" for="nm">Your name</label><input type="text" id="nm" name="name" required autocomplete="name"></div>
+      <div><label class="f" for="bz">Business name</label><input type="text" id="bz" name="business" required></div>
+      <div><label class="f" for="em">Email (the one on your ERO account)</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+      <div><label class="f" for="ph">Phone</label><input type="tel" id="ph" name="phone" required autocomplete="tel"></div>
+      <div><label class="f" for="ct">What do you need help with?</label><select id="ct" name="category" required>
+        <option value="">Choose...</option><option>Software login or setup</option><option>Bank products / refund transfers</option><option>EFIN</option><option>Rejected return</option><option>Fees or payouts</option><option>Billing / my package</option><option>Training</option><option>Portal / Airtable access</option><option>Other</option></select></div>
+      <div><label class="f" for="pr">How urgent?</label><select id="pr" name="priority" required>
+        <option>Normal</option><option>Urgent (can't file / clients waiting)</option><option>Low (question / when you can)</option></select></div>
+      <div class="full"><label class="f" for="sb">Subject</label><input type="text" id="sb" name="subject" required maxlength="120" placeholder="Short summary, e.g. Can't log in to TaxSlayer"></div>
+      <div class="full"><label class="f" for="ds">Describe the problem</label><textarea id="ds" name="description" required placeholder="What happened, what you were trying to do, and any error message. Do not include client SSNs, birthdates or bank numbers."></textarea></div>
+      <div class="full"><label class="f" for="sc">Screenshot (optional, under 7 MB)</label><input type="file" id="sc" name="screenshot" accept=".png,.jpg,.jpeg,.pdf"></div>
+    </div>
+    <p class="small" style="margin:12px 0 0">Never include client Social Security numbers, birthdates, bank numbers or full tax documents in a ticket. Blur or crop them out of screenshots.</p>
+    <div class="err" id="err"></div>
+    <button class="btn" type="submit" id="tkBtn">Submit Ticket</button>
+  </form>
+  <div class="card center" id="done" style="display:none">
+    <h2>Ticket submitted</h2>
+    <p>We got it and will follow up by email. Urgent tickets are handled first. You can check the status anytime on the <b>My Tickets</b> page in your ERO Portal.</p>
+    <a class="btn alt" href="/support.html">Submit another ticket</a>
+  </div>
+</div>
+</main>
+<footer>{{SOFTWARE_BRAND}} · {{CITY_STATE}} · {{PHONE}} · <a href="/privacy.html">Privacy</a></footer>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  document.getElementById('eroCode').value = (q.get('ero') || '').toLowerCase();
+  if (q.get('e')) document.getElementById('em').value = q.get('e');
+  var f = document.getElementById('tkForm'), b = document.getElementById('tkBtn'), er = document.getElementById('err');
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    var file = document.getElementById('sc').files[0];
+    if (file && file.size > 7*1024*1024) { er.textContent = 'That screenshot is too large. Please use one under 7 MB.'; er.style.display = 'block'; return; }
+    b.disabled = true; b.textContent = 'Submitting...'; er.style.display = 'none';
+    fetch('/', { method: 'POST', body: new FormData(f) })
+      .then(function(r){ if (!r.ok) throw 0; f.style.display = 'none'; document.getElementById('done').style.display = 'block'; window.scrollTo(0,0); })
+      .catch(function(){ b.disabled = false; b.textContent = 'Try Again'; er.textContent = 'We could not submit your ticket. Check your connection and try again, or call/text {{PHONE}}.'; er.style.display = 'block'; });
+  });
+})();
+</script>
+</body>
+</html>

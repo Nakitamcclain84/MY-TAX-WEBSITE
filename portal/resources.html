@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Resources | {{SHORT_NAME}} Portal</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head>
+<body>
+<div class="mtop"><img src="/img/logo-services-dark-v2.webp" alt="{{SHORT_NAME}}"><button type="button" id="menuBtn">Menu</button></div>
+<div class="app">
+  <aside id="side"></aside>
+  <main>
+    <div class="loading" id="loading"><div><div class="spin"></div>Loading...</div></div>
+    <div id="page" class="hide">
+      <div class="ph"><div><h1 class="title">Resources</h1><p>Links, rules and tools for the season, all in one place.</p></div></div>
+      <div id="secs"></div>
+    </div>
+  </main>
+</div>
+<script src="/portal/portal.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = Portal.esc, M = Portal.money;
+  var ORDER = ['Do This', 'Rules', 'Client Tools', 'Preparer Tools', 'IRS Forms', 'Contact'];
+  var ICON = { 'Do This': 'file', 'Rules': 'doc', 'Client Tools': 'people', 'Preparer Tools': 'book', 'IRS Forms': 'doc', 'Contact': 'chat' };
+  Portal.shell('resources.html').then(function(){ return Portal.api('/api/portal/resources'); }).then(function(d){
+    if (!d || !d.ok) { Portal.failPage(d && d.message); return; }
+    var by = {};
+    d.items.forEach(function(x){ (by[x.section] = by[x.section] || []).push(x); });
+    var secs = Object.keys(by).sort(function(a, b){ var i = ORDER.indexOf(a), j = ORDER.indexOf(b); return (i < 0 ? 99 : i) - (j < 0 ? 99 : j); });
+    $('secs').innerHTML = secs.length ? secs.map(function(sec){
+      return '<div class="card" style="margin-bottom:18px"><div class="ch"><h3>' + E(sec) + '</h3></div><div class="actions">' + by[sec].map(function(x){
+        var link = x.link.replace(/^https?:\/\/[^\/]+(?=\/portal\/)/, '');
+        var inner = '<div class="ic' + (sec === 'Rules' ? ' gold' : '') + '">' + Portal.icon(ICON[sec] || 'doc') + '</div><div>' + E(x.title) + (x.details ? '<small style="white-space:pre-line">' + E(x.details) + '</small>' : '') + '</div>';
+        return link ? '<a class="act" href="' + E(link) + '"' + (/^https?:/.test(link) ? ' target="_blank" rel="noopener"' : '') + '>' + inner + '<span class="go">→</span></a>' : '<div class="act" style="cursor:default">' + inner + '</div>';
+      }).join('') + '</div></div>';
+    }).join('') : '<div class="card empty">No resources yet.</div>';
+    Portal.ready();
+  }).catch(function(){ Portal.failPage('Check your connection and refresh.'); });
+
+})();
+</script>
+</body>
+</html>

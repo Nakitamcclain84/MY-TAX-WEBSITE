@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>You Were Referred | {{BUSINESS_NAME}}</title>
+<meta property="og:title" content="Get your taxes done right with {{BUSINESS_NAME}}">
+<meta property="og:description" content="Friendly, professional tax preparation you can start from your phone.">
+<meta property="og:image" content="https://{{DOMAIN}}/img/og-image.jpg">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#072b19;--g7:#0f4d2d;--g50:#e8f2ec;--gold:#c9a13b;--ink:#13201a;--muted:#5b6b62;--line:#dde5df;--bg:#f6f4ee}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(120deg,var(--g9),var(--g7));color:#fff;padding:26px 16px 34px;text-align:center}
+header img{height:70px}
+header .who{color:#e6c46a;font-weight:700;margin:14px 0 0}
+header h1{font-family:Fraunces,serif;margin:6px 0 8px;font-size:clamp(1.8rem,6vw,2.5rem)}
+header p{margin:0 auto;max-width:540px;color:#dce8e1}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px clamp(18px,4vw,30px);margin:20px 0}
+.card h2{font-family:Fraunces,serif;margin:0 0 12px;font-size:1.3rem}
+ul.why{margin:0;padding:0;list-style:none}
+ul.why li{padding:8px 0 8px 30px;position:relative;border-bottom:1px solid var(--line)}
+ul.why li:last-child{border:0}
+ul.why li:before{content:"";position:absolute;left:0;top:13px;width:18px;height:18px;border-radius:50%;background:var(--gold)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+label.f{display:block;font-weight:600;font-size:.88rem;margin-bottom:5px}
+input[type=text],input[type=email],input[type=tel]{width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit}
+.agree{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;font-size:.88rem}
+.agree input{margin-top:4px;width:18px;height:18px;flex:none}
+.btn{display:block;width:100%;margin-top:18px;padding:15px;border:0;border-radius:999px;background:var(--gold);color:var(--g9);font-weight:800;font-size:1.05rem;cursor:pointer}
+.btn:disabled{opacity:.55}
+.small{font-size:.85rem;color:var(--muted)}
+.err{color:#b3261e;font-size:.9rem;margin-top:8px;display:none}
+.hp{position:absolute;left:-9999px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 16px 40px}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <a href="/"><img src="/img/logo-services-dark-v2.webp" alt="{{BUSINESS_NAME}}"></a>
+  <p class="who" id="who">You were referred by a friend</p>
+  <h1>Get Your Taxes Done Right</h1>
+  <p>Friendly, professional tax preparation you can start right from your phone.</p>
+</header>
+<div class="wrap">
+  <div class="card">
+    <h2>Why {{BUSINESS_NAME}}</h2>
+    <ul class="why">
+      <li>Start from your phone. Upload your documents and sign online, no office visit needed.</li>
+      <li>No money out of pocket required. Our fees can come out of your refund.</li>
+      <li>Direct deposit available for a faster refund.</li>
+      <li>Real people who answer your calls and texts all season.</li>
+    </ul>
+  </div>
+  <form class="card" name="referral-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/r.html" id="rlForm">
+    <input type="hidden" name="form-name" value="referral-lead">
+    <input type="hidden" name="referral-code" id="rlCode">
+    <p class="hp"><label>Leave blank <input name="bot-field"></label></p>
+    <h2>Get started</h2>
+    <p class="small" style="margin:-4px 0 12px">Tell us who you are, then you'll go to our secure intake form to upload your documents.</p>
+    <div class="grid">
+      <div><label class="f" for="fn">First name</label><input type="text" id="fn" name="first-name" required autocomplete="given-name"></div>
+      <div><label class="f" for="ln">Last name</label><input type="text" id="ln" name="last-name" required autocomplete="family-name"></div>
+      <div><label class="f" for="ph">Mobile phone</label><input type="tel" id="ph" name="phone" required autocomplete="tel"></div>
+      <div><label class="f" for="em">Email</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+    </div>
+    <label class="agree"><input type="checkbox" name="consent-notify-referrer" value="yes"> <span>Optional: {{SHORT_NAME}} may let the person who referred me know that I became a client, so they can receive their referral reward. {{SHORT_NAME}} will <b>not</b> share any of my tax information with them. Saying no does not affect my tax service.</span></label>
+    <label class="agree"><input type="checkbox" name="sms-consent" value="yes"> <span>Optional: {{BUSINESS_NAME}} may text me about my tax return and appointments. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of any purchase. <a href="/privacy.html#sms" target="_blank" rel="noopener">SMS Terms &amp; Privacy</a></span></label>
+    <div class="err" id="err"></div>
+    <button class="btn" type="submit" id="rlBtn">Start My Taxes</button>
+    <p class="small" style="text-align:center;margin:10px 0 0">Questions first? Call or text {{PHONE}}.</p>
+  </form>
+</div>
+<footer>{{BUSINESS_NAME}} · {{CITY_STATE}} · {{PHONE}} · <a href="/privacy.html">Privacy &amp; Terms</a></footer>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  var code = (q.get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+  var name = (q.get('n') || '').replace(/[^A-Za-z .'-]/g, '').slice(0, 30);
+  document.getElementById('rlCode').value = code;
+  if (name) document.getElementById('who').textContent = name + ' thinks you\'ll love working with us';
+  try { if (code) localStorage.setItem('bprepRefCode', code); } catch(x){}
+  var INTAKE = '{{INTAKE_URL}}';
+  var f = document.getElementById('rlForm'), b = document.getElementById('rlBtn'), er = document.getElementById('err');
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    b.disabled = true; b.textContent = 'One moment...'; er.style.display = 'none';
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(f)).toString() })
+      .then(function(r){ if (!r.ok) throw 0; location.href = INTAKE; })
+      .catch(function(){ b.disabled = false; b.textContent = 'Try Again'; er.textContent = 'Something went wrong. Check your connection and try again, or call/text {{PHONE}}.'; er.style.display = 'block'; });
+  });
+})();
+</script>
+</body>
+</html>

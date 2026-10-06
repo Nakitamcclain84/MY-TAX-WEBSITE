@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /agreement-new.html
+Disallow: /agreement-returning.html
+Disallow: /agreement-signed.html
+Disallow: /thank-you.html
+Disallow: /academy-pay.html
+Disallow: /agreement-taxslayer.html
+Disallow: /agreement-olt.html
+Disallow: /ero-signed-taxslayer.html
+Disallow: /ero-signed-olt.html
+Disallow: /agreement-signed-new.html
+
+Sitemap: https://{{DOMAIN}}/sitemap.xml

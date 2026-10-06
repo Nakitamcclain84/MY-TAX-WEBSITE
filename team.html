@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Join Our Team | {biz}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/team.css">
+<script src="/js/eros.js"></script>
+<script src="/js/team.js"></script>
+</head>
+<body>
+<header>
+  <p class="biz" data-biz></p>
+  <h1>Join Our Tax Preparer Team</h1>
+  <p>Apply, sign your agreement, then sign up for training.</p>
+</header>
+<main>
+<div class="wrap">
+  <div class="steps"><span class="on">1. Apply</span><span>2. Sign agreement</span><span>3. Training</span></div>
+  <form class="card" name="partner-application" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/team-agreement.html" id="applyForm">
+    <input type="hidden" name="form-name" value="partner-application">
+    <input type="hidden" name="opportunity" value="PTIN Partner">
+    <input type="hidden" name="software-choice" value="">
+    <input type="hidden" name="has-efin" value="No">
+    <input type="hidden" name="referred-by-ero" id="refEro" value="">
+    <input type="hidden" name="ero-not-listed" value="">
+    <input type="hidden" name="work-location" value="Online (virtual)">
+    <input type="hidden" name="agree-terms" value="yes">
+    <input type="hidden" name="ack-agreement" value="yes">
+    <p class="hp"><label>Leave blank <input name="bot-field"></label></p>
+    <h2>Your application</h2>
+    <div class="grid">
+      <div><label class="f" for="fn">First name</label><input type="text" id="fn" name="first-name" required autocomplete="given-name"></div>
+      <div><label class="f" for="ln">Last name</label><input type="text" id="ln" name="last-name" required autocomplete="family-name"></div>
+      <div><label class="f" for="em">Email</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+      <div><label class="f" for="ph">Mobile number</label><input type="tel" id="ph" name="phone" required autocomplete="tel"></div>
+      <div><label class="f" for="st">State</label><select id="st" name="state" required><option value="">Choose...</option></select></div>
+      <div><label class="f" for="cm">Best way to reach you</label><select id="cm" name="contact-method"><option>Text</option><option>Call</option><option>Email</option></select></div>
+      <div><label class="f" for="hp">Do you have a PTIN?</label><select id="hp" name="has-ptin"><option>Yes</option><option>No</option><option>Not sure</option></select></div>
+      <div><label class="f" for="ex">Years preparing taxes</label><select id="ex" name="experience"><option>New</option><option>1 to 2</option><option>3 to 5</option><option>6+</option></select></div>
+    </div>
+    <label class="agree"><input type="checkbox" name="consent-updates" value="yes" required> <span>I agree to receive application updates by email.</span></label>
+    <label class="agree"><input type="checkbox" name="sms-consent" value="yes"> <span>Optional: Yes, <span data-biz></span> may text me application updates and onboarding reminders at the number above. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of any purchase.</span></label>
+    <div class="err" id="err">Something went wrong. Check your connection and try again.</div>
+    <button class="btn" type="submit" id="applyBtn">Submit &amp; Continue to Agreement</button>
+    <p class="small center" style="margin:10px 0 0">Next you'll read and sign your preparer agreement.</p>
+  </form>
+</div>
+</main>
+<footer><span data-biz></span> · <span data-phone></span> · <a href="/privacy.html">Privacy</a></footer>
+<script>
+(function(){
+  var E = window.TEAM; if (!E || E.bprep) return;
+  document.getElementById('refEro').value = E.name;
+  var sel = document.getElementById('st');
+  "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(" ").forEach(function(s){ var o=document.createElement('option'); o.textContent=s; sel.appendChild(o); });
+  document.getElementById('applyForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = this, b = document.getElementById('applyBtn');
+    b.disabled = true; b.textContent = 'Submitting...';
+    var q = new URLSearchParams({ ero: E.code, n: (f['first-name'].value + ' ' + f['last-name'].value).trim(), e: f.email.value, ph: f.phone.value });
+    var next = '/team-agreement.html?' + q.toString();
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(f)).toString() })
+      .then(function(r){ if (!r.ok) throw 0; location.href = next; })
+      .catch(function(){ b.disabled = false; b.textContent = 'Try Again'; document.getElementById('err').style.display = 'block'; });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>My Returns | {{SHORT_NAME}} Portal</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head>
+<body>
+<div class="mtop"><img src="/img/logo-services-dark-v2.webp" alt="{{SHORT_NAME}}"><button type="button" id="menuBtn">Menu</button></div>
+<div class="app">
+  <aside id="side"></aside>
+  <main>
+    <div class="loading" id="loading"><div><div class="spin"></div>Loading...</div></div>
+    <div id="page" class="hide">
+      <div class="ph">
+        <div><h1 class="title">My Returns</h1><p>Every return you've logged. Tap a return to update it.</p></div>
+        <button class="btn gold inline" type="button" id="newBtn"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Log a Return</button>
+      </div>
+      <div class="mini" id="mini"></div>
+      <div class="card">
+        <div class="toolbar">
+          <input type="search" id="q" placeholder="Search by client ref">
+          <select id="fStatus"><option value="">All statuses</option><option>In Progress</option><option>Filed</option><option>Accepted</option><option>Rejected</option><option>Funded</option><option>Paid Out</option></select>
+          <select id="fSeason"><option value="">All seasons</option><option>2027</option><option>2026</option></select>
+        </div>
+        <div class="tbl-wrap"><table class="tbl" id="list"></table></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/portal/portal.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = Portal.esc, M = Portal.money;
+  var R = [];
+  var STAT = ['In Progress', 'Filed', 'Accepted', 'Rejected', 'Funded'];
+
+  Portal.shell('returns.html', 'preparer').then(load);
+
+  function load(){
+    return Portal.api('/api/portal/returns').then(function(d){
+      if (!d.ok) { Portal.failPage(d.message); return; }
+      R = d.returns; draw(); Portal.ready();
+      if (location.hash === '#new') { history.replaceState(null, '', location.pathname); form(); }
+    }).catch(function(){ Portal.failPage('Check your connection and refresh.'); });
+  }
+
+  function draw(){
+    var q = $('q').value.trim().toLowerCase(), st = $('fStatus').value, se = $('fSeason').value;
+    var rows = R.filter(function(r){ return (!q || r.ref.toLowerCase().indexOf(q) > -1) && (!st || r.status === st) && (!se || r.season === se); });
+    var funded = R.filter(function(r){ return r.status === 'Funded' || r.status === 'Paid Out'; }).length;
+    var fees = R.reduce(function(s, r){ return s + r.fee; }, 0);
+    $('mini').innerHTML = '<div><span>Returns</span><b>' + R.length + '</b></div><div><span>Funded or paid out</span><b>' + funded + '</b></div><div><span>Prep fees charged</span><b>' + M(fees) + '</b></div>';
+    if (!rows.length) { $('list').innerHTML = '<tr><td class="empty">' + (R.length ? 'No returns match your search.' : 'No returns yet. Tap <b>Log a Return</b> to add your first one.') + '</td></tr>'; return; }
+    $('list').innerHTML = '<tr><th>Client</th><th class="hide-m">Filed</th><th>Status</th><th class="r hide-m">Prep Fee</th><th class="r">Your Share</th></tr>' +
+      rows.map(function(r, i){
+        var share = r.verified ? M(r.share, 1) : (r.pendingShare ? M(r.pendingShare, 1) + '<div class="lock">pending</div>' : M(r.share, 1));
+        return '<tr class="click" data-i="' + R.indexOf(r) + '"><td><div class="cl"><div class="ini">' + E(Portal.initials(r.ref)) + '</div><div>' + E(r.ref) +
+          (r.verified ? '<div class="lock">Verified by {{SHORT_NAME}}</div>' : '') + '</div></div></td><td class="hide-m">' + E(Portal.day(r.date)) + '</td><td>' + Portal.pill(r.status) +
+          '</td><td class="r hide-m">' + M(r.fee, 1) + '</td><td class="r"><b>' + share + '</b></td></tr>';
+      }).join('');
+    document.querySelectorAll('#list tr.click').forEach(function(tr){ tr.onclick = function(){ form(R[+tr.dataset.i]); }; });
+  }
+  ['q', 'fStatus', 'fSeason'].forEach(function(id){ $(id).addEventListener('input', draw); });
+  $('newBtn').onclick = function(){ form(); };
+
+  function form(r){
+    var edit = Boolean(r);
+    if (edit && r.verified) {
+      var v = Portal.modal('<h3>' + E(r.ref) + '</h3><p class="muted">{{SHORT_NAME}} already verified this return, so it can\'t be changed here. If something is wrong, send a correction request.</p>' +
+        '<div class="acts"><button class="btn ghost inline" data-close>Close</button><a class="btn inline" href="/portal/corrections.html#new">Request a Correction</a></div>');
+      return;
+    }
+    r = r || { ref: '', date: (function(d){ return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); })(new Date()), status: 'Filed', fee: '', bank: true, season: '2027', clientFirst: '', clientEmail: '' };
+    var m = Portal.modal(
+      '<h3>' + (edit ? 'Update Return' : 'Log a Return') + '</h3><p class="muted" style="margin:0 0 18px">' + (edit ? 'Change anything that\'s out of date, then save.' : 'Add a return you filed. You can update the status later.') + '</p>' +
+      '<form id="rf" class="fgrid2">' +
+      '<div><label class="f">Client ref</label><input class="in" name="ref" maxlength="24" required value="' + E(r.ref) + '"><div class="hint">Initials or an ID. Never a full name.</div></div>' +
+      '<div><label class="f">Date filed</label><input class="in" type="date" name="date" required value="' + E(r.date) + '"></div>' +
+      '<div><label class="f">Status</label><select class="in" name="status">' + STAT.map(function(s){ return '<option' + (s === r.status ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></div>' +
+      '<div><label class="f">Prep fee</label><input class="in" type="number" name="fee" min="0" max="10000" step="0.01" required value="' + E(r.fee) + '" placeholder="0.00"></div>' +
+      '<div><label class="f">Tax season</label><select class="in" name="season"><option' + (r.season !== '2026' ? ' selected' : '') + '>2027</option><option' + (r.season === '2026' ? ' selected' : '') + '>2026</option></select></div>' +
+      '<div style="display:flex;align-items:flex-end"><label class="chk"><input type="checkbox" name="bank"' + (r.bank ? ' checked' : '') + '> Client used a bank product (refund transfer)</label></div>' +
+      '<div class="full" style="border-top:1px solid var(--line);padding-top:14px"><b style="font-size:.9rem">Optional: Google review request</b><div class="hint" style="margin-top:2px">When {{SHORT_NAME}} verifies this return is funded, the client gets a thank-you email with a review link. Only fill this in if the client agreed to be contacted.</div></div>' +
+      '<div><label class="f">Client first name</label><input class="in" name="clientFirst" maxlength="30" value="' + E(r.clientFirst) + '"></div>' +
+      '<div><label class="f">Client email</label><input class="in" type="email" name="clientEmail" value="' + E(r.clientEmail) + '"></div>' +
+      '<label class="chk full"><input type="checkbox" name="consent"' + (r.clientEmail ? ' checked' : '') + '> The client agreed that {{SHORT_NAME}} can email them about their experience.</label>' +
+      '<div class="msg full" id="rfMsg"></div>' +
+      '<div class="acts full"><button type="button" class="btn ghost inline" data-close>Cancel</button><button class="btn inline" id="rfSave">' + (edit ? 'Save Changes' : 'Log Return') + '</button></div>' +
+      '</form>');
+    var f = m.el.querySelector('#rf'), msg = m.el.querySelector('#rfMsg');
+    f.onsubmit = function(e){
+      e.preventDefault();
+      var body = { ref: f.ref.value, date: f.date.value, status: f.status.value, fee: f.fee.value, season: f.season.value, bank: f.bank.checked,
+        clientFirst: f.clientFirst.value, clientEmail: f.clientEmail.value.trim() };
+      if (body.clientEmail && !f.consent.checked) { msg.className = 'msg err full'; msg.textContent = 'Check the box confirming the client agreed to be emailed, or leave the email blank.'; return; }
+      if (edit) body.id = r.id;
+      var b = m.el.querySelector('#rfSave'); b.disabled = true; b.textContent = 'Saving...';
+      Portal.api('/api/portal/returns', body).then(function(res){
+        if (!res.ok) { b.disabled = false; b.textContent = edit ? 'Save Changes' : 'Log Return'; msg.className = 'msg err full'; msg.textContent = res.message; return; }
+        m.close(); Portal.toast(res.message || 'Saved'); load();
+      }).catch(function(){ b.disabled = false; b.textContent = 'Try Again'; msg.className = 'msg err full'; msg.textContent = 'Check your connection and try again.'; });
+    };
+  }
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Dashboard | {{SHORT_NAME}} Portal</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head>
+<body>
+<div class="mtop"><img src="/img/logo-services-dark-v2.webp" alt="{{SHORT_NAME}}"><button type="button" id="menuBtn">Menu</button></div>
+<div class="app">
+  <aside id="side"></aside>
+  <main>
+    <div class="loading" id="loading"><div><div class="spin"></div>Loading...</div></div>
+    <div id="page" class="hide">
+      <div class="top">
+        <div><div class="hello" id="greet">Hello</div><h1 class="title">{{SHORT_NAME}} Admin</h1></div>
+        <a class="btn ghost inline" href="https://airtable.com/{{AIRTABLE_BASE_ID}}" target="_blank" rel="noopener">Open Airtable</a>
+      </div>
+      <section class="hero" id="hero"></section>
+      <div class="stats" id="stats"></div>
+      <div class="tabs" id="tabs"></div>
+      <div id="tab-overview">
+        <div class="grid2">
+          <div class="card">
+            <div class="ch"><h3>Returns per week</h3><span>All teams, last 8 weeks</span></div>
+            <div class="chart" id="chart"></div>
+          </div>
+          <div class="card">
+            <div class="ch"><h3>Needs your attention</h3></div>
+            <div class="actions" id="todo"></div>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="card"><div class="ch"><h3>Top preparers</h3><span>By funded returns</span></div><div class="tbl-wrap"><table class="tbl" id="topPreps"></table></div></div>
+          <div class="card"><div class="ch"><h3>EROs</h3><span>Bonus progress</span></div><div class="tbl-wrap"><table class="tbl" id="topEros"></table></div></div>
+        </div>
+      </div>
+      <div id="tab-verify" class="hide"><div class="card">
+        <p class="muted" style="margin:0 0 12px">Returns marked Funded or Paid Out that you haven't verified yet. Check them against the bank product report, then click Verify. Verifying moves the preparer's pay out of Pending and sends the Google review email if the client agreed.</p>
+        <div class="tbl-wrap"><table class="tbl" id="verify"></table></div>
+      </div></div>
+      <div id="tab-agreements" class="hide"><div class="card">
+        <p class="muted" style="margin:0 0 12px">Agreements signed on the website that you haven't approved yet. Open the countersigned copy to check it, then click Approve. The final copy is saved and the signer is emailed.</p>
+        <div class="tbl-wrap"><table class="tbl" id="agrs"></table></div>
+      </div></div>
+      <div id="tab-eros" class="hide"><div class="card"><div class="tbl-wrap"><table class="tbl" id="eros"></table></div></div></div>
+      <div id="tab-preparers" class="hide"><div class="card">
+        <div class="toolbar"><input type="search" id="pq" placeholder="Search name or email"><select id="pe"><option value="">All teams</option></select></div>
+        <div class="tbl-wrap"><table class="tbl" id="preps"></table></div>
+      </div></div>
+      <div id="tab-returns" class="hide"><div class="card">
+        <div class="toolbar"><input type="search" id="rq" placeholder="Search client ref or preparer"><select id="re"><option value="">All teams</option></select><select id="rs"><option value="">All statuses</option><option>In Progress</option><option>Filed</option><option>Accepted</option><option>Rejected</option><option>Funded</option><option>Paid Out</option></select><select id="rv"><option value="">Verified or not</option><option value="1">Verified</option><option value="0">Not verified</option></select></div>
+        <div class="tbl-wrap"><table class="tbl" id="rets"></table></div><p class="hint" id="retNote"></p>
+      </div></div>
+      <div id="tab-applications" class="hide"><div class="card">
+        <div class="toolbar"><input type="search" id="aq" placeholder="Search name or email"><select id="at"><option value="">All teams</option></select><select id="as"><option value="">All statuses</option><option>Pending Review</option><option>Interview</option><option>Approved - Onboarding</option><option>Active</option><option>Declined</option></select></div>
+        <div class="tbl-wrap"><table class="tbl" id="apps"></table></div><p class="hint">Tap an applicant to update their status and onboarding steps. Their ERO sees the same status on their team dashboard.</p>
+      </div></div>
+      <div id="tab-sales" class="hide"><div class="card"><div class="tbl-wrap"><table class="tbl" id="sales"></table></div></div></div>
+      <div id="tab-tickets" class="hide"><div class="card"><div class="tbl-wrap"><table class="tbl" id="tix"></table></div><p class="hint">Tap a ticket to reply and change its status. Status changes email the ERO automatically, including your response.</p></div></div>
+      <div id="tab-referrals" class="hide">
+        <div class="card"><div class="ch"><h3>Referrals</h3></div><div class="tbl-wrap"><table class="tbl" id="refls"></table></div><p class="hint">Set Funded when the referred client's return funds. You get the payout email, and the referrer is told if the client agreed. Check Paid after you send the $150.</p></div>
+        <div class="card" style="margin-top:18px"><div class="ch"><h3>Referrers</h3></div><div class="tbl-wrap"><table class="tbl" id="refs"></table></div></div>
+      </div>
+      <div id="tab-academy" class="hide"><div class="card"><div class="tbl-wrap"><table class="tbl" id="acad"></table></div></div></div>
+    </div>
+  </main>
+</div>
+<script src="/portal/portal.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = Portal.esc, M = Portal.money;
+  var D, h = new Date().getHours();
+  $('greet').textContent = (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ', {{OWNER_FIRST}}';
+  var TABS = [['overview', 'Overview'], ['verify', 'Verify Funding'], ['agreements', 'Agreements'], ['eros', 'EROs'], ['preparers', 'Preparers'], ['returns', 'Returns'], ['applications', 'Applications'], ['sales', 'Software Sales'], ['tickets', 'Tickets'], ['referrals', 'Referrals'], ['academy', 'Academy']];
+  // Only show tabs for the parts of the kit you picked.
+  var TABF = { verify: 'preparers eros', agreements: 'preparers eros software', eros: 'eros', preparers: 'preparers eros', returns: 'preparers eros', applications: 'preparers eros software', sales: 'software', tickets: 'eros software', referrals: 'referrals', academy: 'academy' };
+  if (window.FEATURES) TABS = TABS.filter(function(t){ var need = TABF[t[0]]; return !need || need.split(' ').some(function(k){ return window.FEATURES[k]; }); });
+
+  Portal.shell('admin.html', 'admin').then(load);
+  function load(){
+    return Portal.api('/api/portal/admin').then(function(d){
+      if (!d.ok) { Portal.failPage(d.message); return; }
+      D = d; render(); Portal.ready();
+    }).catch(function(){ Portal.failPage('Check your connection and refresh.'); });
+  }
+  var sum = function(a, k){ return a.reduce(function(s, x){ return s + (x[k] || 0); }, 0); };
+  var empty = function(t){ return '<tr><td class="empty">' + t + '</td></tr>'; };
+
+  function render(){
+    var R = D.returns, P = D.preparers, X = D.eros;
+    var funded = R.filter(function(r){ return r.status === 'Funded' || r.status === 'Paid Out'; });
+    var toVerify = funded.filter(function(r){ return !r.verified; });
+    var verified = R.filter(function(r){ return r.verified; });
+    var openTix = D.tickets.filter(function(t){ return t.status !== 'Resolved'; });
+    var pendingApps = D.applications.filter(function(a){ return a.status === 'Pending Review' || a.status === 'Interview'; });
+    var unpaidSales = D.sales.filter(function(s){ return s.status === 'Agreement Signed'; });
+    var owedRefs = sum(D.referrers, 'owed'), bonuses = sum(X, 'bonus');
+
+    $('hero').innerHTML = '<div style="grid-column:1/-1"><h2>' + R.length + ' returns across ' + X.length + ' EROs and ' + P.length + ' preparers</h2><p>' + verified.length + ' verified funded · ' + toVerify.length + ' waiting on your verification · ' + D.sales.length + ' software packages sold</p></div>';
+    var cards = [['money', 'Prep Fees', M(sum(R, 'fee')), 'All teams'], ['money', '{{SHORT_NAME}} Keeps', M(sum(R, 'bprepShare')), 'From your direct team'],
+      ['money', 'Service Bureau Fees', M(sum(R, 'sbFee')), 'From bank products'], ['money', 'Owed to Preparers', M(sum(R, 'owes')), 'Verified lines, {{SHORT_NAME}} team']];
+    $('stats').innerHTML = cards.map(function(c, i){ return '<div class="stat"><div class="ic' + (i ? ' gold' : '') + '">' + Portal.icon(c[0]) + '</div><div class="lbl">' + E(c[1]) + '</div><div class="num">' + E(c[2]) + '</div><div class="chg">' + E(c[3]) + '</div></div>'; }).join('');
+
+    var pendingAgr = D.agreements.length;
+    var counts = { agreements: pendingAgr, verify: toVerify.length, eros: X.length, preparers: P.length, returns: R.length, applications: pendingApps.length, sales: unpaidSales.length, tickets: openTix.length, referrals: D.referrers.length, academy: D.academy.length };
+    $('tabs').innerHTML = TABS.map(function(t, i){ return '<button type="button" data-t="' + t[0] + '"' + (i ? '' : ' class="on"') + '>' + t[1] + (counts[t[0]] != null ? '<small>' + counts[t[0]] + '</small>' : '') + '</button>'; }).join('');
+    $('tabs').querySelectorAll('button').forEach(function(b){ b.onclick = function(){ show(b.dataset.t); }; });
+
+    // chart
+    var now = new Date(); now.setHours(0, 0, 0, 0);
+    var start = new Date(now); start.setDate(now.getDate() - now.getDay() - 49);
+    var wk = []; for (var i = 0; i < 8; i++) { var w = new Date(start); w.setDate(start.getDate() + i * 7); wk.push({ d: w, n: 0 }); }
+    R.forEach(function(r){ if (!r.date) return; var k = Math.floor((new Date(r.date + 'T12:00:00') - start) / 6048e5); if (k >= 0 && k < 8) wk[k].n++; });
+    var mx = Math.max.apply(null, wk.map(function(w){ return w.n; })) || 1;
+    $('chart').innerHTML = wk.map(function(w, i){ return '<div class="col' + (i === 7 ? ' now' : '') + '"><em>' + w.n + '</em><i data-h="' + Math.round(w.n / mx * 100) + '"></i><span>' + (i === 7 ? 'This wk' : (w.d.getMonth() + 1) + '/' + w.d.getDate()) + '</span></div>'; }).join('');
+    setTimeout(function(){ document.querySelectorAll('#chart i').forEach(function(el){ el.style.height = el.dataset.h + '%'; }); }, 200);
+
+    // to-do
+    var todo = [[toVerify.length, 'returns waiting on verification', 'verify', 'check'], [pendingAgr, 'signed agreements to approve', 'agreements', 'doc'], [pendingApps.length, 'applications to review', 'applications', 'people'],
+      [openTix.length, 'open support tickets', 'tickets', 'chat'], [unpaidSales.length, 'software buyers who signed but haven\'t paid', 'sales', 'money'],
+      [owedRefs ? M(owedRefs) : 0, 'in referral rewards to pay out', 'referrals', 'money'], [bonuses ? M(bonuses) : 0, 'in ERO bonuses earned so far (paid after the season)', 'eros', 'team']];
+    $('todo').innerHTML = todo.map(function(t){ return '<a class="act" href="#" data-go="' + t[2] + '"><div class="ic' + (t[0] ? ' gold' : '') + '">' + Portal.icon(t[3] === 'check' ? 'file' : t[3]) + '</div><div><b style="font-size:1.05rem">' + E(t[0]) + '</b> ' + E(t[1]) + '</div><span class="go">→</span></a>'; }).join('');
+    $('todo').querySelectorAll('[data-go]').forEach(function(a){ a.onclick = function(e){ e.preventDefault(); show(a.dataset.go); }; });
+
+    $('topPreps').innerHTML = P.length ? P.slice().sort(function(a, b){ return b.funded - a.funded || b.total - a.total; }).slice(0, 8).map(function(p, i){
+      return '<tr><td><div class="lead"><span class="rank' + (i < 3 && p.funded ? ' r' + (i + 1) : '') + '">' + (i + 1) + '</span><div><b>' + E(p.name) + '</b><div class="lock">' + E(p.ero) + '</div></div></div></td><td class="r"><b>' + p.funded + '</b><div class="lock">' + p.total + ' filed</div></td></tr>';
+    }).join('') : empty('No preparers yet.');
+    $('topEros').innerHTML = X.length ? X.map(function(e){ return '<tr><td><b>' + E(e.name) + '</b><div class="lock">' + e.team + ' preparers</div></td><td class="r"><b>' + M(e.bonus) + '</b><div class="lock">' + e.eligible + ' eligible</div></td></tr>'; }).join('') : empty('No EROs yet.');
+
+    // verify
+    function drawVerify(){
+      var rows = R.filter(function(r){ return (r.status === 'Funded' || r.status === 'Paid Out') && !r.verified; });
+      $('verify').innerHTML = rows.length ? '<tr><th>Client</th><th>Preparer</th><th class="hide-m">Team</th><th class="hide-m">Filed</th><th>Status</th><th class="r">Fee</th><th></th></tr>' + rows.map(function(r){
+        return '<tr><td><b>' + E(r.ref) + '</b>' + (r.bank ? '<div class="lock">Bank product</div>' : '') + '</td><td>' + E(r.preparer) + '</td><td class="hide-m">' + E(r.ero) + '</td><td class="hide-m">' + E(Portal.day(r.date)) + '</td><td>' + Portal.pill(r.status) + '</td><td class="r">' + M(r.fee, 1) + '</td><td class="r"><button class="btn small inline" data-v="' + E(r.id) + '">Verify</button></td></tr>';
+      }).join('') : empty('All caught up. Nothing waiting on verification.');
+      $('verify').querySelectorAll('[data-v]').forEach(function(b){ b.onclick = function(){ setVerified(b.dataset.v, true, b); }; });
+    }
+    drawVerify();
+    window.__drawVerify = drawVerify;
+
+    // EROs
+    $('eros').innerHTML = X.length ? '<tr><th>ERO</th><th class="hide-m">Software</th><th class="r">Preparers</th><th class="r hide-m">Team funded</th><th class="r">Bonus</th><th class="r hide-m">Split / Retainer</th><th></th></tr>' + X.map(function(e){
+      return '<tr><td><b>' + E(e.name) + '</b><div class="lock">' + E(e.email) + '</div></td><td class="hide-m">' + E(e.software) + '</td><td class="r">' + e.team + '</td><td class="r hide-m">' + e.teamFunded + '</td><td class="r"><b>' + M(e.bonus) + '</b><div class="lock">' + e.eligible + ' eligible</div></td><td class="r hide-m">' + (e.defaultSplit ? e.defaultSplit + '%' : '-') + ' / ' + M(e.retainer) + '</td><td class="r"><a class="btn small ghost inline" href="/portal/ero.html?as=' + E(e.id) + '">View</a></td></tr>';
+    }).join('') : empty('No EROs yet.');
+
+    // preparers
+    var teams = Array.from(new Set(P.map(function(p){ return p.ero; }).filter(Boolean))).sort();
+    $('pe').innerHTML = '<option value="">All teams</option>' + teams.map(function(t){ return '<option>' + E(t) + '</option>'; }).join('');
+    $('re').innerHTML = $('pe').innerHTML;
+    function drawPreps(){
+      var q = $('pq').value.trim().toLowerCase(), t = $('pe').value;
+      var rows = P.filter(function(p){ return (!q || (p.name + ' ' + p.email).toLowerCase().indexOf(q) > -1) && (!t || p.ero === t); });
+      $('preps').innerHTML = rows.length ? '<tr><th>Preparer</th><th class="hide-m">Team</th><th>Status</th><th class="r">Returns</th><th class="r">Funded</th><th class="r hide-m">Earned</th><th class="r hide-m">Split</th><th></th></tr>' + rows.map(function(p){
+        return '<tr><td><b>' + E(p.name) + '</b><div class="lock">' + E(p.email) + (p.hasPtin || p.owner ? '' : ' · <span style="color:var(--red)">no PTIN</span>') + (p.retainerDue ? ' · owes ' + M(p.retainerDue) : '') + '</div></td><td class="hide-m">' + E(p.ero) + '</td><td>' + Portal.pill(p.status || 'Onboarding') + '</td><td class="r">' + p.total + '</td><td class="r">' + p.funded + '</td><td class="r hide-m">' + M(p.earned) + (p.pending ? '<div class="lock">+' + M(p.pending) + ' pending</div>' : '') + '</td><td class="r hide-m">' + (p.owner ? '100%' : p.split + '%') + '</td><td class="r"><a class="btn small ghost inline" href="/portal/home.html?as=' + E(p.id) + '">View</a></td></tr>';
+      }).join('') : empty('No preparers match.');
+    }
+    ['pq', 'pe'].forEach(function(id){ $(id).oninput = drawPreps; }); drawPreps();
+
+    // returns
+    function drawRets(){
+      var q = $('rq').value.trim().toLowerCase(), t = $('re').value, st = $('rs').value, v = $('rv').value;
+      var rows = R.filter(function(r){ return (!q || (r.ref + ' ' + r.preparer).toLowerCase().indexOf(q) > -1) && (!t || r.ero === t) && (!st || r.status === st) && (v === '' || String(+r.verified) === v); });
+      $('retNote').textContent = rows.length > 300 ? 'Showing the newest 300 of ' + rows.length + '. Use the filters to narrow it down.' : '';
+      $('rets').innerHTML = rows.length ? '<tr><th>Client</th><th>Preparer</th><th class="hide-m">Team</th><th class="hide-m">Filed</th><th>Status</th><th class="r">Fee</th><th class="r hide-m">SB Fee</th><th class="r">Verified</th></tr>' + rows.slice(0, 300).map(function(r){
+        return '<tr><td><b>' + E(r.ref) + '</b>' + (r.bank ? '<div class="lock">Bank product</div>' : '') + '</td><td>' + E(r.preparer) + '</td><td class="hide-m">' + E(r.ero) + '</td><td class="hide-m">' + E(Portal.day(r.date)) + '</td><td>' + Portal.pill(r.status) + '</td><td class="r">' + M(r.fee, 1) + '</td><td class="r hide-m">' + M(r.sbFee) + '</td><td class="r"><input type="checkbox" data-rv="' + E(r.id) + '"' + (r.verified ? ' checked' : '') + ' style="width:18px;height:18px"></td></tr>';
+      }).join('') : empty('No returns match.');
+      $('rets').querySelectorAll('[data-rv]').forEach(function(c){ c.onchange = function(){ setVerified(c.dataset.rv, c.checked, c); }; });
+    }
+    ['rq', 're', 'rs', 'rv'].forEach(function(id){ $(id).oninput = drawRets; }); drawRets();
+    window.__drawRets = drawRets;
+
+    // applications
+    $('at').innerHTML = '<option value="">All teams</option>' + Array.from(new Set(D.applications.map(function(a){ return a.team; }).filter(Boolean))).sort().map(function(t){ return '<option>' + E(t) + '</option>'; }).join('');
+    function drawApps(){
+      var q = $('aq').value.trim().toLowerCase(), t = $('at').value, st = $('as').value;
+      var A = D.applications.filter(function(a){ return (!q || (a.name + ' ' + a.email).toLowerCase().indexOf(q) > -1) && (!t || a.team === t) && (!st || a.status === st); });
+      $('apps').innerHTML = A.length ? '<tr><th>Applicant</th><th>Team</th><th class="hide-m">Applied</th><th>Status</th><th class="hide-m">Steps</th><th></th></tr>' + A.map(function(a){
+        var steps = [a.ptinVerified || a.ptinStep === 'PTIN done', a.signed, a.retainerPaid, a.softwareAccess].filter(Boolean).length;
+        return '<tr class="click" data-app="' + E(a.id) + '"><td><b>' + E(a.name) + '</b><div class="lock">' + E(a.opportunity) + (a.email ? ' · ' + E(a.email) : '') + '</div></td><td>' + E(a.team) + '</td><td class="hide-m">' + E(Portal.day(a.date)) + '</td><td>' + Portal.pill(a.status) + '</td><td class="hide-m">' + steps + ' of 4</td><td class="r">' +
+          (a.status === 'Pending Review' || a.status === 'Interview' ? '<button class="btn small inline" data-approve="' + E(a.id) + '">Approve</button>' : '') + '</td></tr>';
+      }).join('') : empty('No applications match.');
+      $('apps').querySelectorAll('[data-app]').forEach(function(tr){ tr.onclick = function(e){ if (e.target.closest('[data-approve]')) return; appForm(tr.dataset.app); }; });
+      $('apps').querySelectorAll('[data-approve]').forEach(function(b){ b.onclick = function(){ b.disabled = true; save('applications', b.dataset.approve, { status: 'Approved - Onboarding' }, function(){ find(D.applications, b.dataset.approve).status = 'Approved - Onboarding'; drawApps(); }); }; });
+    }
+    ['aq', 'at', 'as'].forEach(function(id){ $(id).oninput = drawApps; }); drawApps();
+    window.__drawApps = drawApps;
+
+    // agreements awaiting approval
+    function drawAgr(){
+      $('agrs').innerHTML = D.agreements.length ? '<tr><th>Signer</th><th>Type</th><th class="hide-m">Team</th><th class="hide-m">Signed</th><th>Copies</th><th></th></tr>' + D.agreements.map(function(g){
+        return '<tr><td><b>' + E(g.signer) + '</b><div class="lock">' + E(g.email) + (g.business ? ' · ' + E(g.business) : '') + '</div></td><td>' + E(g.type) + '</td><td class="hide-m">' + E(g.team) + '</td><td class="hide-m">' + E(g.signedAt ? Portal.day(g.signedAt) : '') + '</td><td>' +
+          (g.countersigned ? '<a href="' + E(g.countersigned) + '" target="_blank" rel="noopener">Countersigned</a>' : '') + (g.signerCopy ? '<div><a href="' + E(g.signerCopy) + '" target="_blank" rel="noopener" class="lock">Signer copy</a></div>' : '') + (g.hasFinal ? '<div class="lock">Final copy uploaded</div>' : '') +
+          '</td><td class="r"><button class="btn small inline" data-agr="' + E(g.id) + '">Approve</button></td></tr>';
+      }).join('') : empty('Nothing waiting. All signed agreements are approved.');
+      $('agrs').querySelectorAll('[data-agr]').forEach(function(b){ b.onclick = function(){
+        if (!confirm('Approve this agreement? The signer will be emailed their final copy.')) return;
+        b.disabled = true; b.textContent = 'Approving...';
+        Portal.api('/api/portal/admin/update', { kind: 'agreement-approve', id: b.dataset.agr }).then(function(r){
+          Portal.toast(r.ok ? r.message : r.message || 'Not saved', !r.ok);
+          if (r.ok) { D.agreements = D.agreements.filter(function(x){ return x.id !== b.dataset.agr; }); drawAgr(); var c = $('tabs').querySelector('[data-t=agreements] small'); if (c) c.textContent = D.agreements.length; }
+          else { b.disabled = false; b.textContent = 'Approve'; }
+        });
+      }; });
+    }
+    drawAgr();
+
+    // sales
+    var SALE = ['Inquiry', 'Invoice Sent', 'Agreement Signed', 'Paid', 'Setup Scheduled', 'Active', 'Cancelled'];
+    var S = D.sales;
+    $('sales').innerHTML = S.length ? '<tr><th>Buyer</th><th>Package</th><th class="r">Price</th><th>Status</th><th class="hide-m">Sale date</th></tr>' + S.map(function(s){
+      return '<tr><td><b>' + E(s.buyer) + '</b><div class="lock">' + E(s.business) + (s.email ? ' · ' + E(s.email) : '') + '</div></td><td>' + E(s.pkg) + '</td><td class="r">' + M(s.price) + '</td><td><select class="in" style="padding:7px 10px;width:auto" data-sale="' + E(s.id) + '">' + SALE.map(function(o){ return '<option' + (o === s.status ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select></td><td class="hide-m">' + E(Portal.day(s.date)) + '</td></tr>';
+    }).join('') + '' : empty('No software sales yet.');
+    $('sales').querySelectorAll('[data-sale]').forEach(function(sel){ sel.onchange = function(){ save('sales', sel.dataset.sale, { status: sel.value }, function(){ find(D.sales, sel.dataset.sale).status = sel.value; }); }; });
+
+    // tickets
+    function drawTix(){
+      $('tix').innerHTML = D.tickets.length ? '<tr><th>#</th><th>Subject</th><th>From</th><th>Status</th><th class="hide-m">Priority</th></tr>' + D.tickets.map(function(t){
+        return '<tr class="click" data-tk="' + E(t.id) + '"><td>' + E(t.num) + '</td><td><b>' + E(t.subject) + '</b><div class="lock">' + E(Portal.day(t.submitted)) + (t.category ? ' · ' + E(t.category) : '') + '</div></td><td>' + E(t.ero) + '</td><td>' + Portal.pill(t.status) + '</td><td class="hide-m">' + E(t.priority) + '</td></tr>';
+      }).join('') : empty('No tickets yet.');
+      $('tix').querySelectorAll('[data-tk]').forEach(function(tr){ tr.onclick = function(){ ticketForm(tr.dataset.tk); }; });
+    }
+    drawTix(); window.__drawTix = drawTix;
+
+    // referrals
+    var RS = ['Referred', 'Return Filed', 'Funded', 'Not Eligible'];
+    $('refls').innerHTML = D.referrals.length ? '<tr><th>Client</th><th>Referred by</th><th class="hide-m">Date</th><th>Status</th><th>Paid $150</th></tr>' + D.referrals.map(function(r){
+      return '<tr><td><b>' + E(r.client) + '</b><div class="lock">' + E(r.phone) + (r.consent ? ' · OK to tell referrer' : ' · don\'t tell referrer') + '</div></td><td>' + E(r.referrer || '(no match)') + '</td><td class="hide-m">' + E(Portal.day(r.date)) + '</td><td><select class="in" style="padding:7px 10px;width:auto" data-rf="' + E(r.id) + '">' + RS.map(function(o){ return '<option' + (o === r.status ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select></td><td><input type="checkbox" style="width:18px;height:18px" data-rp="' + E(r.id) + '"' + (r.paid ? ' checked' : '') + (r.status === 'Funded' ? '' : ' disabled title="Set Funded first"') + '></td></tr>';
+    }).join('') : empty('No referrals yet.');
+    $('refls').querySelectorAll('[data-rf]').forEach(function(sel){ sel.onchange = function(){ save('referrals', sel.dataset.rf, { status: sel.value }, function(){ find(D.referrals, sel.dataset.rf).status = sel.value; var c = $('refls').querySelector('[data-rp="' + sel.dataset.rf + '"]'); if (c) c.disabled = sel.value !== 'Funded'; }); }; });
+    $('refls').querySelectorAll('[data-rp]').forEach(function(c){ c.onchange = function(){ save('referrals', c.dataset.rp, { paid: c.checked }, null, function(){ c.checked = !c.checked; }); }; });
+    $('refs').innerHTML = D.referrers.length ? '<tr><th>Referrer</th><th class="hide-m">Code</th><th class="hide-m">Pay to</th><th class="r">Referrals</th><th class="r">Earned</th><th class="r">Owed</th><th class="hide-m">W-9</th></tr>' + D.referrers.map(function(r){
+      return '<tr><td><b>' + E(r.name) + '</b></td><td class="hide-m">' + E(r.code) + '</td><td class="hide-m">' + E(r.method) + ' ' + E(r.handle) + '</td><td class="r">' + r.referrals + '</td><td class="r">' + M(r.earned) + '</td><td class="r"><b>' + M(r.owed) + '</b></td><td class="hide-m">' + (r.w9 ? 'Yes' : (r.earned >= 600 ? '<span style="color:var(--red);font-weight:700">Needed</span>' : '-')) + '</td></tr>';
+    }).join('') : empty('No referrers yet.');
+
+    // academy
+    $('acad').innerHTML = D.academy.length ? '<tr><th>Student</th><th>Class</th><th class="hide-m">Team</th><th class="hide-m">Registered</th><th>Paid</th></tr>' + D.academy.map(function(a){
+      return '<tr><td><b>' + E(a.name) + '</b><div class="lock">' + E(a.email) + '</div></td><td style="max-width:320px">' + E(a.cls) + '</td><td class="hide-m">' + E(a.team || '{{SHORT_NAME}}') + '</td><td class="hide-m">' + E(Portal.day(a.date)) + '</td><td>' + (a.paid ? '<span class="pill p-funded">Paid</span>' : '<span class="pill p-progress">' + (a.due ? M(a.due) + ' due' : 'Unpaid') + '</span>') + '</td></tr>';
+    }).join('') : empty('No registrations yet.');
+  }
+
+  function find(arr, id){ return arr.filter(function(x){ return x.id === id; })[0] || {}; }
+  function save(kind, id, fields, ok, bad){
+    return Portal.api('/api/portal/admin/update', { kind: kind, id: id, fields: fields }).then(function(r){
+      Portal.toast(r.ok ? 'Saved' : (r.message || 'Not saved'), !r.ok);
+      if (r.ok && ok) ok(); if (!r.ok && bad) bad();
+      return r;
+    }).catch(function(){ Portal.toast('Check your connection', 1); if (bad) bad(); });
+  }
+  function opts(list, cur){ return list.map(function(o){ return '<option' + (o === cur ? ' selected' : '') + '>' + E(o) + '</option>'; }).join(''); }
+  function chk(name, label, on){ return '<label class="chk"><input type="checkbox" name="' + name + '"' + (on ? ' checked' : '') + '> ' + label + '</label>'; }
+
+  function appForm(id){
+    var a = find(D.applications, id);
+    var m = Portal.modal('<h3>' + E(a.name) + '</h3><p class="muted" style="margin:0 0 6px">' + E(a.opportunity) + ' · ' + E(a.team) + ' · applied ' + E(Portal.day(a.date)) + '</p>' +
+      '<p class="lock" style="margin:0 0 16px">' + [a.email, a.phone, a.state, a.experience ? a.experience + ' yrs' : '', a.hasPtin ? 'PTIN: ' + a.hasPtin : '', a.hasEfin ? 'EFIN: ' + a.hasEfin : ''].filter(Boolean).map(E).join(' · ') + '</p>' +
+      '<form id="af" class="fgrid2"><div><label class="f">Status</label><select class="in" name="status">' + opts(['Pending Review', 'Interview', 'Approved - Onboarding', 'Active', 'Declined'], a.status) + '</select></div>' +
+      '<div><label class="f">PTIN step</label><select class="in" name="ptinStep"><option value="">Not set</option>' + opts(['Needs a new PTIN', 'Has PTIN, update IRS info to BPrep', 'PTIN done'], a.ptinStep) + '</select></div>' +
+      '<div class="full"><b style="font-size:.9rem">Onboarding steps</b>' + chk('ptinVerified', 'PTIN verified', a.ptinVerified) + chk('agreementSigned', 'Agreement signed', a.signed) + chk('retainerPaid', 'Retainer paid', a.retainerPaid) + chk('softwareAccess', 'Software access given', a.softwareAccess) + '</div>' +
+      '<div class="full"><label class="f">Notes (only you see these)</label><textarea class="in" name="notes">' + E(a.notes) + '</textarea></div>' +
+      '<div class="acts full"><button type="button" class="btn ghost inline" data-close>Cancel</button><button class="btn inline" id="afSave">Save</button></div></form>');
+    var f = m.el.querySelector('#af');
+    f.onsubmit = function(e){
+      e.preventDefault();
+      var fields = { status: f.status.value, ptinVerified: f.ptinVerified.checked, agreementSigned: f.agreementSigned.checked, retainerPaid: f.retainerPaid.checked, softwareAccess: f.softwareAccess.checked, notes: f.notes.value };
+      if (f.ptinStep.value) fields.ptinStep = f.ptinStep.value;
+      m.el.querySelector('#afSave').disabled = true;
+      save('applications', id, fields, function(){ a.status = fields.status; a.ptinVerified = fields.ptinVerified; a.signed = fields.agreementSigned; a.retainerPaid = fields.retainerPaid; a.softwareAccess = fields.softwareAccess; a.notes = fields.notes; if (fields.ptinStep) a.ptinStep = fields.ptinStep; m.close(); window.__drawApps(); },
+        function(){ m.el.querySelector('#afSave').disabled = false; });
+    };
+  }
+
+  function ticketForm(id){
+    var t = find(D.tickets, id);
+    var m = Portal.modal('<h3>#' + E(t.num) + ' ' + E(t.subject) + '</h3><p class="muted" style="margin:0 0 6px">' + E(t.ero) + ' · ' + E(t.priority) + ' · ' + E(Portal.day(t.submitted)) + '</p>' +
+      '<p class="lock" style="margin:0 0 12px">' + [t.email, t.phone].filter(Boolean).map(E).join(' · ') + (t.screenshot ? ' · <a href="' + E(t.screenshot) + '" target="_blank" rel="noopener">Screenshot</a>' : '') + '</p>' +
+      '<div style="background:#fafbf8;border:1px solid var(--line);border-radius:12px;padding:12px;white-space:pre-wrap;font-size:.9rem;margin-bottom:14px">' + E(t.description || 'No description.') + '</div>' +
+      '<form id="tf"><label class="f">Status</label><select class="in" name="status">' + opts(['New', 'In Progress', 'Waiting on ERO', 'Resolved', 'Closed'], t.status) + '</select>' +
+      '<label class="f" style="margin-top:14px">Response to ERO <span class="lock">(included in their email and on their dashboard)</span></label><textarea class="in" name="response">' + E(t.response) + '</textarea>' +
+      '<label class="f" style="margin-top:14px">Internal notes <span class="lock">(never shown to the ERO)</span></label><textarea class="in" name="internal" style="min-height:70px">' + E(t.internal) + '</textarea>' +
+      '<div class="acts"><button type="button" class="btn ghost inline" data-close>Cancel</button><button class="btn inline" id="tfSave">Save</button></div></form>');
+    var f = m.el.querySelector('#tf');
+    f.onsubmit = function(e){
+      e.preventDefault(); m.el.querySelector('#tfSave').disabled = true;
+      var fields = { response: f.response.value, internal: f.internal.value, status: f.status.value };
+      save('tickets', id, fields, function(){ t.status = fields.status; t.response = fields.response; t.internal = fields.internal; m.close(); window.__drawTix(); }, function(){ m.el.querySelector('#tfSave').disabled = false; });
+    };
+  }
+
+  function setVerified(id, on, el){
+    if (el.tagName === 'BUTTON') { el.disabled = true; el.textContent = 'Saving...'; }
+    Portal.api('/api/portal/admin/verify', { id: id, verified: on }).then(function(r){
+      if (!r.ok) { Portal.toast(r.message || 'Not saved', 1); if (el.type === 'checkbox') el.checked = !on; else { el.disabled = false; el.textContent = 'Verify'; } return; }
+      D.returns.forEach(function(x){ if (x.id === id) x.verified = on; });
+      Portal.toast(on ? 'Verified' : 'Unverified');
+      window.__drawVerify(); window.__drawRets();
+      var b = $('tabs').querySelector('[data-t=verify] small'); if (b) b.textContent = D.returns.filter(function(r){ return (r.status === 'Funded' || r.status === 'Paid Out') && !r.verified; }).length;
+    }).catch(function(){ Portal.toast('Check your connection', 1); });
+  }
+
+  function show(t){
+    TABS.forEach(function(x){ $('tab-' + x[0]).classList.toggle('hide', x[0] !== t); });
+    $('tabs').querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.t === t); });
+  }
+
+})();
+</script>
+</body>
+</html>

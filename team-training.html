@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Training Sign Up | {biz}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/team.css">
+<script src="/js/eros.js"></script>
+<script src="/js/team.js"></script>
+</head>
+<body>
+<header>
+  <p class="biz" data-biz></p>
+  <h1>Tax Academy Training</h1>
+  <p>All 8 courses · 22 IRS CE hours · Live online</p>
+</header>
+<main>
+<div class="wrap">
+  <div class="steps"><span>1. Apply</span><span>2. Sign agreement</span><span class="on">3. Training</span></div>
+  <div class="card">
+    <h2>About the training</h2>
+    <p style="margin:0 0 8px">Your required training is the Tax Academy, taught live online through <b>TaxPrepBootcamp</b>. One payment of <b>$<span class="tp">99</span></b> covers all 8 courses and 22 hours of IRS continuing education credit.</p>
+    <p class="small" style="margin:0">After you pay, you'll get an email with your TaxPrepBootcamp access code and how to claim your seat.</p>
+  </div>
+  <form class="card" name="academy-registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/team-training.html" id="acForm">
+    <input type="hidden" name="form-name" value="academy-registration">
+    <input type="hidden" name="class" id="acClass" value="">
+    <input type="hidden" name="seats" value="1">
+    <p class="hp"><label>Leave blank <input name="bot-field"></label></p>
+    <h2>Step 1: Register</h2>
+    <div class="grid">
+      <div class="full"><label class="f" for="an">Full name</label><input type="text" id="an" name="name" required autocomplete="name"></div>
+      <div><label class="f" for="ae">Email</label><input type="email" id="ae" name="email" required autocomplete="email"></div>
+      <div><label class="f" for="ap">Phone</label><input type="tel" id="ap" name="phone" required autocomplete="tel"></div>
+    </div>
+    <label class="agree"><input type="checkbox" name="sms-consent" value="yes"> <span>Optional: Yes, <span data-biz></span> may text me class reminders and training updates at the number above. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of any purchase.</span></label>
+    <div class="err" id="err">Something went wrong. Check your connection and try again.</div>
+    <button class="btn" type="submit" id="acBtn">Submit Registration</button>
+  </form>
+  <div class="card center" id="payStep" style="display:none">
+    <h2>Step 2: Pay $<span class="tp">99</span> to confirm your seat</h2>
+    <p>Your registration was received. <b>Your seat is not reserved until you pay.</b></p>
+    <a class="btn" href="{{STRIPE_ACADEMY}}">Pay $<span class="tp">99</span></a>
+    <p class="small" style="margin-top:12px">Secure checkout by Stripe. After payment, watch your email for your access code. Questions? Call or text <span data-phone></span>.</p>
+  </div>
+</div>
+</main>
+<footer><span data-biz></span> · <span data-phone></span> · <a href="/privacy.html">Privacy</a></footer>
+<script>
+(function(){
+  var E = window.TEAM; if (!E || E.bprep) return;
+  var tp = E.trainingPrice || 99;
+  document.querySelectorAll('.tp').forEach(function(el){ el.textContent = tp; });
+  document.getElementById('acClass').value = 'Full Tax Academy: all 8 courses, 22 IRS CE hours | $' + tp + ' | Team: ' + E.name;
+  var q = new URLSearchParams(location.search);
+  try { var pf = JSON.parse(sessionStorage.getItem('teamPrefill') || '{}'); ['n','e','ph'].forEach(function(k){ if (pf[k] && !q.get(k)) q.set(k, pf[k]); }); } catch(x){}
+  if (q.get('n')) document.getElementById('an').value = q.get('n');
+  if (q.get('e')) document.getElementById('ae').value = q.get('e');
+  if (q.get('ph')) document.getElementById('ap').value = q.get('ph');
+  document.getElementById('acForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = this, b = document.getElementById('acBtn');
+    b.disabled = true; b.textContent = 'Submitting...';
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(f)).toString() })
+      .then(function(r){ if (!r.ok) throw 0; f.style.display = 'none'; var p = document.getElementById('payStep'); p.style.display = 'block'; p.scrollIntoView({behavior:'smooth'}); })
+      .catch(function(){ b.disabled = false; b.textContent = 'Try Again'; document.getElementById('err').style.display = 'block'; });
+  });
+})();
+</script>
+</body>
+</html>

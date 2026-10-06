@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Home | {{SHORT_NAME}} Portal</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head>
+<body>
+<div class="mtop"><img src="/img/logo-services-dark-v2.webp" alt="{{SHORT_NAME}}"><button type="button" id="menuBtn">Menu</button></div>
+<div class="app">
+  <aside id="side"></aside>
+
+  <main id="main">
+    <div class="loading" id="loading"><div><div class="spin"></div>Loading your portal...</div></div>
+    <div id="page" class="hide">
+      <div class="top">
+        <div><div class="hello" id="greet">Hello</div><h1 class="title" id="welcome">Welcome back</h1></div>
+        <div class="who"><div class="av" id="av"></div><div><b id="whoName"></b><small id="whoTeam"></small></div></div>
+      </div>
+
+      <section class="hero" id="hero">
+        <div>
+          <h2 id="heroTitle"></h2>
+          <p id="heroText"></p>
+          <div class="bar"><i id="heroBar"></i></div>
+          <div class="bar-l"><span id="barL"></span><span id="barR"></span></div>
+        </div>
+        <div class="ring">
+          <svg width="128" height="128"><circle cx="64" cy="64" r="54" stroke="rgba(255,255,255,.15)" stroke-width="12" fill="none"/><circle class="fg" id="ringFg" cx="64" cy="64" r="54" stroke="#e6c46a" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="339.3"/></svg>
+          <div class="v"><div><b id="ringVal"></b><small id="ringLbl">your split</small></div></div>
+        </div>
+      </section>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="ch"><h3>Returns per week</h3><span id="chartNote">Last 8 weeks</span></div>
+          <div class="chart" id="chart"></div>
+          <div class="ch" style="margin:22px 0 4px"><h3>Recent returns</h3><a href="/portal/returns.html">View all →</a></div>
+          <table id="recent"></table>
+        </div>
+        <div class="card">
+          <div class="ch"><h3>Quick actions</h3></div>
+          <div class="actions">
+            <a class="act" href="/portal/returns.html#new"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div><div>Log a return<small>Add a client to your return log</small></div><span class="go">→</span></a>
+            <a class="act" href="/portal/corrections.html#new"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M4 4h16v12H5l-1 4z"/></svg></div><div>Request a correction<small>Something wrong on a line?</small></div><span class="go">→</span></a>
+            <a class="act" href="/academy.html" data-f="academy"><div class="ic gold"><svg class="i" viewBox="0 0 24 24"><path d="M2 8l10-5 10 5-10 5z"/><path d="M6 10v6c3 3 9 3 12 0v-6"/></svg></div><div>Tax Academy<small>Classes and training</small></div><span class="go">→</span></a>
+            <a class="act" href="/portal/agreement.html"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/></svg></div><div>My signed agreement<small>View or download your copy</small></div><span class="go">→</span></a>
+          </div>
+          <div class="news" id="news"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/portal/portal.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = Portal.esc, M = Portal.money;
+
+  var h = new Date().getHours();
+  $('greet').textContent = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+
+  Portal.shell('home.html', 'preparer').then(function(){ return Portal.api('/api/portal/me'); }).then(function(d){
+    if (!d.ok) {
+      if (d.signedOut || d.status === 401 || d.status === 403) { location.replace('/portal/'); return; }
+      $('loading').innerHTML = '<div style="text-align:center"><b>We couldn\'t load your portal.</b><br>' + E(d.message || 'Please refresh in a minute.') + '</div>';
+      return;
+    }
+    render(d);
+  }).catch(function(){ $('loading').innerHTML = '<div>Check your connection and refresh.</div>'; });
+
+  function render(d){
+    var first = String(d.name || '').split(' ')[0];
+    $('welcome').textContent = 'Welcome back' + (first ? ', ' + first : '');
+    $('av').textContent = Portal.initials(d.name);
+    $('whoName').textContent = d.name || d.email;
+
+    if (!d.preparer) { location.replace('/portal/ero.html'); return; }
+    var p = d.preparer, R = d.returns || [];
+    $('whoTeam').textContent = p.ero ? p.ero + ' Team' : '{{BUSINESS_NAME}}';
+
+    // ----- hero -----
+    var split = p.owner ? 100 : p.split;
+    var bar = 0;
+    if (p.owner) {
+      $('heroTitle').textContent = 'You keep 100% of your prep fees';
+      $('heroText').textContent = 'Owner account. Your funded returns still count toward {{SHORT_NAME}}\'s totals.';
+      bar = R.length ? p.funded / R.length : 0;
+      $('barL').textContent = p.funded + ' funded'; $('barR').textContent = R.length + ' filed';
+    } else if (p.paidBy === 'BPrep') {
+      var need = Math.max(0, 101 - p.funded);
+      if (need > 0) {
+        $('heroTitle').textContent = 'You\'re ' + need + ' funded ' + (need === 1 ? 'return' : 'returns') + ' away from 80%';
+        $('heroText').textContent = 'Every return that funds moves you closer. Pass 100 funded clients and your split goes from 70% to 80% for the rest of the season.';
+      } else {
+        $('heroTitle').textContent = 'You made it to 80%!';
+        $('heroText').textContent = 'You passed 100 funded clients. You now keep 80% of your prep fees on verified returns.';
+      }
+      bar = Math.min(p.funded / 101, 1);
+      $('barL').textContent = p.funded + ' funded'; $('barR').textContent = 'Goal: 101';
+    } else {
+      $('heroTitle').textContent = split ? 'You keep ' + split + '% of your prep fees' : 'Your split hasn\'t been set yet';
+      $('heroText').textContent = split ? 'Your split is set by ' + (p.ero || 'your ERO') + '. Keep those returns funding!' : 'Ask ' + (p.ero || 'your ERO') + ' to enter your split. Until then, earnings show as $0.';
+      bar = R.length ? p.funded / R.length : 0;
+      $('barL').textContent = p.funded + ' funded'; $('barR').textContent = R.length + ' filed';
+    }
+    $('ringVal').textContent = split + '%';
+    setTimeout(function(){
+      $('heroBar').style.width = Math.round(bar * 100) + '%';
+      $('ringFg').style.strokeDashoffset = (339.3 * (1 - Math.min(split, 100) / 100)).toFixed(1);
+    }, 150);
+
+    // ----- stats -----
+    var weekAgo = Date.now() - 7 * 864e5;
+    var thisWeek = R.filter(function(r){ return r.date && new Date(r.date + 'T12:00:00').getTime() >= weekAgo; }).length;
+    var fees = R.reduce(function(s, r){ return s + r.fee; }, 0);
+    var rate = R.length ? Math.round(p.funded / R.length * 100) : 0;
+    var ic = {
+      file: '<svg class="i" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>',
+      check: '<svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>',
+      money: '<svg class="i" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+      clock: '<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>'
+    };
+    var cards = [
+      { ic: ic.file, lbl: 'Returns Filed', num: R.length, chg: '+' + thisWeek + ' this week' },
+      { ic: ic.check, lbl: 'Funded', num: p.funded, chg: rate + '% funded rate' }
+    ];
+    if (p.owner) {
+      cards.push({ ic: ic.money, gold: 1, lbl: 'Prep Fees', num: M(fees), chg: 'All your returns' });
+      cards.push({ ic: ic.clock, gold: 1, lbl: 'Bank Products', num: R.filter(function(r){ return r.bank; }).length, chg: 'Refund transfers', warn: 1 });
+    } else if (p.paidBy === 'BPrep') {
+      cards.push({ ic: ic.money, gold: 1, lbl: 'Total Earned', num: M(p.earned), chg: 'Verified by {{SHORT_NAME}}' });
+      cards.push({ ic: ic.clock, gold: 1, lbl: 'Pending', num: M(p.pending), chg: 'Waiting on verification', warn: 1 });
+    } else {
+      cards.push({ ic: ic.money, gold: 1, lbl: 'Total Earned', num: M(p.earned), chg: 'Paid by ' + (p.ero || 'your ERO') });
+      cards.push({ ic: ic.clock, gold: 1, lbl: 'Prep Fees Charged', num: M(fees), chg: 'All your returns', warn: 1 });
+    }
+    $('stats').innerHTML = cards.map(function(c){
+      return '<div class="stat"><div class="ic' + (c.gold ? ' gold' : '') + '">' + c.ic + '</div><div class="lbl">' + E(c.lbl) + '</div><div class="num">' + E(c.num) + '</div><div class="chg' + (c.warn ? ' warn' : '') + '">' + E(c.chg) + '</div></div>';
+    }).join('');
+
+    // ----- weekly chart (last 8 weeks, Sunday starts) -----
+    var now = new Date(); now.setHours(0, 0, 0, 0);
+    var start = new Date(now); start.setDate(now.getDate() - now.getDay() - 7 * 7);
+    var weeks = [];
+    for (var i = 0; i < 8; i++) { var w = new Date(start); w.setDate(start.getDate() + i * 7); weeks.push({ d: w, n: 0 }); }
+    R.forEach(function(r){
+      if (!r.date) return;
+      var t = new Date(r.date + 'T12:00:00');
+      var idx = Math.floor((t - start) / (7 * 864e5));
+      if (idx >= 0 && idx < 8) weeks[idx].n++;
+    });
+    var max = Math.max.apply(null, weeks.map(function(w){ return w.n; })) || 1;
+    $('chart').innerHTML = weeks.map(function(w, i){
+      var lbl = i === 7 ? (innerWidth < 760 ? 'Now' : 'This wk') : innerWidth < 760 ? (w.d.getMonth() + 1) + '/' + w.d.getDate() : w.d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return '<div class="col' + (i === 7 ? ' now' : '') + '"><em>' + w.n + '</em><i data-h="' + Math.round(w.n / max * 100) + '"></i><span>' + lbl + '</span></div>';
+    }).join('');
+    setTimeout(function(){ document.querySelectorAll('#chart i').forEach(function(el, i){ el.style.transitionDelay = (i * 0.05) + 's'; el.style.height = el.dataset.h + '%'; }); }, 200);
+
+    // ----- recent returns -----
+    var pillClass = { 'Funded': 'p-funded', 'Paid Out': 'p-paid', 'Accepted': 'p-accepted', 'Filed': 'p-filed', 'In Progress': 'p-progress', 'Rejected': 'p-rejected' };
+    if (!R.length) {
+      $('recent').innerHTML = '<tr><td class="empty">No returns logged yet. When you log your first return, it shows up here.</td></tr>';
+    } else {
+      $('recent').innerHTML = R.slice(0, 6).map(function(r){
+        var amt = p.owner ? r.fee : (r.verified || p.paidBy !== 'BPrep') ? r.share : r.pendingShare;
+        var note = p.owner ? 'prep fee' : (r.verified || p.paidBy !== 'BPrep') ? 'your share' : 'pending';
+        var d = r.date ? new Date(r.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+        return '<tr><td><div class="cl"><div class="ini">' + E(Portal.initials(r.ref)) + '</div>' + E(r.ref || 'No ref') + '</div></td><td>' + E(d) + '</td><td><span class="pill ' + (pillClass[r.status] || 'p-progress') + '">' + E(r.status) + '</span></td><td class="amt">' + M(amt) + '<small>' + note + '</small></td></tr>';
+      }).join('');
+    }
+
+    // ----- news -----
+    var news = '<b>From {{SHORT_NAME}}</b>Funded returns move into your earnings once {{SHORT_NAME}} verifies them on the bank product report.';
+    if (p.retainerDue > 0) news = '<b>Reminder</b>Your new preparer retainer of ' + M(p.retainerDue) + ' is still due. Contact ' + E(p.ero || 'your ERO') + ' if you have questions.';
+    else if (!p.hasPtin && !p.owner) news = '<b>Reminder</b>We don\'t have your PTIN on file yet. Send it to ' + E(p.ero || '{{SHORT_NAME}}') + ' so you can start filing.';
+    $('news').innerHTML = news;
+
+    $('loading').classList.add('hide'); $('page').classList.remove('hide');
+  }
+
+})();
+</script>
+</body>
+</html>

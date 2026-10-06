@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://{{DOMAIN}}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://{{DOMAIN}}/taxes.html</loc></url>
+  <url><loc>https://{{DOMAIN}}/software.html</loc></url>
+  <url><loc>https://{{DOMAIN}}/join.html</loc></url>
+  <url><loc>https://{{DOMAIN}}/academy.html</loc></url>
+  <url><loc>https://{{DOMAIN}}/contact.html</loc></url>
+  <url><loc>https://{{DOMAIN}}/refer.html</loc></url>
+  <url><loc>https://{{DOMAIN}}/privacy.html</loc></url>
+</urlset>

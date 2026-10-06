@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Preparer Agreement | {{BUSINESS_NAME}}</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png?v=3">
+<link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-192.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#072b19;--g7:#0f4d2d;--g5:#1a7a48;--g50:#e8f2ec;--gold:#c9a13b;--ink:#13201a;--muted:#5b6b62;--line:#dde5df;--bg:#f6f4ee}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header{background:linear-gradient(120deg,var(--g9),var(--g7));color:#fff;padding:22px 16px 26px;text-align:center}
+header img{height:64px}
+header h1{font-family:Fraunces,serif;margin:10px 0 4px;font-size:clamp(1.4rem,4vw,2rem)}
+header p{margin:0;color:#e6c46a;font-weight:700;font-size:.95rem}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+.steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0 0}
+.steps span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:600;color:var(--g7)}
+.doc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px clamp(18px,4vw,40px);margin:20px 0;max-height:62vh;overflow:auto}
+.doc h2{font-family:Fraunces,serif;text-align:center;margin:0 0 4px;font-size:1.3rem}
+.doc .sub{text-align:center;color:var(--muted);font-style:italic;margin:0 0 18px}
+.doc h3{font-size:.95rem;letter-spacing:.03em;color:var(--g7);margin:22px 0 6px}
+.doc p{margin:0 0 12px;font-size:.95rem}
+.hint{font-size:.85rem;color:var(--muted);text-align:center;margin:-8px 0 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px clamp(18px,4vw,32px);margin:0 0 20px}
+.card h2{font-family:Fraunces,serif;margin:0 0 14px;font-size:1.25rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+label.f{display:block;font-weight:600;font-size:.88rem;margin-bottom:5px}
+input[type=text],input[type=email],input[type=tel]{width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:10px;font:inherit}
+.full{grid-column:1/-1}
+.sigbox{border:2px dashed #b7c7bd;border-radius:12px;background:#fbfcfb;position:relative;touch-action:none}
+canvas{display:block;width:100%;height:170px;cursor:crosshair}
+.sigbox .ph{position:absolute;inset:0;display:grid;place-items:center;color:#9aa9a0;pointer-events:none;font-size:.95rem}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:.85rem;color:var(--muted)}
+.row button{background:none;border:0;color:var(--g7);font-weight:700;cursor:pointer;font:inherit}
+.agree{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;font-size:.92rem}
+.agree input{margin-top:4px;width:18px;height:18px;flex:none}
+.btn{display:block;width:100%;margin-top:20px;padding:16px;border:0;border-radius:999px;background:var(--gold);color:var(--g9);font-weight:800;font-size:1.05rem;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.company{background:var(--g50);border-radius:12px;padding:14px 16px;font-size:.9rem;margin-top:16px}
+.err{color:#b3261e;font-size:.88rem;margin-top:8px;display:none}
+.hp{position:absolute;left:-9999px}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 16px 40px}
+@media print{header,.steps,.hint,form .btn,footer{display:none}.doc{max-height:none;overflow:visible;border:0}}
+</style>
+</head>
+<body>
+<header>
+  <img src="img/logo-services-dark-v2.webp" alt="{{BUSINESS_NAME}}">
+  <h1>Independent Contractor Agreement</h1>
+  <p>2026-2027 Season · New Preparer Version: $249 Non-Refundable Retainer Fee</p>
+</header>
+<div class="wrap">
+  <div id="fromApply" style="display:none;background:#fff;border:2px solid var(--gold);border-radius:14px;padding:14px 18px;margin:18px 0 0;font-size:.95rem"><b>Application received!</b> Next: read and sign your agreement below. After you sign, you'll pay your $249 retainer.</div>
+  <div class="steps"><span>1 · Read the agreement</span><span>2 · Fill in your info</span><span>3 · Sign</span></div>
+
+  <div class="doc" id="doc">
+    <h2>INDEPENDENT CONTRACTOR AGREEMENT</h2>
+    <p class="sub">New Preparer Version: $249 Non-Refundable Retainer Fee</p>
+    <p>This Independent Contractor Agreement (the “Agreement”) is made effective as of the date signed below (the “Effective Date”) by and between {{BUSINESS_NAME}} (“Company”), the party contracting to receive the Services, and <b class="pname">[Your name]</b> (“Preparer”), the party providing the Services. Company and Preparer are each referred to individually as a “Party” and collectively as the “Parties.”</p>
+    <h3>1. DESCRIPTION OF SERVICES</h3>
+<p>Beginning on the date signed, Preparer will provide the following services to Company: tax preparation services; client file management and document retention (collectively, the “Services”).</p>
+<h3>2. REMUNERATION FOR SERVICES</h3>
+<p>Preparer is entitled to receive a portion of the fees collected from clients for Services rendered. Preparer will be paid a commission on each completed and paid-out return according to the Split Levels below. Preparer is required to issue an invoice to Company for Services provided to his or her clients. Preparer will be paid from fees actually collected and will not be paid in instances where no fee is collected from a client. Where a client’s fee is to be taken from that client’s refund, Preparer will not be paid until the client’s refund is issued and Company has confirmed the funding.</p>
+<p><b>Split Levels.</b> Preparer will receive seventy percent (70%) of the preparation fee collected on each completed and paid-out return. Beginning with Preparer’s one hundred first (101st) funded return during the tax filing season, Preparer will receive eighty percent (80%) of the preparation fee collected on each completed and paid-out return. The 80% rate applies only to returns funded after Preparer reaches 100 funded returns and does not apply retroactively. A return is “funded” when Company confirms, from its bank product or payment records, that the client’s fee has been collected. Split levels reset at the start of each tax filing season.</p>
+<p><b>Example.</b> If Preparer has 110 funded returns in a season, returns 1 through 100 are paid at 70% and returns 101 through 110 are paid at 80%. The 80% rate does not apply back to the first 100 returns.</p>
+<p><b>Preparation Fee.</b> “Preparation Fee” means only the tax return preparation charge set for preparing the client’s return. It does not include bank-product or refund-transfer fees, service bureau fees, transmission or technology fees, audit protection, identity theft protection, software fees, add-on fees, or any other bank or third-party charges. Preparer’s split percentage applies only to the Preparation Fee actually collected. For example, if a client’s total fees are $800 and $550 of that is the Preparation Fee, Preparer’s 70% share is $385.</p>
+<p><b>Return Log.</b> Preparer agrees to record each return prepared under this Agreement in Company’s Client Fee Log (or any successor system Company designates), including the client reference, date filed, preparation fee charged, and whether a bank product was used, within two (2) business days of filing. Preparer will record client initials or an ID only, and will not enter full client names, Social Security numbers, or other sensitive client information into the Client Fee Log. Company’s verified records control the calculation of commissions. Returns not recorded may be delayed in payment until Preparer records them.</p>
+<p><b>Offset for Losses.</b> If Preparer’s conduct causes a bank chargeback, a preparer penalty, a software company penalty, a client refund, a compliance assessment, an IRS penalty attributable to Preparer’s work, or another documented loss to Company, Company may deduct that amount from commissions otherwise payable to Preparer, to the extent permitted by law. Company will give Preparer a written explanation of any deduction. If commissions are not enough to cover the loss, Preparer remains responsible for the balance under Section 19.</p>
+<p><b>Retainer Fee.</b> Because this is Preparer’s first Agreement with Company, Preparer agrees to pay Company a one-time retainer fee of Two Hundred Forty-Nine Dollars ($249.00). The retainer fee pays for Preparer’s onboarding: account and software setup, {{SHORT_NAME}}’s onboarding and compliance training, and Company’s review and setup needed before Preparer may be authorized to transmit returns under Company’s EFIN. The retainer fee is due before Company provides any of these. THE RETAINER FEE IS NON-REFUNDABLE, including if this Agreement is terminated by either Party for any reason. The retainer fee is not deducted from, and does not reduce, commissions earned under this Agreement. Preparer will not owe a retainer fee in any future season in which Preparer returns under a new agreement with Company.</p>
+<h3>3. TERM/TERMINATION</h3>
+<p>This Agreement is effective as of the Effective Date and continues through the end of the 2027 tax filing season, unless earlier terminated as provided below.</p>
+<p><b>Termination for Convenience.</b> Either Party may terminate this Agreement at any time, with or without cause, upon fourteen (14) days’ prior written notice to the other Party.</p>
+<p><b>Termination for Cause.</b> Company may terminate this Agreement immediately, without notice, if Preparer: (a) fails to obtain or maintain a valid PTIN; (b) breaches the due diligence, confidentiality, or code of conduct obligations of this Agreement; (c) is found to have falsified any document or information in connection with a tax return; (d) engages in conduct that violates applicable state or federal law; or (e) misuses Company’s EFIN or transmits returns outside Company’s procedures.</p>
+<p><b>Effect of Termination.</b> Termination of this Agreement does not relieve Company of its obligation to pay Preparer commissions earned on returns completed and for which fees have been collected prior to the termination date, in accordance with Section 2. Sections 15 (Confidentiality), 16 (File and Record Maintenance), and 19 (Indemnification), together with any other provision that by its nature should survive, will survive termination of this Agreement.</p>
+<h3>4. RELATIONSHIP OF PARTIES</h3>
+<p>It is understood by the Parties that Preparer is an independent contractor with respect to Company and not an employee of Company. As such, Company will not provide fringe benefits, including health insurance benefits, paid vacation leave, or any other employee benefit, for the benefit of Preparer.</p>
+<p><b>No Income Guarantee.</b> Company does not promise or guarantee Preparer’s income, number of clients, number of returns or refund amounts. Any examples Company shares are illustrations only. Preparer’s results depend on Preparer’s own clients, work and compliance.</p>
+<h3>5. PTIN</h3>
+<p>Preparer is required to obtain and maintain a Preparer Tax Identification Number (PTIN) in accordance with the IRS’s rules and regulations in place during the period covered by this Agreement. Preparer will not be allowed to prepare a return as a contractor for Company without a registered PTIN. This Agreement becomes null and void if Preparer fails to obtain, or for any reason ceases to have, a valid PTIN.</p>
+<h3>6. CODE OF CONDUCT</h3>
+<p>Preparer is required to govern himself or herself in accordance with all relevant state and federal laws, in particular those laws that address tax return preparation. Preparer is required to comply with any and all relevant administrative rules and regulations, particularly IRS Circular 230. Any willful or malicious activity conducted by Preparer regarding the falsifying of documents or information in a tax return will be reported to the Internal Revenue Service (IRS) and any other appropriate authorities. Preparer acknowledges awareness of the due diligence requirements and penalties imposed by the IRS with respect to the preparation of returns containing refundable credits (the earned income tax credit, the child tax credit, and the education expense credit) and agrees to prepare returns that follow these IRS due diligence requirements. Failure to do so represents a breach of this Agreement.</p>
+<h3>7. LIABILITY</h3>
+<p>Preparer is liable for following all applicable rules and regulations of the state in which they operate and of the IRS for all Services rendered under this Agreement. Preparer agrees to correct any errors or omissions, whether intentional or inadvertent, without compensation from Company. Preparer agrees that any liability associated with the provision of Services under this Agreement will be that of Preparer and not Company.</p>
+<h3>8. BACKGROUND CHECKS AND FINGERPRINTING</h3>
+<p>Company reserves the right to conduct a progressive background check on Preparer. The background check may include, but is not limited to, credit history, criminal history, and previous business history. Preparer authorizes Company to obtain such reports and, where required under the Fair Credit Reporting Act or applicable state law, agrees to provide any written consent or disclosure acknowledgment Company requests in connection with such a check. Preparer is required to submit a fingerprint card, to be taken by a Company-certified representative. If a certified representative is not available, Preparer must obtain a fingerprint card from their local police department.</p>
+<h3>9. WORK PRODUCT OWNERSHIP</h3>
+<p>Work created by Preparer specifically for Company, at Company’s request, or using Company’s confidential information, branding or materials (for example, {{SHORT_NAME}}-branded marketing, {{SHORT_NAME}} training content or {{SHORT_NAME}} forms) (“Company Work Product”) is the exclusive property of Company. Upon request, Preparer shall sign all documents necessary to confirm Company’s ownership of Company Work Product. Preparer keeps ownership of anything Preparer created before this Agreement or creates independently without Company’s confidential information, branding or materials, including Preparer’s own general marketing methods, skills and know-how.</p>
+<h3>10. CLIENTS</h3>
+<p>Preparer is responsible for generating their own leads and clients for return preparation. Any clients obtained by Preparer are the property of Preparer, notwithstanding that Preparer performs the Services as a contractor of Company. If Preparer’s engagement with Company ends, and a client of Preparer wishes to continue receiving tax preparation services from Company rather than following Preparer, that choice belongs solely to the client. Nothing in this Section obligates a client to continue with either Preparer or Company.</p>
+<h3>11. OWNERSHIP OF SOCIAL MEDIA CONTACTS</h3>
+<p>Contacts acquired through Preparer’s own personal or business accounts and Preparer’s own marketing (including email lists, blogs, and accounts on platforms such as X (formerly Twitter), Facebook, Instagram, TikTok or YouTube) belong to Preparer. Contacts acquired through any account, page, website or campaign that is created, owned, branded as, funded by, or operated on behalf of Company belong to Company. Preparer will not create accounts or pages using Company’s name or branding without Company’s written permission.</p>
+<h3>12. TRAINING</h3>
+<p>As a condition of contracting with Company, Preparer must complete {{SHORT_NAME}}’s onboarding, compliance and tax preparation training, and score 70% or better on the related assessment(s). {{SHORT_NAME}}’s training is Company’s own requirement. It is separate from, and does not replace, any education, annual filing season program, or other requirement set by the IRS or any state for Preparer’s credentials.</p>
+<h3>13. CONTINUING EDUCATION</h3>
+<p>Preparer is responsible for completing any continuing education required by the IRS, applicable state law, or Company based on Preparer’s credentials and participation in applicable programs.</p>
+<p>14. USE OF COMPANY’S EFIN</p>
+<p>Preparer may transmit returns under Company’s EFIN only when expressly authorized by Company in writing (email is enough) and only when permitted under applicable IRS e-file rules, including IRS Publication 1345. Any such use is subject to Company’s review, compliance, security, due diligence and transmission procedures, and to all bank and software company requirements. Company may suspend or revoke this authorization at any time, effective immediately. Preparer may not share Company’s EFIN, let anyone else transmit under it, or transmit any return that has not been logged with Company as required by Section 2. If Preparer has or obtains Preparer’s own EFIN, Preparer must tell Company. Returns Preparer transmits under Preparer’s own EFIN are Preparer’s sole responsibility.</p>
+<h3>15. CONFIDENTIALITY</h3>
+<p>Preparer will not at any time or in any manner, either directly or indirectly, divulge, disclose, or communicate any information that is the property of Company to any third party, whether or not such conveyance personally benefits Preparer. Preparer also will not at any time or in any manner, either directly or indirectly, divulge, disclose, or communicate any information that is the property of any client of Preparer or Company. Preparer will protect all such information and treat it as strictly confidential. This provision shall continue to be effective after the termination of this Agreement. Upon termination of this Agreement, Preparer will return to Company all records, notes, documentation, and other items that were used, created, or controlled by Preparer during the term of this Agreement with respect to any Services provided that are required for Company to comply with any due diligence requirements imposed by the IRS.</p>
+<h3>16. FILE AND RECORD MAINTENANCE</h3>
+<p>Company will maintain all client return files in accordance with rules and regulations set forth by the IRS. This recordkeeping obligation is undertaken by Company for regulatory compliance purposes and does not alter Preparer’s ownership of client relationships under Section 10. Preparer may access their clients’ files as needed to respond to requests from the client or the IRS. Preparer may maintain copies of their own records at a location of their choosing, but Preparer accepts all liability for any disclosures of client information that occur because of files Preparer chooses to maintain. This clause does not require Company to create the files; the creation of the files is the sole responsibility of Preparer. Preparer acknowledges awareness of the various recordkeeping and due diligence requirements associated with each return prepared and agrees to follow all IRS rules with respect to file and recordkeeping.</p>
+<h3>17. OFFICE AND EQUIPMENT USE</h3>
+<p>Company will not provide an office environment or computer for Preparer to prepare returns for his or her clients. Preparer is required to utilize his or her own equipment or resources to assist in the preparation of returns for his or her clients, provided that such use does not violate any existing licenses, covenants, or other obligations of Company. Preparer is free to set his or her own hours and number of hours worked and is free to work from home.</p>
+<h3>18. BUSINESS EXPENSES</h3>
+<p>Any expenses associated with Preparer’s provision of Services are his or her own and will not be reimbursed by Company. This includes, but is not limited to, automobile expenses associated with providing Services for clients, any office supplies used by Preparer, and costs associated with Preparer retaining employees, agents, or designees.</p>
+<h3>19. INDEMNIFICATION</h3>
+<p>Preparer agrees to indemnify and hold harmless Company from all claims, losses, expenses, fees (including attorney fees), costs, and judgments that may be asserted against Company resulting from the acts or omissions of Preparer or Preparer’s employees, agents, or designees, if any.</p>
+<h3>20. ENTIRE AGREEMENT</h3>
+<p>This Agreement contains the entire agreement of the Parties, and there are no other promises or conditions in any other agreement, whether oral or written, that supersede the provisions contained herein. This Agreement replaces any earlier Independent Contractor Agreement between the Parties for the 2026-2027 tax season. Commissions already earned under an earlier agreement are not affected.</p>
+<h3>21. SEVERABILITY</h3>
+<p>If any provision of this Agreement is held to be invalid or unenforceable for any reason, the remaining provisions will continue to be valid and enforceable. If a court finds that any provision of this Agreement is invalid or unenforceable, but that by limiting such provision it would become valid and enforceable, then such provision will be deemed written, construed, and enforced as so limited.</p>
+<h3>22. APPLICABLE LAW</h3>
+<p>This Agreement is governed by the laws of the State of Texas.</p>
+  </div>
+  <p class="hint">Scroll inside the box to read the full agreement.</p>
+
+  <form class="card" name="preparer-agreement" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" action="/agreement-signed-new.html" id="agForm" style="margin-top:20px">
+    <input type="hidden" name="form-name" value="preparer-agreement">
+    <input type="hidden" name="agreement-version" value="2026-2027 New Preparer">
+    <input type="hidden" name="signed-at" id="signedAt">
+    <input type="hidden" id="sigData">
+    <input type="file" name="signed-copy" accept="application/pdf" hidden>
+    <input type="file" name="countersigned-copy" accept="application/pdf" hidden>
+    <p class="hp"><label>Leave blank <input name="bot-field"></label></p>
+    <h2>Your information</h2>
+    <div class="grid">
+      <div><label class="f" for="nm">Full legal name</label><input type="text" id="nm" name="signer-name" required autocomplete="name"></div>
+      <div><label class="f" for="pt">PTIN</label><input type="text" id="pt" name="ptin" required placeholder="P01234567" pattern="[Pp][0-9]{8}" title="P followed by 8 digits">
+        <label class="agree" style="margin-top:8px;font-size:.85rem"><input type="checkbox" id="noptin" name="no-ptin-yet" value="yes"> <span>I don't have a PTIN yet. {{SHORT_NAME}} will help me get one.</span></label></div>
+      <div><label class="f" for="em">Email</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+      <div><label class="f" for="ph">Phone</label><input type="tel" id="ph" name="phone" required autocomplete="tel"></div>
+      <div><label class="f" for="s4">Last 4 of SSN</label><input type="text" id="s4" name="ssn-last-4" required inputmode="numeric" pattern="[0-9]{4}" maxlength="4" title="4 digits" placeholder="1234" autocomplete="off"></div>
+      <div></div>
+      <div class="full"><label class="f" for="ad">Mailing address</label><input type="text" id="ad" name="address" required autocomplete="street-address"></div>
+    </div>
+
+    <p style="font-size:.85rem;color:var(--muted);margin:12px 0 0">For your security, we only ask for the last 4 of your SSN here. We'll complete your full identity verification with you during enrollment. Never email your SSN or ID.</p>
+
+    <h2 style="margin-top:24px">Sign</h2>
+    <div class="sigbox"><canvas id="sig"></canvas><div class="ph" id="sigph">Draw your signature here</div></div>
+    <div class="row"><span>Use your finger or mouse</span><button type="button" id="clr">Clear</button></div>
+
+    <label class="agree"><input type="checkbox" name="read-and-agree" value="yes" required> <span>I have read this entire Agreement and agree to its terms.</span></label>
+    <div style="border:2px solid var(--gold);border-radius:12px;padding:14px 16px;margin-top:16px;background:#fffbf0"><h3 style="margin:0 0 4px;font-size:1rem;color:var(--g7)">Preparer Acknowledgments</h3><p style="margin:0;font-size:.85rem;color:var(--muted)">Check each item, then enter your initials.</p><label class="agree"><input type="checkbox" name="ack-1" value="yes" required> <span>The $249 retainer is non-refundable and is due before onboarding, software setup and EFIN authorization.</span></label><label class="agree"><input type="checkbox" name="ack-2" value="yes" required> <span>My split is 70% (80% starting with my 101st funded return) of the Preparation Fee only, not bank, service bureau, transmission, protection or other third-party fees.</span></label><label class="agree"><input type="checkbox" name="ack-3" value="yes" required> <span>I am paid only after the client’s fee is actually collected and Company confirms the funding.</span></label><label class="agree"><input type="checkbox" name="ack-4" value="yes" required> <span>I may transmit under Company’s EFIN only when Company authorizes it, following Company’s procedures, and Company can revoke that at any time.</span></label><label class="agree"><input type="checkbox" name="ack-5" value="yes" required> <span>Company may deduct documented losses caused by my conduct (chargebacks, penalties, client refunds) from my commissions.</span></label><label class="agree"><input type="checkbox" name="ack-6" value="yes" required> <span>I am an independent contractor. I use my own equipment, set my own hours and pay my own expenses.</span></label><label class="agree"><input type="checkbox" name="ack-7" value="yes" required> <span>Company does not guarantee my income or number of clients.</span></label><div style="margin-top:12px"><label class="f" for="ini">Your initials</label><input type="text" id="ini" name="ack-initials" required maxlength="4" pattern="[A-Za-z]{2,4}" title="2 to 4 letters" style="max-width:120px;text-transform:uppercase"></div></div>
+    <label class="agree"><input type="checkbox" name="esign-consent" value="yes" required> <span>I agree to sign electronically. My drawn signature and typed name have the same effect as a handwritten signature.</span></label>
+
+    <div class="company"><b>Company:</b> {{BUSINESS_NAME}}, by {{OWNER_NAME}}, Owner. After you submit, {{SHORT_NAME}} reviews your agreement and countersigns it when approved. You'll be notified when it's approved, and your fully signed copy will be added to your portal. You can download your signed copy (pending approval) on the next page.</div>
+    <div class="err" id="err">Please draw your signature above.</div>
+    <button class="btn" type="submit">Sign &amp; Submit Agreement</button>
+    <button class="btn" type="button" onclick="window.print()" style="background:#fff;border:1px solid var(--line);margin-top:10px">Print / Save a Copy</button>
+  </form>
+</div>
+<footer>{{BUSINESS_NAME}} · {{CITY_STATE}} · {{PHONE}}</footer>
+<script>
+(function(){
+  if(/from=(pay|apply)/.test(location.search)) document.getElementById('fromApply').style.display='block';
+  var c=document.getElementById('sig'), x=c.getContext('2d'), drawing=false, has=false, last=null;
+  function size(){var r=c.getBoundingClientRect(), d=window.devicePixelRatio||1; var img=has?c.toDataURL():null; c.width=r.width*d; c.height=r.height*d; x.scale(d,d); x.lineWidth=2.4; x.lineCap='round'; x.lineJoin='round'; x.strokeStyle='#0a1f14'; if(img){var i=new Image(); i.onload=function(){x.drawImage(i,0,0,r.width,r.height)}; i.src=img;}}
+  size(); window.addEventListener('resize',size);
+  function pos(e){var r=c.getBoundingClientRect(); return {x:e.clientX-r.left,y:e.clientY-r.top};}
+  c.addEventListener('pointerdown',function(e){drawing=true; last=pos(e); c.setPointerCapture(e.pointerId); e.preventDefault();});
+  c.addEventListener('pointermove',function(e){if(!drawing)return; var p=pos(e); x.beginPath(); x.moveTo(last.x,last.y); x.lineTo(p.x,p.y); x.stroke(); last=p; if(!has){has=true; document.getElementById("sigph").style.display='none';}});
+  ['pointerup','pointercancel','pointerleave'].forEach(function(t){c.addEventListener(t,function(){drawing=false;});});
+  document.getElementById('clr').onclick=function(){x.clearRect(0,0,c.width,c.height); has=false; document.getElementById("sigph").style.display='';};
+  var np=document.getElementById('noptin'), pt=document.getElementById('pt');
+  np.addEventListener('change',function(){ pt.required=!np.checked; pt.disabled=np.checked; if(np.checked) pt.value=''; });
+  var nm=document.getElementById('nm');
+  nm.addEventListener('input',function(){var v=nm.value.trim()||'[Your name]'; document.querySelectorAll('.pname').forEach(function(el){el.textContent=v;});});
+  document.getElementById('agForm').addEventListener('submit',function(e){
+    if(!has){e.preventDefault(); document.getElementById('err').style.display='block'; return;}
+    var small=document.createElement('canvas'); small.width=420; small.height=120;
+    var s=small.getContext('2d'); s.fillStyle='#fff'; s.fillRect(0,0,420,120); s.drawImage(c,0,0,420,120);
+    document.getElementById('sigData').value=small.toDataURL('image/jpeg',0.7);
+    document.getElementById('signedAt').value=new Date().toString();
+  });
+})();
+</script>
+<script src="/js/jspdf.umd.min.js"></script>
+<script src="/js/signed-copy.js"></script>
+<script>(function(){var q=new URLSearchParams(location.search),m={n:'nm',e:'em',p:'pt',ph:'ph',a:'ad'};Object.keys(m).forEach(function(k){var v=q.get(k),el=document.getElementById(m[k]);if(v&&el){el.value=v;el.dispatchEvent(new Event('input'));}});if(q.get('n')){var b=document.getElementById('fromApply');b.innerHTML='<b>Hi '+q.get('n').split(' ')[0].replace(/[<>&]/g,'')+'!</b> We updated our preparer agreement for the season. Your info is already filled in. Just check the boxes, add your initials and signature, and submit. This replaces the agreement you signed earlier.';b.style.display='block';}})();</script>
+</body>
+</html>

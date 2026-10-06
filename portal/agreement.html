@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>My Agreement | {{SHORT_NAME}} Portal</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head>
+<body>
+<div class="mtop"><img src="/img/logo-services-dark-v2.webp" alt="{{SHORT_NAME}}"><button type="button" id="menuBtn">Menu</button></div>
+<div class="app">
+  <aside id="side"></aside>
+  <main>
+    <div class="loading" id="loading"><div><div class="spin"></div>Loading...</div></div>
+    <div id="page" class="hide">
+      <div class="ph"><div><h1 class="title">My Agreement</h1><p>Your signed preparer agreement with {{SHORT_NAME}}'s signature.</p></div></div>
+      <div class="card" id="docs"></div>
+    </div>
+  </main>
+</div>
+<script src="/portal/portal.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = Portal.esc, M = Portal.money;
+  Portal.shell('agreement.html', 'preparer').then(function(){ return Portal.api('/api/portal/agreement'); }).then(function(d){
+    if (!d || !d.ok) { Portal.failPage(d && d.message); return; }
+    $('docs').innerHTML = d.docs.length ? d.docs.map(function(x){
+      return '<div class="doc"><div class="ic">' + Portal.icon('doc') + '</div><div><b>' + E(x.label) + '</b><div class="lock">' + E(x.name) + (x.signedAt ? ' · signed ' + E(Portal.day(x.signedAt)) : '') + '</div></div>' +
+        '<a class="btn small inline go" href="' + E(x.url) + '" target="_blank" rel="noopener">Open</a></div>';
+    }).join('') + '<p class="hint">Links work for a few hours. If one stops working, refresh this page.</p>'
+      : '<div class="empty">Your approved agreement isn\'t here yet. Once {{SHORT_NAME}} approves and uploads it, it shows up on this page. Questions? Call or text {{PHONE}}.</div>';
+    Portal.ready();
+  }).catch(function(){ Portal.failPage('Check your connection and refresh.'); });
+
+})();
+</script>
+</body>
+</html>

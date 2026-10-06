@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Corrections | {{SHORT_NAME}} Portal</title>
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/portal/portal.css">
+</head>
+<body>
+<div class="mtop"><img src="/img/logo-services-dark-v2.webp" alt="{{SHORT_NAME}}"><button type="button" id="menuBtn">Menu</button></div>
+<div class="app">
+  <aside id="side"></aside>
+  <main>
+    <div class="loading" id="loading"><div><div class="spin"></div>Loading...</div></div>
+    <div id="page" class="hide">
+      <div class="ph">
+        <div><h1 class="title">Correction Requests</h1><p>Something wrong on a return you can't change yourself? Tell {{SHORT_NAME}} here.</p></div>
+        <button class="btn gold inline" type="button" id="newBtn"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New Request</button>
+      </div>
+      <div class="card"><div class="tbl-wrap"><table class="tbl" id="list"></table></div></div>
+    </div>
+  </main>
+</div>
+<script src="/portal/portal.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var E = Portal.esc, M = Portal.money;
+  Portal.shell('corrections.html', 'preparer').then(load);
+
+  function load(){
+    return Portal.api('/api/portal/corrections').then(function(d){
+      if (!d.ok) { Portal.failPage(d.message); return; }
+      var C = d.corrections;
+      $('list').innerHTML = C.length ? '<tr><th>Client</th><th>What needs fixing</th><th>Status</th><th class="hide-m">{{SHORT_NAME}} notes</th></tr>' + C.map(function(c){
+        return '<tr><td><b>' + E(c.ref) + '</b><div class="lock">' + E(Portal.day(c.created)) + '</div></td><td style="white-space:pre-wrap">' + E(c.what) + '</td><td>' + Portal.pill(c.status) + '</td><td class="hide-m muted" style="white-space:pre-wrap">' + E(c.notes || '') + '</td></tr>';
+      }).join('') : '<tr><td class="empty">No correction requests. If a verified return needs fixing, tap <b>New Request</b>.</td></tr>';
+      Portal.ready();
+      if (location.hash === '#new') { history.replaceState(null, '', location.pathname); form(); }
+    }).catch(function(){ Portal.failPage('Check your connection and refresh.'); });
+  }
+
+  $('newBtn').onclick = form;
+  function form(){
+    var m = Portal.modal('<h3>New Correction Request</h3><p class="muted" style="margin:0 0 18px">{{SHORT_NAME}} reviews every request and updates the status here.</p>' +
+      '<form id="cf"><label class="f">Client ref</label><input class="in" name="ref" maxlength="24" required placeholder="Same ref as on the return">' +
+      '<label class="f" style="margin-top:14px">What needs fixing?</label><textarea class="in" name="what" maxlength="2000" required placeholder="Example: Prep fee should be $325, not $275."></textarea>' +
+      '<div class="hint">Don\'t include SSNs, birthdays or bank numbers.</div><div class="msg" id="cfMsg"></div>' +
+      '<div class="acts"><button type="button" class="btn ghost inline" data-close>Cancel</button><button class="btn inline" id="cfSave">Send Request</button></div></form>');
+    var f = m.el.querySelector('#cf'), msg = m.el.querySelector('#cfMsg'), b = m.el.querySelector('#cfSave');
+    f.onsubmit = function(e){
+      e.preventDefault(); b.disabled = true; b.textContent = 'Sending...';
+      Portal.api('/api/portal/corrections', { ref: f.ref.value, what: f.what.value }).then(function(res){
+        if (!res.ok) { b.disabled = false; b.textContent = 'Send Request'; msg.className = 'msg err'; msg.textContent = res.message; return; }
+        m.close(); Portal.toast(res.message); load();
+      }).catch(function(){ b.disabled = false; b.textContent = 'Try Again'; msg.className = 'msg err'; msg.textContent = 'Check your connection and try again.'; });
+    };
+  }
+
+})();
+</script>
+</body>
+</html>
