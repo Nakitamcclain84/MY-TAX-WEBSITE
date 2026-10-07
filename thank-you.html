@@ -24,6 +24,7 @@
     <h1>Thank you!</h1>
     <p id="tyMsg">We got your information. Someone from the {{BUSINESS_NAME}} team will reach out within one business day.</p>
     <script>(function(){var m=location.search.match(/[?&]ero=([^&]+)/);if(!m)return;var n=decodeURIComponent(m[1].replace(/\+/g," ")).replace(/[<>]/g,"").slice(0,120);document.getElementById("tyMsg").textContent="We got your application and let "+n+" know. They will contact you about their team agreement and next steps.";var t=document.createElement("p");t.innerHTML="Need training? Your ERO may ask you to complete {{SHORT_NAME}}\u2019s Tax Academy ($99 for all 8 courses).";document.getElementById("tyMsg").after(t);var a=document.querySelector(".box > a");if(a){a.href="/academy.html";a.textContent="See the Tax Academy";}})();</script>
+    <script>(function(){var q=location.search;var m=document.getElementById("tyMsg");if(/[?&]academy=1/.test(q)){m.textContent="You're registered! We'll email you an invoice shortly. Your seat is confirmed once it's paid.";}else if(/[?&]apply=1/.test(q)){m.textContent="We got your application! We'll review it and reach out within 2 business days with next steps.";}})();</script>
     <a href="/">Back to Home</a>
   </div>
 </body>
