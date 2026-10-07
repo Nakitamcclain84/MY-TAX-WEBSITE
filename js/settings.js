@@ -29,7 +29,6 @@ var SETTINGS = {
   // Anything not listed opens the contact form with that package picked.
   buyLinks: {
     "TaxSlayer Pro Web": "/agreement-taxslayer.html",
-    "OLT Pro Web": "/agreement-olt.html",
-    "SmartWiz Add-On": "{{STRIPE_SMARTWIZ}}"
+    "OLT Pro Web": "/agreement-olt.html"
   }
 };
