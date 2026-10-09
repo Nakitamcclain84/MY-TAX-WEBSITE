@@ -10,7 +10,7 @@ window.EROS = [
     title: "Owner",
     phone: "(555) 555-0199",
     email: "partner@example.com",
-    state: "Texas",
+    state: "Georgia",
     split: 70,
     retainer: 0,
     trainingPrice: 99 }
