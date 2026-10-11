@@ -70,6 +70,7 @@ footer a{color:var(--muted)}
       <div><label class="f" for="ln">Last name</label><input type="text" id="ln" name="last-name" required autocomplete="family-name"></div>
       <div><label class="f" for="ph">Mobile phone</label><input type="tel" id="ph" name="phone" required autocomplete="tel"></div>
       <div><label class="f" for="em">Email</label><input type="email" id="em" name="email" required autocomplete="email"></div>
+    <div style="grid-column:1/-1"><label class="f" for="rlPrep">Your preparer (who referred you, or who you want to work with)</label><select id="rlPrep" name="preparer" data-preparers><option value="">Not sure, pick for me</option></select><input type="hidden" name="preparer-name"></div>
     </div>
     <label class="agree"><input type="checkbox" name="consent-notify-referrer" value="yes"> <span>Optional: {{SHORT_NAME}} may let the person who referred me know that I became a client, so they can receive their referral reward. {{SHORT_NAME}} will <b>not</b> share any of my tax information with them. Saying no does not affect my tax service.</span></label>
     <label class="agree"><input type="checkbox" name="sms-consent" value="yes"> <span>Optional: {{BUSINESS_NAME}} may text me about my tax return and appointments. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. Consent is not a condition of any purchase. <a href="/privacy.html#sms" target="_blank" rel="noopener">SMS Terms &amp; Privacy</a></span></label>
@@ -79,6 +80,7 @@ footer a{color:var(--muted)}
   </form>
 </div>
 <footer>{{BUSINESS_NAME}} · {{CITY_STATE}} · {{PHONE}} · <a href="/privacy.html">Privacy &amp; Terms</a></footer>
+<script src="/js/preparers.js"></script>
 <script>
 (function(){
   var q = new URLSearchParams(location.search);

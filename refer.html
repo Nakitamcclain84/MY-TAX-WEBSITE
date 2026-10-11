@@ -75,6 +75,7 @@ footer a{color:var(--muted)}
       <div><label class="f" for="ph">Mobile phone</label><input type="tel" id="ph" name="phone" required autocomplete="tel"></div>
       <div><label class="f" for="pm">How should we pay you?</label><select id="pm" name="payout-method" required><option value="">Choose...</option><option>Cash App</option><option>Zelle</option><option>PayPal</option></select></div>
       <div><label class="f" for="ph2" id="phLbl">Your $Cashtag, Zelle or PayPal</label><input type="text" id="ph2" name="payout-handle" required placeholder="$YourCashtag"></div>
+      <div style="grid-column:1/-1"><label class="f" for="rfPrep">Which preparer will your referrals work with?</label><select id="rfPrep" name="preparer" data-preparers><option value="">No preference (any preparer)</option></select><input type="hidden" name="preparer-name"></div>
     </div>
     <div class="card" style="margin:18px 0 0;background:var(--g50);border:0">
       <b>Program terms</b>
@@ -112,6 +113,7 @@ footer a{color:var(--muted)}
   </div>
 </div>
 <footer>{{BUSINESS_NAME}} · {{CITY_STATE}} · {{PHONE}} · <a href="/privacy.html">Privacy &amp; Terms</a></footer>
+<script src="/js/preparers.js"></script>
 <script src="/js/qrcode.js"></script>
 <script src="/js/flyer.js"></script>
 <script>
