@@ -8,9 +8,13 @@ var SETTINGS = {
 
   // Tax Academy sessions. Past classes hide automatically; the next one shows everywhere.
   trainings: [
-    { title: "Form 1040 Fundamentals, Session 1", start: "2027-01-05T18:00:00-06:00", end: "2027-01-05T20:00:00-06:00", where: "Live online", price: 99 },
-    { title: "Ethics, Circular 230 & Due Diligence", start: "2027-01-07T18:00:00-06:00", end: "2027-01-07T20:00:00-06:00", where: "Live online", price: 99 }
+    { title: "Tax Preparer Ethics, Circular 230 & Due Diligence", start: "2026-10-13T19:00:00-04:00", end: "2026-10-13T21:00:00-04:00", where: "Live online via TaxPrepBootcamp", price: 99 },
+    { title: "Schedule C Reconstruction, Part 1 of 2", start: "2026-10-15T19:00:00-04:00", end: "2026-10-15T21:00:00-04:00", where: "Live online via TaxPrepBootcamp", price: 99 },
+    { title: "Schedule C Reconstruction, Part 2 of 2", start: "2026-10-20T19:00:00-04:00", end: "2026-10-20T21:00:00-04:00", where: "Live online via TaxPrepBootcamp", price: 99 },
+    { title: "Amending Individual Returns: Form 1040-X", start: "2026-10-22T19:00:00-04:00", end: "2026-10-22T21:00:00-04:00", where: "Live online via TaxPrepBootcamp", price: 99 },
+    { title: "Filing Extensions & Estimated Tax Payments", start: "2026-10-27T19:00:00-04:00", end: "2026-10-27T20:00:00-04:00", where: "Live online via TaxPrepBootcamp", price: 99 }
   ],
+
   timeZone: "America/Chicago",
   taxDay: "2027-04-15T23:59:59-05:00",
   extensionDeadline: "2026-10-15T23:59:59-05:00",
