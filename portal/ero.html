@@ -99,6 +99,7 @@
       ['team', 'Preparers', T.length, T.filter(function(p){ return p.status === 'Active'; }).length + ' active'],
       ['money', 'Prep Fees', M(fees), funded + ' funded or paid out'],
       ['money', e.isBprep ? 'Applications' : 'Your Share', e.isBprep ? D.applications.length : M(share), e.isBprep ? 'Team applicants' : 'After preparer splits']];
+    if (!e.isBprep && e.beRate) cards.push(['money', 'Back-End Fees', M(e.beTotal), M(e.beRate) + ' per funded return']);
     $('stats').innerHTML = cards.map(function(c, i){ return '<div class="stat"><div class="ic' + (i > 1 ? ' gold' : '') + '">' + Portal.icon(c[0]) + '</div><div class="lbl">' + E(c[1]) + '</div><div class="num">' + E(c[2]) + '</div><div class="chg">' + E(c[3]) + '</div></div>'; }).join('');
 
     // ----- tabs -----
@@ -183,8 +184,8 @@
 
   function retRows(rows, full){
     if (!rows.length) return '<tr><td class="empty">No returns ' + (full ? 'match.' : 'logged by your team yet.') + '</td></tr>';
-    return '<tr><th>Client</th><th>Preparer</th><th class="hide-m">Filed</th><th>Status</th><th class="r">Prep Fee</th></tr>' + rows.map(function(r){
-      return '<tr><td><b>' + E(r.ref) + '</b>' + (r.verified ? '<div class="lock">Verified</div>' : '') + '</td><td>' + E(r.preparer) + '</td><td class="hide-m">' + E(Portal.day(r.date)) + '</td><td>' + Portal.pill(r.status) + '</td><td class="r">' + M(r.fee, 1) + '</td></tr>';
+    return '<tr><th>Client</th><th>Preparer</th><th class="hide-m">Filed</th><th>Status</th><th class="r">Prep Fee</th>' + (!D.ero.isBprep && D.ero.beRate ? '<th class="r">Back-End Fee</th>' : '') + '</tr>' + rows.map(function(r){
+      return '<tr><td><b>' + E(r.ref) + '</b>' + (r.verified ? '<div class="lock">Verified</div>' : '') + '</td><td>' + E(r.preparer) + '</td><td class="hide-m">' + E(Portal.day(r.date)) + '</td><td>' + Portal.pill(r.status) + '</td><td class="r">' + M(r.fee, 1) + '</td>' + (!D.ero.isBprep && D.ero.beRate ? '<td class="r">' + (r.beFee ? M(r.beFee) : '-') + '</td>' : '') + '</tr>';
     }).join('');
   }
 
