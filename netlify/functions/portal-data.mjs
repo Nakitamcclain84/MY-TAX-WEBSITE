@@ -170,7 +170,7 @@ export default async (req) => {
         }),
         listRecords(T.returns, {
           formula: has("ERO Record ID", s.r),
-          fields: [F.rRef, F.rDate, F.rStatus, F.rFee, F.rEroShare, F.rVerified, F.rBank, F.rPrep, F.rEroRid, F.rSeason],
+          fields: [F.rRef, F.rDate, F.rStatus, F.rFee, F.rEroShare, F.rVerified, F.rBank, F.rPrep, F.rEroRid, F.rSeason, F.rBeFee],
           sort: [{ field: "Date Filed", direction: "desc" }], max: 5000,
         }),
         listRecords(T.applications, {
@@ -194,6 +194,7 @@ export default async (req) => {
           teamFunded: num(e[F.eTeamFunded]), sbFees: num(e[F.eSbFees]), rate: num(e[F.eRate]), bonus: num(e[F.eBonus]),
           eligible: num(e[F.eEligible]), retainer: num(e[F.eRetainer]), defaultSplit: num(e[F.eDefaultSplit]),
           link: e[F.eLink] || "", software: selName(e[F.eSoftware]),
+          beRate: num(e[F.eBeBank]), beTotal: num(e[F.eBeTotal]),
         },
         team: team.map((r) => ({
           id: r.id, name: r.fields[F.pName] || "", email: r.fields[F.pEmail] || "", phone: r.fields[F.pPhone] || "",
@@ -204,7 +205,7 @@ export default async (req) => {
         })),
         returns: rets.filter((r) => owns(r.fields[F.rEroRid], s.r)).map((r) => ({
           ref: r.fields[F.rRef] || "", date: r.fields[F.rDate] || "", status: selName(r.fields[F.rStatus]) || "In Progress",
-          fee: num(r.fields[F.rFee]), eroShare: num(r.fields[F.rEroShare]), verified: Boolean(r.fields[F.rVerified]),
+          fee: num(r.fields[F.rFee]), eroShare: num(r.fields[F.rEroShare]), beFee: num(r.fields[F.rBeFee]), verified: Boolean(r.fields[F.rVerified]),
           bank: Boolean(r.fields[F.rBank]), season: selName(r.fields[F.rSeason]),
           preparer: ((r.fields[F.rPrep] || []).map((id) => names[id]).filter(Boolean)[0]) || "",
         })),
@@ -296,10 +297,10 @@ async function admin(route, req, isPost) {
 
   // Two small batches so Airtable's rate limit (5 requests/second) isn't hit.
   const [eros, preps, rets, apps] = await Promise.all([
-    listRecords(T.eros, { fields: [F.eName, F.eEmail, F.eTeamFunded, F.eBonus, F.eEligible, F.eSoftware, F.eRetainer, F.eDefaultSplit, F.eLink] }),
+    listRecords(T.eros, { fields: [F.eName, F.eEmail, F.eTeamFunded, F.eBonus, F.eEligible, F.eSoftware, F.eRetainer, F.eDefaultSplit, F.eLink, F.eBeBank, F.eBeTotal] }),
     listRecords(T.preparers, { fields: [F.pName, F.pEmail, F.pPhone, F.pEro, F.pStatus, F.pTotal, F.pFunded, F.pEarned, F.pPending, F.pSplit, F.pPaidBy, F.pRetainerDue, F.pPtin, F.pOwner] }),
     listRecords(T.returns, {
-      fields: [F.rRef, F.rDate, F.rStatus, F.rFee, F.rVerified, F.rBank, F.rPrep, F.rSeason, F.rShare, F.rSbFee, "BPrep Share", "BPrep Owes Preparer", F.rEroShare],
+      fields: [F.rRef, F.rDate, F.rStatus, F.rFee, F.rVerified, F.rBank, F.rPrep, F.rSeason, F.rShare, F.rSbFee, F.rBeFee, "BPrep Share", "BPrep Owes Preparer", F.rEroShare],
       sort: [{ field: "Date Filed", direction: "desc" }], max: 20000,
     }),
     listRecords(T.applications, { fields: [F.apName, F.apStatus, F.apEmail, F.apPhone, F.apDate, F.apHasPtin, F.apSigned, F.apPtinStep, "Team", "Opportunity", "PTIN Verified", "Retainer Paid", "Software Access Given", "Notes", "IRS Training Score", "State", "Experience", "Has EFIN"], sort: [{ field: "Date Applied", direction: "desc" }] }),
@@ -323,6 +324,7 @@ async function admin(route, req, isPost) {
     eros: eros.map((r) => ({
       id: r.id, name: f(r, F.eName) || "", email: f(r, F.eEmail) || "", teamFunded: num(f(r, F.eTeamFunded)), bonus: num(f(r, F.eBonus)),
       eligible: num(f(r, F.eEligible)), software: selName(f(r, F.eSoftware)), retainer: num(f(r, F.eRetainer)), defaultSplit: num(f(r, F.eDefaultSplit)),
+      beRate: num(f(r, F.eBeBank)), beTotal: num(f(r, F.eBeTotal)),
       team: preps.filter((p) => (p.fields[F.pEro] || []).includes(r.id)).length,
     })),
     preparers: preps.map((r) => ({
@@ -336,7 +338,7 @@ async function admin(route, req, isPost) {
       return {
         id: r.id, ref: f(r, F.rRef) || "", date: f(r, F.rDate) || "", status: selName(f(r, F.rStatus)) || "In Progress", fee: num(f(r, F.rFee)),
         verified: Boolean(f(r, F.rVerified)), bank: Boolean(f(r, F.rBank)), season: selName(f(r, F.rSeason)), preparer: pi.name || "", ero: pi.ero || "",
-        prepShare: num(f(r, F.rShare)), sbFee: num(f(r, F.rSbFee)), bprepShare: num(f(r, "BPrep Share")), owes: num(f(r, "BPrep Owes Preparer")), eroShare: num(f(r, F.rEroShare)),
+        prepShare: num(f(r, F.rShare)), sbFee: num(f(r, F.rSbFee)), beFee: num(f(r, F.rBeFee)), bprepShare: num(f(r, "BPrep Share")), owes: num(f(r, "BPrep Owes Preparer")), eroShare: num(f(r, F.rEroShare)),
       };
     }),
     applications: apps.map((r) => ({
