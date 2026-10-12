@@ -104,7 +104,7 @@
 
     $('hero').innerHTML = '<div style="grid-column:1/-1"><h2>' + R.length + ' returns across ' + X.length + ' EROs and ' + P.length + ' preparers</h2><p>' + verified.length + ' verified funded · ' + toVerify.length + ' waiting on your verification · ' + D.sales.length + ' software packages sold</p></div>';
     var cards = [['money', 'Prep Fees', M(sum(R, 'fee')), 'All teams'], ['money', '{{SHORT_NAME}} Keeps', M(sum(R, 'bprepShare')), 'From your direct team'],
-      ['money', 'Service Bureau Fees', M(sum(R, 'sbFee')), 'From bank products'], ['money', 'Owed to Preparers', M(sum(R, 'owes')), 'Verified lines, {{SHORT_NAME}} team']];
+      ['money', 'Service Bureau Fees', M(sum(R, 'sbFee')), 'From bank products'], ['money', 'Owed to Preparers', M(sum(R, 'owes')), 'Verified lines, {{SHORT_NAME}} team'], ['money', 'ERO Back-End Fees', M(sum(R, 'beFee')), 'From funded ERO returns']];
     $('stats').innerHTML = cards.map(function(c, i){ return '<div class="stat"><div class="ic' + (i ? ' gold' : '') + '">' + Portal.icon(c[0]) + '</div><div class="lbl">' + E(c[1]) + '</div><div class="num">' + E(c[2]) + '</div><div class="chg">' + E(c[3]) + '</div></div>'; }).join('');
 
     var pendingAgr = D.agreements.length;
@@ -145,8 +145,8 @@
     window.__drawVerify = drawVerify;
 
     // EROs
-    $('eros').innerHTML = X.length ? '<tr><th>ERO</th><th class="hide-m">Software</th><th class="r">Preparers</th><th class="r hide-m">Team funded</th><th class="r">Bonus</th><th class="r hide-m">Split / Retainer</th><th></th></tr>' + X.map(function(e){
-      return '<tr><td><b>' + E(e.name) + '</b><div class="lock">' + E(e.email) + '</div></td><td class="hide-m">' + E(e.software) + '</td><td class="r">' + e.team + '</td><td class="r hide-m">' + e.teamFunded + '</td><td class="r"><b>' + M(e.bonus) + '</b><div class="lock">' + e.eligible + ' eligible</div></td><td class="r hide-m">' + (e.defaultSplit ? e.defaultSplit + '%' : '-') + ' / ' + M(e.retainer) + '</td><td class="r"><a class="btn small ghost inline" href="/portal/ero.html?as=' + E(e.id) + '">View</a></td></tr>';
+    $('eros').innerHTML = X.length ? '<tr><th>ERO</th><th class="hide-m">Software</th><th class="r">Preparers</th><th class="r hide-m">Team funded</th><th class="r">Bonus</th><th class="r hide-m">Split / Retainer</th><th class="r hide-m">Back-End to {{SHORT_NAME}}</th><th></th></tr>' + X.map(function(e){
+      return '<tr><td><b>' + E(e.name) + '</b><div class="lock">' + E(e.email) + '</div></td><td class="hide-m">' + E(e.software) + '</td><td class="r">' + e.team + '</td><td class="r hide-m">' + e.teamFunded + '</td><td class="r"><b>' + M(e.bonus) + '</b><div class="lock">' + e.eligible + ' eligible</div></td><td class="r hide-m">' + (e.defaultSplit ? e.defaultSplit + '%' : '-') + ' / ' + M(e.retainer) + '</td><td class="r hide-m"><b>' + M(e.beTotal) + '</b><div class="lock">' + M(e.beRate) + ' per funded return</div></td><td class="r"><a class="btn small ghost inline" href="/portal/ero.html?as=' + E(e.id) + '">View</a></td></tr>';
     }).join('') : empty('No EROs yet.');
 
     // preparers
@@ -167,8 +167,8 @@
       var q = $('rq').value.trim().toLowerCase(), t = $('re').value, st = $('rs').value, v = $('rv').value;
       var rows = R.filter(function(r){ return (!q || (r.ref + ' ' + r.preparer).toLowerCase().indexOf(q) > -1) && (!t || r.ero === t) && (!st || r.status === st) && (v === '' || String(+r.verified) === v); });
       $('retNote').textContent = rows.length > 300 ? 'Showing the newest 300 of ' + rows.length + '. Use the filters to narrow it down.' : '';
-      $('rets').innerHTML = rows.length ? '<tr><th>Client</th><th>Preparer</th><th class="hide-m">Team</th><th class="hide-m">Filed</th><th>Status</th><th class="r">Fee</th><th class="r hide-m">SB Fee</th><th class="r">Verified</th></tr>' + rows.slice(0, 300).map(function(r){
-        return '<tr><td><b>' + E(r.ref) + '</b>' + (r.bank ? '<div class="lock">Bank product</div>' : '') + '</td><td>' + E(r.preparer) + '</td><td class="hide-m">' + E(r.ero) + '</td><td class="hide-m">' + E(Portal.day(r.date)) + '</td><td>' + Portal.pill(r.status) + '</td><td class="r">' + M(r.fee, 1) + '</td><td class="r hide-m">' + M(r.sbFee) + '</td><td class="r"><input type="checkbox" data-rv="' + E(r.id) + '"' + (r.verified ? ' checked' : '') + ' style="width:18px;height:18px"></td></tr>';
+      $('rets').innerHTML = rows.length ? '<tr><th>Client</th><th>Preparer</th><th class="hide-m">Team</th><th class="hide-m">Filed</th><th>Status</th><th class="r">Fee</th><th class="r hide-m">SB Fee</th><th class="r hide-m">Back-End</th><th class="r">Verified</th></tr>' + rows.slice(0, 300).map(function(r){
+        return '<tr><td><b>' + E(r.ref) + '</b>' + (r.bank ? '<div class="lock">Bank product</div>' : '') + '</td><td>' + E(r.preparer) + '</td><td class="hide-m">' + E(r.ero) + '</td><td class="hide-m">' + E(Portal.day(r.date)) + '</td><td>' + Portal.pill(r.status) + '</td><td class="r">' + M(r.fee, 1) + '</td><td class="r hide-m">' + M(r.sbFee) + '</td><td class="r hide-m">' + M(r.beFee) + '</td><td class="r"><input type="checkbox" data-rv="' + E(r.id) + '"' + (r.verified ? ' checked' : '') + ' style="width:18px;height:18px"></td></tr>';
       }).join('') : empty('No returns match.');
       $('rets').querySelectorAll('[data-rv]').forEach(function(c){ c.onchange = function(){ setVerified(c.dataset.rv, c.checked, c); }; });
     }
