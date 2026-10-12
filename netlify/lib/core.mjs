@@ -34,13 +34,13 @@ export const F = {
   // EROs
   eName: "Name", eEmail: "Email", eTeamFunded: "Team Funded Returns", eSbFees: "Team SB Fees",
   eRate: "Current Bonus Rate ($/return)", eBonus: "Bonus Earned", eEligible: "Bonus-Eligible Returns", eRetainer: "New Preparer Retainer",
-  eDefaultSplit: "Default Preparer Split %", eLink: "Team Application Link", eCode: "Team Code", eSoftware: "Software",
+  eDefaultSplit: "Default Preparer Split %", eBeBank: "Back-End Fee per Funded Return ($)", eBeTotal: "Team Back-End Fees (to TNT)", eLink: "Team Application Link", eCode: "Team Code", eSoftware: "Software",
   // Returns
   rRef: "Client Ref", rDate: "Date Filed", rStatus: "Status", rFee: "Prep Fee",
   rShare: "Preparer Share", rPending: "Pending Share", rVerified: "BPrep Verified", rBank: "Bank Product",
   rSeason: "Tax Season", rPrep: "Preparer", rClientFirst: "Client First Name", rClientEmail: "Client Email (for review request)",
   rEroShare: "ERO Share", rFundedBank: "Funded Bank Product", rIsFunded: "Is Funded", rPrepRid: "Preparer Record ID",
-  rEroRid: "ERO Record ID", rSbFee: "Service Bureau Fee",
+  rEroRid: "ERO Record ID", rSbFee: "Service Bureau Fee", rBeFee: "TNT Back-End Fee (funded)",
   // Correction Requests
   cRef: "Client Ref", cBy: "Requested By", cEmail: "Email", cPrep: "Preparer",
   cWhat: "What Needs Fixing", cStatus: "Status", cNotes: "Admin Notes", cPrepRid: "Preparer Record ID",
